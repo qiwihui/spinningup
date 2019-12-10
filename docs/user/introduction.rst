@@ -1,108 +1,128 @@
 ============
-Introduction
+介绍
 ============
 
-.. contents:: Table of Contents
-
-What This Is
-============
-
-Welcome to Spinning Up in Deep RL! This is an educational resource produced by OpenAI that makes it easier to learn about deep reinforcement learning (deep RL).
-
-For the unfamiliar: `reinforcement learning`_ (RL) is a machine learning approach for teaching agents how to solve tasks by trial and error. Deep RL refers to the combination of RL with `deep learning`_. 
-
-This module contains a variety of helpful resources, including:
-
-- a short `introduction`_ to RL terminology, kinds of algorithms, and basic theory,
-- an `essay`_ about how to grow into an RL research role,
-- a `curated list`_ of important papers organized by topic,
-- a well-documented `code repo`_ of short, standalone implementations of key algorithms,
-- and a few `exercises`_ to serve as warm-ups.
+.. contents:: 目录
 
 
-.. _`reinforcement learning`: https://en.wikipedia.org/wiki/Reinforcement_learning
-.. _`deep learning`: http://ufldl.stanford.edu/tutorial/
+这个项目是什么
+================
 
-Why We Built This
-=================
+欢迎来到深度强化学习（Deep Reinforement Learning）的Spinning Up项目！
+这是一份由OpenAI提供的教育资源，旨在让深度强化学习的学习变得更加简单。
 
-One of the single most common questions that we hear is 
+`强化学习`_ ，是一种通过教会智能体反复试验（trial and error）从而完成任务的机器学习方法。
+深度强化学习指的是强化学习和 `深度学习`_ 的结合。
 
-    | If I want to contribute to AI safety, how do I get started?
+这个模块包含一系列有用的资源，包括：
 
-At OpenAI, we believe that deep learning generally---and deep reinforcement learning specifically---will play central roles in the development of powerful AI technology. To ensure that AI is safe, we have to come up with safety strategies and algorithms that are compatible with this paradigm. As a result, we encourage everyone who asks this question to study these fields.
+- 关于强化学习术语、算法和基础理论的简单 `介绍`_；
+- 关于如何成为强化学习的研究人员的 `文章`_；
+- 一个按照主题整理的重要论文 `清单`_；
+- 简短独立的关键算法实现，包含详细文档的 `代码仓库`_；
+- 以及一些用来练手的 `练习项目`_。
 
-However, while there are many resources to help people quickly ramp up on deep learning, deep reinforcement learning is more challenging to break into. To begin with, a student of deep RL needs to have some background in math, coding, and regular deep learning. Beyond that, they need both a high-level view of the field---an awareness of what topics are studied in it, why they matter, and what's been done already---and careful instruction on how to connect algorithm theory to algorithm code. 
-
-The high-level view is hard to come by because of how new the field is. There is not yet a standard deep RL textbook, so most of the knowledge is locked up in either papers or lecture series, which can take a long time to parse and digest. And learning to implement deep RL algorithms is typically painful, because either 
-
-- the paper that publishes an algorithm omits or inadvertently obscures key design details,
-- or widely-public implementations of an algorithm are hard to read, hiding how the code lines up with the algorithm.
-
-While fantastic repos like garage_, Baselines_, and rllib_ make it easier for researchers who are already in the field to make progress, they build algorithms into frameworks in ways that involve many non-obvious choices and trade-offs, which makes them hard to learn from. Consequently, the field of deep RL has a pretty high barrier to entry---for new researchers as well as practitioners and hobbyists. 
-
-So our package here is designed to serve as the missing middle step for people who are excited by deep RL, and would like to learn how to use it or make a contribution, but don't have a clear sense of what to study or how to transmute algorithms into code. We've tried to make this as helpful a launching point as possible.
-
-That said, practitioners aren't the only people who can (or should) benefit from these materials. Solving AI safety will require people with a wide range of expertise and perspectives, and many relevant professions have no connection to engineering or computer science at all. Nonetheless, everyone involved will need to learn enough about the technology to make informed decisions, and several pieces of Spinning Up address that need. 
+.. _`强化学习`: https://en.wikipedia.org/wiki/Reinforcement_learning
+.. _`深度学习`: http://ufldl.stanford.edu/tutorial/
 
 
+为什么创建这个项目
+==================
 
-How This Serves Our Mission
+我们最常听到的问题是：
+
+    | 如果我想为AI安全做贡献，我应该如何开始？
+
+在OpenAI，我们相信一般的深度学习，特别是深度强化学习将在强大的AI技术的发展中发挥核心作用。
+为了确保AI是安全的，我们必须提出与该范例兼容的安全策略和算法。因此我们鼓励每一个提出这个问题的人研究这些领域。
+
+尽管深度学习现在有很多帮助人们快速入门的资源，相比之下，深度强化学习显得门槛高很多。
+首先，深度强化学习的学生要有数学、编程和常规深度学习的背景。
+除此之外，他们需要对于这一领域有高水准的理解：都有哪些研究课题？这些课题为什么重要？哪些东西已经做出来了？
+他们也需要认真的指导，从而了解如何将算法理论和代码结合起来。
+
+这个领域还很新，所以一时很难有高层次的看法。现在深度强化学习领域还没有标准的教材，所以很多知识都被藏在了论文和讲座中，需要很长时间理解吸收。
+深度强化学习算法的实现学习也很痛苦，因为：
+
+- 很多算法论文或有意或无意地掩盖了关键设计细节，
+- 一些广泛公开的算法实现代码很难读懂，难以把代码和算法联系在一起。
+
+虽然类似 garage_，Baselines_ 和 rllib_ 这样很棒的项目让那些已经在这个领域的研究者更加容易做出成果，
+但他们将算法构建到框架中的方式涉及许多非显而易见的选择和折衷，这使它们很难学习。
+所以说，不管是对于学者还是从业者、业余爱好者来说，深度强化学习领域的门槛都很高。
+
+我们的软件包就是为了填上中间缺失的这一部分，服务于那些希望了解深度强化学习或者希望做出自己的贡献，
+但是对于要学习什么内容以及如果把算法变成代码不清楚的学生。我们努力把这个项目变成一个助推器。
+
+也就是说，从业者并不是唯一可以（或应该）从这些材料中受益的人。
+解决AI安全，不仅需要具有广泛专业知识和观点的人员，而且许多相关专业根本与工程或计算机科学无关。
+但是，每个参与人员都需要对技术有足够的了解，以便做出明智的决策，并且Spinning Up 项目的很多地方都提到了这一点。
+
+
+这个项目如何服务我们的使命
 ===========================
 
-OpenAI's mission_ is to ensure the safe development of AGI and the broad distribution of benefits from AI more generally. Teaching tools like Spinning Up help us make progress on both of these objectives. 
+OpenAI 的 `使命`_ 是确保通用人工智能的安全发展以及让人工智能带来的收益分配更加广泛。
+Spinning Up这样的教学工具可帮助我们在这两个目标上取得进步。
 
-To begin with, we move closer to broad distribution of benefits any time we help people understand what AI is and how it works. This empowers people to think critically about the many issues we anticipate will arise as AI becomes more sophisticated and important in our lives.
+只要我们能帮助更多人了解人工智能究竟是什么以及它是怎么工作的，我们就能更接近广泛的利益分配。
+这使人们能够批判性地思考随着人工智能在我们生活中变得越来越复杂和重要，我们预期会出现的许多问题。
 
-Also, critically, `we need people to help <https://jobs.lever.co/openai>`_ us work on making sure that AGI is safe. This requires a skill set which is currently in short supply because of how new the field is. We know that many people are interested in helping us, but don't know how---here is what you should study! If you can become an expert on this material, you can make a difference on AI safety.
+同时，至关重要的是，`我们需要人们帮助 <https://jobs.lever.co/openai>`_ 共同确保通用人工智能是安全的。
+由于这一领域还很新，所以拥有这项技能的人才目前供不应求。我们知道很多人有兴趣帮助我们，但不知道怎么做，这里是你应该学习的内容！
+如果你能通过这个项目成为专家，那你一定能在我们的人工智能安全上发挥作用。
 
 
-
-Code Design Philosophy
+代码设计的原则
 ======================
 
-The algorithm implementations in the Spinning Up repo are designed to be 
+Spinning Up项目仓库的算法实现旨在：
 
-    - as simple as possible while still being reasonably good, 
-    - and highly-consistent with each other to expose fundamental similarities between algorithms.
+    - 尽量简单，同时还要足够好，
+    - 不同算法实现之间高度一致，以揭示它们之间的基本相似之处。
 
-They are almost completely self-contained, with virtually no common code shared between them (except for logging, saving, loading, and `MPI <https://en.wikipedia.org/wiki/Message_Passing_Interface>`_ utilities), so that an interested person can study each algorithm separately without having to dig through an endless chain of dependencies to see how something is done. The implementations are patterned so that they come as close to pseudocode as possible, to minimize the gap between theory and code. 
+这些算法基本上都是相互独立的，没有相互依赖的代码（除了日志打印、保存、载入和 `MPI <https://en.wikipedia.org/wiki/Message_Passing_Interface>`_ 等工具模块），
+所以感兴趣的你可以分别学习每一个算法而不用去管那些繁琐的依赖关系。对实现模式化，以便尽可能做到和伪代码一致，最大程度地减少理论与代码之间的差距。
 
-Importantly, they're all structured similarly, so if you clearly understand one, jumping into the next is painless. 
+重要的是，他们的结构都很相似，所以如果你清楚地理解了一个算法，再看剩下的就很简单。
 
-We tried to minimize the number of tricks used in each algorithm's implementation, and minimize the differences between otherwise-similar algorithms. To give some examples of removed tricks: we omit regularization_ terms present in the original Soft-Actor Critic code, as well as `observation normalization`_ from all algorithms. For an example of where we've removed differences between algorithms: our implementations of DDPG, TD3, and SAC all follow a convention laid out in the `original TD3 code`_, where all gradient descent updates are performed at the ends of episodes (instead of happening all throughout the episode). 
+我们尽量减少算法实现时候的技巧和相似算法之间的区别。
+这里我们展示一些移除的技巧，我们把原始 Soft-Actor Critic 代码中的 正则_ 术语，以及所有算法中的 `观测归一化`_。
+例如，我们消除了算法之间的差异：我们在 DDPG，TD3 和 SAC 的实现中都遵循了 `原始 TD3 代码`_ 的约定，
+所有的梯度更新都是在每一个回合的最后执行的（而不是整个回合都在执行）。
 
-All algorithms are "reasonably good" in the sense that they achieve roughly the intended performance, but don't necessarily match the best reported results in the literature on every task. Consequently, be careful if using any of these implementations for scientific benchmarking comparisons. Details on each implementation's specific performance level can be found on our `benchmarks`_ page.
+从某种意义上说，所有的算法都做到“足够好”，它们都能达到预期的性能，但不一定与文献中关于每个任务的最佳报告结果相匹配。
+因此，如果将这些实现中的任何一种用于科研基准比较时应小心。有关每个实现的特定性能级别的详细信息，请参见我们的 `基准`_ 页面。
 
 
-Support Plan
+支持计划
 ============
 
-We plan to support Spinning Up to ensure that it serves as a helpful resource for learning about deep reinforcement learning. The exact nature of long-term (multi-year) support for Spinning Up is yet to be determined, but in the short run, we commit to:
+我们计划支持 Spinning Up 项目来确保他能够作为学习深度强化学习的实用资料。这个项目的长期支持（数年内）还没有确定，但是短期内我们可以承诺:
 
-- High-bandwidth support for the first three weeks after release (Nov 8, 2018 to Nov 29, 2018).
+- 发布后的前三周会大力支持（2018年11月8日至2018年11月29日）。
 
-    + We'll move quickly on bug-fixes, question-answering, and modifications to the docs to clear up ambiguities.
-    + We'll work hard to streamline the user experience, in order to make it as easy as possible to self-study with Spinning Up. 
+    + 我们将快速修复错误，解答问题以及对文档进行修改，以消除歧义。
+    + 我们将努力简化用户体验，以便尽可能轻松地使用Spinning Up进行自学。
 
-- Approximately six months after release (in April 2019), we'll do a serious review of the state of the package based on feedback we receive from the community, and announce any plans for future modification, including a long-term roadmap.
+发布后大约六个月（2019年4月），我们将根据从社区获得的反馈对软件包的状态进行认真审查，并宣布任何未来的修改计划，包括长期路线图。
 
-Additionally, as discussed in the blog post, we are using Spinning Up in the curriculum for our upcoming cohorts of Scholars_ and Fellows_. Any changes and updates we make for their benefit will immediately become public as well.
+此外，正如博客文章讨论的，我们也会在即将到来的 Scholars_ 和 Fellows_ 课程中使用 Spinning Up。任何更改和更新都会实时同步公开。
 
 
-.. _`introduction`: ../spinningup/rl_intro.html
-.. _`essay`: ../spinningup/spinningup.html
-.. _`Spinning Up essay`: ../spinningup/spinningup.html
-.. _`curated list`: ../spinningup/keypapers.html
-.. _`code repo`: https://github.com/openai/spinningup
-.. _`exercises`: ../spinningup/exercises.html
+.. _`介绍`: ../spinningup/rl_intro.html
+.. _`文章`: ../spinningup/spinningup.html
+.. _`Spinning Up 文章`: ../spinningup/spinningup.html
+.. _`清单`: ../spinningup/keypapers.html
+.. _`代码仓库`: https://github.com/openai/spinningup
+.. _`练习项目`: ../spinningup/exercises.html
 .. _`garage`: https://github.com/rlworkgroup/garage
 .. _`Baselines`: https://github.com/openai/baselines
 .. _`rllib`: https://github.com/ray-project/ray/tree/master/python/ray/rllib
-.. _`mission`: https://blog.openai.com/openai-charter/
-.. _`regularization`: https://github.com/haarnoja/sac/blob/108a4229be6f040360fcca983113df9c4ac23a6a/sac/distributions/normal.py#L69
-.. _`observation normalization`: https://github.com/openai/baselines/blob/28aca637d0f13f4415cc5ebb778144154cff3110/baselines/run.py#L131
-.. _`original TD3 code`: https://github.com/sfujim/TD3/blob/25dfc0a6562c54ae5575fad5b8f08bc9d5c4e26c/main.py#L89
-.. _`benchmarks`: ../spinningup/bench.html
+.. _`使命`: https://blog.openai.com/openai-charter/
+.. _`正则`: https://github.com/haarnoja/sac/blob/108a4229be6f040360fcca983113df9c4ac23a6a/sac/distributions/normal.py#L69
+.. _`观测归一化`: https://github.com/openai/baselines/blob/28aca637d0f13f4415cc5ebb778144154cff3110/baselines/run.py#L131
+.. _`原始 TD3 代码`: https://github.com/sfujim/TD3/blob/25dfc0a6562c54ae5575fad5b8f08bc9d5c4e26c/main.py#L89
+.. _`基准`: ../spinningup/bench.html
 .. _Scholars : https://jobs.lever.co/openai/cf6de4ed-4afd-4ace-9273-8842c003c842
 .. _Fellows : https://jobs.lever.co/openai/c9ba3f64-2419-4ff9-b81d-0526ae059f57

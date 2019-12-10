@@ -3,14 +3,14 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Spinning Up in Deep RL!
-==================================
+深度强化学习 Spinning Up 项目中文版
+===================================
 
 .. image:: images/spinning-up-in-rl.png
 
 .. toctree::
    :maxdepth: 2
-   :caption: User Documentation
+   :caption: 用户文档
 
    user/introduction
    user/installation
@@ -21,7 +21,7 @@ Welcome to Spinning Up in Deep RL!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Introduction to RL
+   :caption: 强化学习介绍
 
    spinningup/rl_intro
    spinningup/rl_intro2
@@ -29,7 +29,7 @@ Welcome to Spinning Up in Deep RL!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Resources
+   :caption: 资源
 
    spinningup/spinningup
    spinningup/keypapers
@@ -38,7 +38,7 @@ Welcome to Spinning Up in Deep RL!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Algorithms Docs
+   :caption: 算法文档
 
    algorithms/vpg
    algorithms/trpo
@@ -49,7 +49,7 @@ Welcome to Spinning Up in Deep RL!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Utilities Docs
+   :caption: 工具文档
 
    utils/logger
    utils/plotter
@@ -58,13 +58,13 @@ Welcome to Spinning Up in Deep RL!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Etc.
+   :caption: 其他
 
    etc/acknowledgements
    etc/author
 
-Indices and tables
-==================
+索引和目录
+===========
 
 * :ref:`genindex`
 * :ref:`modindex`

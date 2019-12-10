@@ -1,9 +1,14 @@
 ================
-Acknowledgements
+致谢
 ================
 
-We gratefully acknowledge the contributions of the many people who helped get this project off of the ground, including people who beta tested the software, gave feedback on the material, improved dependencies of Spinning Up code in service of this release, or otherwise supported the project. Given the number of people who were involved at various points, this list of names may not be exhaustive. (If you think you should have been listed here, please do not hesitate to reach out.)
+我们非常感谢许多帮助使该项目起步的人的贡献，其中包括对软件进行Beta测试，提供了材料反馈，
+改进了Spinning Up代码在此版本中的服务依赖性，或者以其他方式支持该项目的人们的贡献。
+考虑到涉及不同地点的人员数量，此名称列表可能并不详尽。（如果您认为自己应该在此处列出，请随时与我们联系。）
 
-In no particular order, thank you Alex Ray, Amanda Askell, Ben Garfinkel, Christy Dennison, Coline Devin, Daniel Zeigler, Dylan Hadfield-Menell, Ge Yang, Greg Khan, Jack Clark, Jonas Rothfuss, Larissa Schiavo, Leandro Castelao, Lilian Weng, Maddie Hall, Matthias Plappert, Miles Brundage, Peter Zokhov, and Pieter Abbeel. 
+名单不分先后，感谢 Alex Ray，Amanda Askell，Ben Garfinkel，Christy Dennison，Coline Devin，
+Daniel Zeigler，Dylan Hadfield-Menell，Ge Yang，Greg Khan，Jack Clark，
+Jonas Rothfuss，Larissa Schiavo，Leandro Castelao，Lilian Weng ，Maddie Hall，
+Matthias Plappert，Miles Brundage，Peter Zokhov和Pieter Abbeel。
 
-We are also grateful to Pieter Abbeel's group at Berkeley, and the Center for Human-Compatible AI, for giving feedback on presentations about Spinning Up.
+我们也感谢伯克利的Pieter Abbeel小组和人类相容AI中心（Center for Human-Compatible AI）对有关Spinning Up的演讲提供了反馈。

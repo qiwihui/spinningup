@@ -1,5 +1,5 @@
 ================
-Plotting Results
+绘制结果
 ================
 
 Spinning Up ships with a simple plotting utility for interpreting results. Run it with:
@@ -11,7 +11,7 @@ Spinning Up ships with a simple plotting utility for interpreting results. Run i
         [--select [SEL ...]] [--exclude [EXC ...]]
 
 
-**Positional Arguments:**
+**位置参数：**
 
 .. option:: logdir
 

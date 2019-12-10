@@ -1,14 +1,14 @@
 ===================
-Running Experiments
+运行试验
 ===================
 
 
-.. contents:: Table of Contents
+.. contents:: 目录
 
 One of the best ways to get a feel for deep RL is to run the algorithms and see how they perform on different tasks. The Spinning Up code library makes small-scale (local) experiments easy to do, and in this section, we'll discuss two ways to run them: either from the command line, or through function calls in scripts.
 
 
-Launching from the Command Line
+从命令行启动
 ===============================
 
 
@@ -63,7 +63,7 @@ eg:
 .. _`special shortcut flags`: ../user/running.html#shortcut-flags
 .. _`Save directory names`: ../user/running.html#where-results-are-saved
 
-Setting Hyperparameters from the Command Line
+从命令行设置超参数
 ---------------------------------------------
 
 Every hyperparameter in every algorithm can be controlled directly from the command line. If ``kwarg`` is a valid keyword arg for the function call of an algorithm, you can set values for it with the flag ``--kwarg``. To find out what keyword args are available, see either the docs page for an algorithm, or try
@@ -100,7 +100,7 @@ to see a readout of the docstring.
 
     to get the same result.
 
-Launching Multiple Experiments at Once
+一次启动多个实验
 --------------------------------------
 
 You can launch multiple experiments, to be executed **in series**, by simply providing more than one value for a given argument. (An experiment for each possible combination of values will be launched.)
@@ -115,13 +115,13 @@ Experiments don't launch in parallel because they soak up enough resources that 
 
 
 
-Special Flags
+特殊标志
 -------------
 
 A few flags receive special treatment.
 
 
-Environment Flag
+环境标志
 ^^^^^^^^^^^^^^^^
 
 .. option:: --env, --env_name
@@ -129,7 +129,7 @@ Environment Flag
     *string*. The name of an environment in the OpenAI Gym. All Spinning Up algorithms are implemented as functions that accept ``env_fn`` as an argument, where ``env_fn`` must be a callable function that builds a copy of the RL environment. Since the most common use case is Gym environments, though, all of which are built through ``gym.make(env_name)``, we allow you to just specify ``env_name`` (or ``env`` for short) at the command line, which gets converted to a lambda-function that builds the correct gym environment.
 
 
-Shortcut Flags
+快捷标志
 ^^^^^^^^^^^^^^
 
 Some algorithm arguments are relatively long, and we enabled shortcuts for them: 
@@ -144,7 +144,7 @@ Some algorithm arguments are relatively long, and we enabled shortcuts for them:
 
 These flags are valid for all current Spinning Up algorithms.
 
-Config Flags
+配置标志
 ^^^^^^^^^^^^
 
 These flags are not hyperparameters of any algorithm, but change the experimental configuration in some way.
@@ -166,7 +166,7 @@ These flags are not hyperparameters of any algorithm, but change the experimenta
     *bool*. Include date and time in the name for the save directory of the experiment.
 
 
-Where Results are Saved
+保存结果的位置
 -----------------------
 
 Results for a particular experiment (a single run of a configuration of hyperparameters) are stored in
@@ -182,7 +182,7 @@ where
 * the ``inner_prefix`` is a ``YY-MM-DD_HH-MM-SS-`` timestamp if the ``--datestamp`` flag is raised, otherwise nothing,
 * and ``suffix`` is a special string based on the experiment hyperparameters.
 
-How is Suffix Determined?
+后缀如何确定？
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Suffixes are only included if you run multiple experiments at once, and they only include references to hyperparameters that differ across experiments, except for random seed. The goal is to make sure that results for similar experiments (ones which share all params except seed) are grouped in the same folder.
@@ -208,7 +208,7 @@ The suffixes produced in this case are:
 Note that the ``h`` was given by the user. the ``ac-act`` shorthand was constructed from ``ac_kwargs:activation`` (the true name for the ``act`` flag).
 
 
-Extra
+其他
 -----
 
 .. admonition:: You Don't Actually Need to Know This One
@@ -217,7 +217,7 @@ Extra
 
     This documentation page will not describe those command line calls, and will *only* describe calls through ``spinup/run.py``. 
 
-Launching from Scripts
+从脚本启动
 ======================
 
 Each algorithm is implemented as a python function, which can be imported directly from the ``spinup`` package, eg
@@ -241,7 +241,7 @@ See the documentation page for each algorithm for a complete account of possible
     ppo(env_fn=env_fn, ac_kwargs=ac_kwargs, steps_per_epoch=5000, epochs=250, logger_kwargs=logger_kwargs)
 
 
-Using ExperimentGrid
+使用ExperimentGrid
 --------------------
 
 It's often useful in machine learning research to run the same algorithm with many possible hyperparameters. Spinning Up ships with a simple tool for facilitating this, called `ExperimentGrid`_. 

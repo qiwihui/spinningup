@@ -1,8 +1,8 @@
 ==================
-Experiment Outputs
+试验输出
 ==================
 
-.. contents:: Table of Contents
+.. contents:: 目录
 
 In this section we'll cover
 
@@ -15,7 +15,7 @@ In this section we'll cover
     
     Spinning Up implementations currently have no way to resume training for partially-trained agents. If you consider this feature important, please let us know---or consider it a hacking project!
 
-Algorithm Outputs
+算法输出
 =================
 
 Each algorithm is set up to save a training run's hyperparameter configuration, learning progress, trained agent and value functions, and a copy of the environment if possible (to make it easy to load up the agent and environment simultaneously). The output directory contains the following:
@@ -71,7 +71,7 @@ The ``simple_save`` directory contains:
 .. _`Tensorflow SavedModel`: https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/saved_model/README.md
 
 
-Save Directory Location
+保存目录位置
 =======================
 
 Experiment results will, by default, be saved in the same directory as the Spinning Up package, in a folder called ``data``:
@@ -91,11 +91,11 @@ Experiment results will, by default, be saved in the same directory as the Spinn
 You can change the default results directory by modifying ``DEFAULT_DATA_DIR`` in ``spinup/user_config.py``. 
 
 
-Loading and Running Trained Policies
+加载并运行经过训练的策略
 ====================================
 
 
-If Environment Saves Successfully
+如果环境成功保存
 ---------------------------------
 
 For cases where the environment is successfully saved alongside the agent, it's a cinch to watch the trained agent act in the environment using:
@@ -150,7 +150,7 @@ There are a few flags for options:
 
 
 
-Environment Not Found Error
+找不到环境错误
 ---------------------------
 
 If the environment wasn't saved successfully, you can expect ``test_policy.py`` to crash with
@@ -182,7 +182,7 @@ Episode 1    EpRet -346.164      EpLen 99
 ...
 
 
-Using Trained Value Functions
+使用经过训练的值函数
 -----------------------------
 
 The ``test_policy.py`` tool doesn't help you look at trained value functions, and if you want to use those, you will have to do some digging by hand. Check the documentation for the `restore_tf_graph`_ function for details on how.

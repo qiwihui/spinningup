@@ -1,14 +1,16 @@
 ==========================================
-Benchmarks for Spinning Up Implementations
+Spinning Up 算法实现的基准
 ==========================================
 
-.. contents:: Table of Contents
+.. contents:: 目录
 
-We benchmarked the Spinning Up algorithm implementations in five environments from the MuJoCo_ Gym task suite: HalfCheetah, Hopper, Walker2d, Swimmer, and Ant.
+我们在 MuJoCo_ Gym任务套件中的五个环境中对Spinning Up算法实现进行了基准测试：
+HalfCheetah，Hopper，Walker2d，Swimmer和Ant。
 
 .. _MuJoCo: https://gym.openai.com/envs/#mujoco
 
-Performance in Each Environment
+
+每个环境中的性能
 ===============================
 
 HalfCheetah
@@ -17,8 +19,7 @@ HalfCheetah
 .. figure:: ../images/bench/bench_halfcheetah.svg
     :align: center
 
-    3M timestep benchmark for HalfCheetah-2.
-
+    HalfCheetah-2 环境的 3M 时步性能。
 
 Hopper
 ------
@@ -26,7 +27,7 @@ Hopper
 .. figure:: ../images/bench/bench_hopper.svg
     :align: center
 
-    3M timestep benchmark for Hopper-v2.
+    Hopper-v2 环境的 3M 时步性能。
 
 Walker
 ------
@@ -34,31 +35,39 @@ Walker
 .. figure:: ../images/bench/bench_walker.svg
     :align: center
 
-    3M timestep benchmark for Walker2d-v2.
+    Walker2d-v2 环境的 3M 时步性能。
 
 Swimmer
 -------
+
 .. figure:: ../images/bench/bench_swim.svg
     :align: center
 
-    3M timestep benchmark for Swimmer-v2.
+    Swimmer-v2 环境的 3M 时步性能。
 
 Ant
 ---
+
 .. figure:: ../images/bench/bench_ant.svg
     :align: center
 
-    3M timestep benchmark for Ant-v2.
+    Ant-v2 环境的 3M 时步性能。
 
-Experiment Details
+
+实验细节
 ==================
 
-**Random seeds.** The on-policy algorithms (VPG, TPRO, PPO) were run for 3 random seeds each, and the off-policy algorithms (DDPG, TD3, SAC) were run for 10 random seeds each. Graphs show the average (solid line) and std dev (shaded) of performance over random seed over the course of training.
+**随机种子** 分别对3个随机种子每个运行同轨策略算法（VPG，TPRO，PPO），
+对随机10个种子每个运行异策略算法（DDPG，TD3，SAC）。
+图表显示了训练过程中随机种子的平均（实线）和标准发展（阴影）。
 
-**Performance metric.** Performance for the on-policy algorithms is measured as the average trajectory return across the batch collected at each epoch. Performance for the off-policy algorithms is measured once every 10,000 steps by running the deterministic policy (or, in the case of SAC, the mean policy) without action noise for ten trajectories, and reporting the average return over those test trajectories.
+**性能指标** 同轨策略算法的性能是通过每个回合收集的批次中的平均轨迹回报来衡量的。
+通过在十条轨迹上运行没有动作噪声的确定性策略（或者在SAC的情况下为均值策略），
+并报告这些测试轨迹的平均回报，每10,000步就对异轨策略算法的性能进行一次测量。
 
-**Network architectures.** The on-policy algorithms use networks of size (64, 32) with tanh units for both the policy and the value function. The off-policy algorithms use networks of size (400, 300) with relu units.
+**网络结构** 同轨策略算法使用大小为（64，32），带有tanh单元的网络同时用于策略和值函数。
+异轨策略算法使用大小为（400，300），具有relu单元的网络。
 
-**Batch size.** The on-policy algorithms collected 4000 steps of agent-environment interaction per batch update. The off-policy algorithms used minibatches of size 100 at each gradient descent step.
+**批次大小** 同轨策略上的算法每批更新收集了4000步智能体与环境的交互。异轨策略算法在每个梯度下降步骤使用大小为100的微型批次。
 
-All other hyperparameters are left at default settings for the Spinning Up implementations. See algorithm pages for details.
+所有其他超参数均保留为Spinning Up实现的默认设置。有关详细信息，请参见算法页面。

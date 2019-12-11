@@ -36,7 +36,6 @@ MOCK_MODULES = ['mpi4py']
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 # Finish imports
-import spinup
 from recommonmark.parser import CommonMarkParser
 
 

@@ -1,127 +1,163 @@
 ==============================
-Part 2: Kinds of RL Algorithms
+第二部分：强化学习算法
 ==============================
 
-.. contents:: Table of Contents
+.. contents:: 目录
     :depth: 2
 
-Now that we've gone through the basics of RL terminology and notation, we can cover a little bit of the richer material: the landscape of algorithms in modern RL, and a description of the kinds of trade-offs that go into algorithm design.
+我们已经介绍了强化学习的基础术语和符号，现在可以讨论一些更丰富的内容：
+现代强化学习中算法的整体发展和算法设计时候要考虑的各种因素之间的权衡。
 
-A Taxonomy of RL Algorithms
+
+强化学习算法分类
 ===========================
 
 .. figure:: ../images/rl_algorithms_9_15.svg
     :align: center
 
-    A non-exhaustive, but useful taxonomy of algorithms in modern RL. `Citations below.`_
+    一个不是很详细但是十分有用的现代强化学习算法分类。`参见底部链接`_。
 
-We'll start this section with a disclaimer: it's really quite hard to draw an accurate, all-encompassing taxonomy of algorithms in the modern RL space, because the modularity of algorithms is not well-represented by a tree structure. Also, to make something that fits on a page and is reasonably digestible in an introduction essay, we have to omit quite a bit of more advanced material (exploration, transfer learning, meta learning, etc). That said, our goals here are 
+要先声明的是：很难准确全面的把所有现代强化学习算法都列举出来，因为这些内容本身不适合用树形结构展示。
+同时，把这么多内容放在一篇文章里，还要便于理解，必须省略掉一些更加前沿的内容，
+例如探索（exploration），迁移学习（transfer learning），元学习（meta learning）等。
+这篇文章的目标是：
 
-* to highlight the most foundational design choices in deep RL algorithms about what to learn and how to learn it,
-* to expose the trade-offs in those choices,
-* and to place a few prominent modern algorithms into context with respect to those choices.
+* 只强调深度强化学习中关于学习什么以及如何学习的最基本的设计选择，
+* 揭示这些选择中的利弊权衡，
+* 把其中部分优秀的现代算法介绍给大家。
 
-Model-Free vs Model-Based RL
-----------------------------
+免模型强化学习（Model-Free） vs 有模型强化学习（Model-Based）
+---------------------------------------------------------------
 
-One of the most important branching points in an RL algorithm is the question of **whether the agent has access to (or learns) a model of the environment**. By a model of the environment, we mean a function which predicts state transitions and rewards. 
+不同强化学习算法最重要的区分点之一就是 **智能体是否能完整了解（或学习）到所在环境的模型**。
+环境的模型是指一个预测状态转换和奖励的函数。
 
-The main upside to having a model is that **it allows the agent to plan** by thinking ahead, seeing what would happen for a range of possible choices, and explicitly deciding between its options. Agents can then distill the results from planning ahead into a learned policy. A particularly famous example of this approach is `AlphaZero`_. When this works, it can result in a substantial improvement in sample efficiency over methods that don't have a model.
+有模型学习最大的优势在于 **允许智能体** 提前考虑来进行 **规划**，
+走到每一步的时候，都提前尝试未来可能的选择，然后明确地从这些候选项中进行选择。
+智能体可以把预先规划的结果提取为学习策略。这其中最著名的例子就是 `AlphaZero`_。
+相对于那些没有模型的方法，这个方法起作用的时候，可以大幅度提升采样效率。
 
-The main downside is that **a ground-truth model of the environment is usually not available to the agent.** If an agent wants to use a model in this case, it has to learn the model purely from experience, which creates several challenges. The biggest challenge is that bias in the model can be exploited by the agent, resulting in an agent which performs well with respect to the learned model, but behaves sub-optimally (or super terribly) in the real environment. Model-learning is fundamentally hard, so even intense effort---being willing to throw lots of time and compute at it---can fail to pay off. 
+有模型学习最大的缺点就是 **智能体往往不能获得环境的真实模型**。
+如果智能体想在一个场景下使用模型，那它必须完全从经验中学习，这会带来很多挑战。
+最大的挑战就是，智能体探索出来的模型和真实模型之间存在偏差，
+而这种偏差会导致智能体在学习到的模型中表现很好，但在真实的环境中表现得不好（甚至很差）。
+模型学习从根本上讲是非常困难的，即使你愿意花费大量的时间和计算力，最终的结果也可能达不到预期的效果。
 
-Algorithms which use a model are called **model-based** methods, and those that don't are called **model-free**. While model-free methods forego the potential gains in sample efficiency from using a model, they tend to be easier to implement and tune. As of the time of writing this introduction (September 2018), model-free methods are more popular and have been more extensively developed and tested than model-based methods.
+使用模型的算法叫做 **有模型** 学习，不基于模型的叫做 **免模型** 学习。
+虽然免模型学习放弃了有模型学习在样本效率方面的潜在收益，但是他们往往更加易于实现和调整。
+截止到目前（2018年9月），相对于有模型学习，免模型学习方法更受欢迎，得到更加广泛的开发和测试。
 
-
-What to Learn
+要学习什么
 -------------
 
-Another critical branching point in an RL algorithm is the question of **what to learn.** The list of usual suspects includes
+强化学习算法另一个重要的区分点是 **要学习什么**。常提到的主题包括：
 
-* policies, either stochastic or deterministic,
-* action-value functions (Q-functions),
-* value functions,
-* and/or environment models.
+* 策略，不管是随机的还是确定性的，
+* 动作值函数（Q 函数），
+* 值函数，
+* 以及/或者环境模型。
 
-
-
-What to Learn in Model-Free RL
+免模型强化学习中要学习什么
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-There are two main approaches to representing and training agents with model-free RL:
+有两种用来表示和训练免模型强化学习的主要方式：
 
-**Policy Optimization.** Methods in this family represent a policy explicitly as :math:`\pi_{\theta}(a|s)`. They optimize the parameters :math:`\theta` either directly by gradient ascent on the performance objective :math:`J(\pi_{\theta})`,  or indirectly, by maximizing local approximations of :math:`J(\pi_{\theta})`. This optimization is almost always performed **on-policy**, which means that each update only uses data collected while acting according to the most recent version of the policy. Policy optimization also usually involves learning an approximator :math:`V_{\phi}(s)` for the on-policy value function :math:`V^{\pi}(s)`, which gets used in figuring out how to update the policy.
+**策略优化**：这个系列的方法将策略显示表示为 :math:`\pi_{\theta}(a|s)`。
+它们直接对性能目标 :math:`J(\pi_{\theta})` 进行梯度下降来优化参数 :math:`\theta`，
+或者间接地，通过最大化性能目标 :math:`J(\pi_{\theta})` 的局部近似来优化。
+优化基本都是基于 **同轨策略** 的，也就是说每一步更新只会用最新的策略执行时采集到的数据。
+策略优化通常还包括学习同轨值函数 :math:`V^{\pi}(s)` 的近似器 :math:`V_{\phi}(s)`，
+该近似器用于确定如何更新策略。
 
-A couple of examples of policy optimization methods are:
+基于策略优化的方法举例：
 
-* `A2C / A3C`_, which performs gradient ascent to directly maximize performance,
-* and `PPO`_, whose updates indirectly maximize performance, by instead maximizing a *surrogate objective* function which gives a conservative estimate for how much :math:`J(\pi_{\theta})` will change as a result of the update. 
+* `A2C / A3C`_，通过梯度下降直接最大化性能，
+* and `PPO`_，不直接通过最大化性能更新，而是最大化 **替代目标** 函数，
+  该函数可以保守地估计更新后 :math:`J(\pi_{\theta})` 将发生多少变化。
 
-**Q-Learning.** Methods in this family learn an approximator :math:`Q_{\theta}(s,a)` for the optimal action-value function, :math:`Q^*(s,a)`. Typically they use an objective function based on the `Bellman equation`_. This optimization is almost always performed **off-policy**, which means that each update can use data collected at any point during training, regardless of how the agent was choosing to explore the environment when the data was obtained. The corresponding policy is obtained via the connection between :math:`Q^*` and :math:`\pi^*`: the actions taken by the Q-learning agent are given by 
+**Q-Learning**：这个系列的算法学习最优动作值函数 :math:`Q^*(s,a)` 的近似函数 :math:`Q_{\theta}(s,a)`。
+它们通常使用基于 `贝尔曼方程`_ 的目标函数。优化过程属于 **异轨策略**，
+这意味着每次更新可以使用任意时间点的训练数据，不管获取数据时智能体选择如何探索环境。
+对应的策略是通过 :math:`Q^*` 和 :math:`\pi^*` 之间的联系得到的：Q-learning 智能体的动作由下面的式子给出：
 
 .. math::
-    
+
     a(s) = \arg \max_a Q_{\theta}(s,a).
 
-Examples of Q-learning methods include
+基于 Q-Learning 的方法举例：
 
-* `DQN`_, a classic which substantially launched the field of deep RL,
-* and `C51`_, a variant that learns a distribution over return whose expectation is :math:`Q^*`.
+* `DQN`_，一个让深度强化学习得到起步的经典方法，
+* 以及 `C51`_，学习关于回报的分布函数的变种，其期望是 :math:`Q^*`。
 
-**Trade-offs Between Policy Optimization and Q-Learning.** The primary strength of policy optimization methods is that they are principled, in the sense that *you directly optimize for the thing you want.* This tends to make them stable and reliable. By contrast, Q-learning methods only *indirectly* optimize for agent performance, by training :math:`Q_{\theta}` to satisfy a self-consistency equation. There are many failure modes for this kind of learning, so it tends to be less stable. [1]_ But, Q-learning methods gain the advantage of being substantially more sample efficient when they do work, because they can reuse data more effectively than policy optimization techniques. 
+**策略优化和 Q-Learning 的权衡**：策略优化的主要优势在于这类方法是合理的，
+某种意义上讲，*你在直接在优化你想要的东西*。这倾向于使它们稳定和可靠。
+与此相反，Q-learning 方法通过训练 :math:`Q_{\theta}` 以满足自洽方程，*间接地* 优化智能体的表现。
+这种方法有很多失败的模型，所以相对来说稳定性较差。[1]_
+但是，Q-learning 有效的时候能获得更好的采样效率，因为它们能够比策略优化更加有效地重用数据。
 
-**Interpolating Between Policy Optimization and Q-Learning.** Serendipitously, policy optimization and Q-learning are not incompatible (and under some circumstances, it turns out, `equivalent`_), and there exist a range of algorithms that live in between the two extremes. Algorithms that live on this spectrum are able to carefully trade-off between the strengths and weaknesses of either side. Examples include
+**策略优化和 Q-learning 的融合** 意外的是，策略优化和 Q-learning 并不是不能兼容的（在某些场景下，它们两者是 `等价的`_），
+并且存在很多介于这两种极端之间的算法。这个范围的算法能够很好的平衡好两者之间的优点和缺点，比如说：
 
-* `DDPG`_, an algorithm which concurrently learns a deterministic policy and a Q-function by using each to improve the other,
-* and `SAC`_, a variant which uses stochastic policies, entropy regularization, and a few other tricks to stabilize learning and score higher than DDPG on standard benchmarks.
+* `DDPG`_，是一种使用一方提高另一方的，同时学习确定性策略和 Q 函数的算法，
+* 以及 `SAC`_，是一种变体，它使用随机策略、熵正则化和一些其它技巧来稳定学习，同时在标准基准上获得比 DDPG 更高的分数。
 
+.. [1]
+  关于更多 Q-learning 可能会表现不好的情况，参见：1) 经典论文 `Tsitsiklis and van Roy`_，
+  2) 最近的文章 `review by Szepesvari`_ （在 4.3.2 节），3) `Sutton and Barto`_的第11章节，
+  尤其是 11.3（函数近似，自举和异轨数据的“致命三要素”，共同导致值学习算法的不稳定）。
 
-
-.. [1] For more information about how and why Q-learning methods can fail, see 1) this classic paper by `Tsitsiklis and van Roy`_, 2) the (much more recent) `review by Szepesvari`_ (in section 4.3.2), and 3) chapter 11 of `Sutton and Barto`_, especially section 11.3 (on "the deadly triad" of function approximation, bootstrapping, and off-policy data, together causing instability in value-learning algorithms).
-
-
-.. _`Bellman equation`: ../spinningup/rl_intro.html#bellman-equations
+.. _`贝尔曼方程`: ../spinningup/rl_intro.html#bellman-equations
 .. _`Tsitsiklis and van Roy`: http://web.mit.edu/jnt/www/Papers/J063-97-bvr-td.pdf
 .. _`review by Szepesvari`: https://sites.ualberta.ca/~szepesva/papers/RLAlgsInMDPs.pdf
 .. _`Sutton and Barto`: https://drive.google.com/file/d/1xeUDVGWGUUv1-ccUMAZHJLej2C7aAFWY/view
-.. _`equivalent`: https://arxiv.org/abs/1704.06440
+.. _`等价的`: https://arxiv.org/abs/1704.06440
 
-What to Learn in Model-Based RL
+有模型强化学习要学习什么
 -------------------------------
 
-Unlike model-free RL, there aren't a small number of easy-to-define clusters of methods for model-based RL: there are many orthogonal ways of using models. We'll give a few examples, but the list is far from exhaustive. In each case, the model may either be given or learned. 
+不同于免模型学习，有模型强化学习方法不是很好分类：很多方法之间都会有交叉。
+我们会给出一些例子，当然肯定不够详尽，覆盖不到全部。在这些例子里面，模型要么已知，要么是可学习的。
 
-**Background: Pure Planning.** The most basic approach *never* explicitly represents the policy, and instead, uses pure planning techniques like `model-predictive control`_ (MPC) to select actions. In MPC, each time the agent observes the environment, it computes a plan which is optimal with respect to the model, where the plan describes all actions to take over some fixed window of time after the present. (Future rewards beyond the horizon may be considered by the planning algorithm through the use of a learned value function.) The agent then executes the first action of the plan, and immediately discards the rest of it. It computes a new plan each time it prepares to interact with the environment, to avoid using an action from a plan with a shorter-than-desired planning horizon.
+**背景：纯规划** 这种最基础的方法，从来 *不* 显式地表示策略，而是单纯使用规划技术来选择动作，例如 `模型预测控制`_ (MPC)。
 
-* The `MBMF`_ work explores MPC with learned environment models on some standard benchmark tasks for deep RL.
+在模型预测控制中，智能体每次观察环境的时候，都会计算得到一个对于当前模型最优的规划，
+这里的规划指的是未来一个固定时间段内，智能体会采取的所有行动（通过学习值函数，规划算法可能会考虑到超出范围的未来奖励）。
+智能体然后执行规划的第一个行动，然后立即舍弃规划的剩余部分。
+每次准备和环境进行互动时，它会计算出一个新的规划，从而避免执行规划范围短于预期范围的规划给出的行动。
 
-**Expert Iteration.** A straightforward follow-on to pure planning involves using and learning an explicit representation of the policy, :math:`\pi_{\theta}(a|s)`. The agent uses a planning algorithm (like Monte Carlo Tree Search) in the model, generating candidate actions for the plan by sampling from its current policy. The planning algorithm produces an action which is better than what the policy alone would have produced, hence it is an "expert" relative to the policy. The policy is afterwards updated to produce an action more like the planning algorithm's output.
+* `MBMF`_ 在一些深度强化学习的标准基准任务上，基于学习到的环境模型进行模型预测控制。
 
-* The `ExIt`_ algorithm uses this approach to train deep neural networks to play Hex.
-* `AlphaZero`_ is another example of this approach.
+**专家迭代** 纯规划的后来之作，使用和学习策略的显式表示形式：:math:`\pi_{\theta}(a|s)`。
+智能体在模型中应用了一种规划算法，类似蒙特卡洛树搜索(Monte Carlo Tree Search)，通过对当前策略进行采样生成规划的候选动作。
+这种算法得到的动作比策略本身生成的要好，所以相对于策略来说，它是“专家”。随后策略更新以产生更类似于规划算法输出的动作。
 
-**Data Augmentation for Model-Free Methods.** Use a model-free RL algorithm to train a policy or Q-function, but either 1) augment real experiences with fictitious ones in updating the agent, or 2) use *only* fictitous experience for updating the agent. 
+* `ExIt`_ 算法用这种方法训练深度神经网络来玩 Hex。
+* `AlphaZero`_ 是这种方法的另一个例子。
 
-* See `MBVE`_ for an example of augmenting real experiences with fictitious ones.
-* See `World Models`_ for an example of using purely fictitious experience to train the agent, which they call "training in the dream."
+**免模型方法的数据增强** 使用免模型算法来训练策略或者 Q 函数，
+要么 1）更新智能体的时候，用构造出的数据来增强真实经验，2）更新的时候 *仅* 使用构造的假经验。
 
-**Embedding Planning Loops into Policies.** Another approach embeds the planning procedure directly into a policy as a subroutine---so that complete plans become side information for the policy---while training the output of the policy with any standard model-free algorithm. The key concept is that in this framework, the policy can learn to choose how and when to use the plans. This makes model bias less of a problem, because if the model is bad for planning in some states, the policy can simply learn to ignore it.
+* `MBVE`_ 用构造出的数据来增强真实经验。
+* `World Models`_ 全部用假数据来训练智能体，所以被称为：“在梦里训练”。
 
-* See `I2A`_ for an example of agents being endowed with this style of imagination.
+**将规划循环嵌入到策略中** 另一种方法直接把规划程序作为策略的子程序，这样在基于任何免模型算法训练策略输出的时候，整个规划就变成了策略的附属信息。
+这个框架最核心的概念就是，策略可以学习到如何以及何时使用规划。
+这使得模型偏差不再是问题，因为如果模型在某些状态下不利于规划，那么策略可以简单地学会忽略它。
 
-.. _`model-predictive control`: https://en.wikipedia.org/wiki/Model_predictive_control
+* `I2A`_ 智能体被赋予这种形式的想象的例子。
+
+.. _`模型预测控制`: https://en.wikipedia.org/wiki/Model_predictive_control
 .. _`ExIt`: https://arxiv.org/abs/1705.08439
 .. _`World Models`: https://worldmodels.github.io/
 
 
-
-Links to Algorithms in Taxonomy
+分类中提到的算法链接
 ===============================
 
-.. _`Citations below.`: 
+.. _`参见底部链接`:
 
 .. [#] `A2C / A3C <https://arxiv.org/abs/1602.01783>`_ (Asynchronous Advantage Actor-Critic): Mnih et al, 2016
-.. [#] `PPO <https://arxiv.org/abs/1707.06347>`_ (Proximal Policy Optimization): Schulman et al, 2017 
+.. [#] `PPO <https://arxiv.org/abs/1707.06347>`_ (Proximal Policy Optimization): Schulman et al, 2017
 .. [#] `TRPO <https://arxiv.org/abs/1502.05477>`_ (Trust Region Policy Optimization): Schulman et al, 2015
 .. [#] `DDPG <https://arxiv.org/abs/1509.02971>`_ (Deep Deterministic Policy Gradient): Lillicrap et al, 2015
 .. [#] `TD3 <https://arxiv.org/abs/1802.09477>`_ (Twin Delayed DDPG): Fujimoto et al, 2018
@@ -131,7 +167,7 @@ Links to Algorithms in Taxonomy
 .. [#] `QR-DQN <https://arxiv.org/abs/1710.10044>`_ (Quantile Regression DQN): Dabney et al, 2017
 .. [#] `HER <https://arxiv.org/abs/1707.01495>`_ (Hindsight Experience Replay): Andrychowicz et al, 2017
 .. [#] `World Models`_: Ha and Schmidhuber, 2018
-.. [#] `I2A <https://arxiv.org/abs/1707.06203>`_ (Imagination-Augmented Agents): Weber et al, 2017 
-.. [#] `MBMF <https://sites.google.com/view/mbmf>`_ (Model-Based RL with Model-Free Fine-Tuning): Nagabandi et al, 2017 
+.. [#] `I2A <https://arxiv.org/abs/1707.06203>`_ (Imagination-Augmented Agents): Weber et al, 2017
+.. [#] `MBMF <https://sites.google.com/view/mbmf>`_ (Model-Based RL with Model-Free Fine-Tuning): Nagabandi et al, 2017
 .. [#] `MBVE <https://arxiv.org/abs/1803.00101>`_ (Model-Based Value Expansion): Feinberg et al, 2018
-.. [#] `AlphaZero <https://arxiv.org/abs/1712.01815>`_: Silver et al, 2017 
+.. [#] `AlphaZero <https://arxiv.org/abs/1712.01815>`_: Silver et al, 2017

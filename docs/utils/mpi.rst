@@ -1,20 +1,21 @@
 =========
-MPI Tools
+MPI工具
 =========
 
-.. contents:: Table of Contents
+.. contents:: 目录
 
-Core MPI Utilities
+核心MPI工具
 ==================
 
 .. automodule:: spinup.utils.mpi_tools
     :members:
 
 
-MPI + Tensorflow Utilities
+MPI + Tensorflow 工具
 ==========================
 
-The ``spinup.utils.mpi_tf`` contains a a few tools to make it easy to use the AdamOptimizer across many MPI processes. This is a bit hacky---if you're looking for something more sophisticated and general-purpose, consider `horovod`_.
+``spinup.utils.mpi_tf`` 包含一些工具，可以轻松地在许多MPI流程中使用AdamOptimizer。
+这有点极客──如果你正在寻找更复杂和通用的东西，请考虑 `horovod`_。
 
 .. _`horovod`: https://github.com/uber/horovod
 

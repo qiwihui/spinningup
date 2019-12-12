@@ -1,25 +1,28 @@
-======
-Logger
-======
+=========
+日志记录
+=========
 
 .. contents:: Table of Contents
 
-Using a Logger
+使用Logger
 ==============
 
-Spinning Up ships with basic logging tools, implemented in the classes `Logger`_ and `EpochLogger`_. The Logger class contains most of the basic functionality for saving diagnostics, hyperparameter configurations, the state of a training run, and the trained model. The EpochLogger class adds a thin layer on top of that to make it easy to track the average, standard deviation, min, and max value of a diagnostic over each epoch and across MPI workers.
+Spinning Up 提供了基本的日志工具，在 `Logger`_ 和 `EpochLogger`_ 类中实现。
+Logger类包含用于保存诊断，超参数配置，训练运行的状态和训练好的模型。
+EpochLogger类在其之上添加了一层，以便于在每个轮次和整个MPI工作者之间轻松跟踪诊断的平均值，标准差，最小值和最大值。
 
-.. admonition:: You Should Know
+.. admonition:: 你应该知道
 
-    All Spinning Up algorithm implementations use an EpochLogger.
+    所有 Spinning Up 算法实现使用了 EpochLogger。
 
 .. _`Logger`: ../utils/logger.html#spinup.utils.logx.Logger
 .. _`EpochLogger`: ../utils/logger.html#spinup.utils.logx.EpochLogger
 
-Examples
+
+例子
 --------
 
-First, let's look at a simple example of how an EpochLogger keeps track of a diagnostic value:
+首先，让我们看一个简单的示例，说明EpochLogger如何跟踪诊断值：
 
 >>> from spinup.utils.logx import EpochLogger
 >>> epoch_logger = EpochLogger()
@@ -34,9 +37,12 @@ First, let's look at a simple example of how an EpochLogger keeps track of a dia
 |         MinTest |               0 |
 -------------------------------------
 
-The ``store`` method is used to save all values of ``Test`` to the ``epoch_logger``'s internal state. Then, when ``log_tabular`` is called, it computes the average, standard deviation, min, and max of ``Test`` over all of the values in the internal state. The internal state is wiped clean after the call to ``log_tabular`` (to prevent leakage into the statistics at the next epoch). Finally, ``dump_tabular`` is called to write the diagnostics to file and to stdout.
+``store`` 方法用于将所有 ``Test`` 值保存到 ``epoch_logger`` 的内部状态。
+然后，在调用 ``log_tabular`` 时，它将计算内部状态下所有值的 ``Test`` 的平均值，标准偏差，最小值和最大值。
+调用 ``log_tabular`` 之后，内部状态会清除干净（以防止在下一个轮次泄漏到统计信息中）。
+最后，调用 ``dump_tabular`` 将诊断信息写入文件和标准输出。
 
-Next, let's look at a full training procedure with the logger embedded, to highlight configuration and model saving as well as diagnostic logging:
+接下来，让我们看一下包含日志记录的完整训练过程，以突出显示配置和模型保存以及诊断记录：
 
 .. code-block:: python
    :linenos:
@@ -114,11 +120,12 @@ Next, let's look at a full training procedure with the logger embedded, to highl
 
 In this example, observe that
 
-* On line 19, `logger.save_config`_ is used to save the hyperparameter configuration to a JSON file.
-* On lines 42 and 43, `logger.setup_tf_saver`_ is used to prepare the logger to save the key elements of the computation graph.
-* On line 54, diagnostics are saved to the logger's internal state via `logger.store`_.
-* On line 58, the computation graph is saved once per epoch via `logger.save_state`_.
-* On lines 61-66, `logger.log_tabular`_ and `logger.dump_tabular`_ are used to write the epoch diagnostics to file. Note that the keys passed into `logger.log_tabular`_ are the same as the keys passed into `logger.store`_.
+* 第19行，`logger.save_config`_ 用来将超参数配置保存到JSON文件中。
+* 第42和43行，`logger.setup_tf_saver`_ 用于准备日志记录以保存计算图的关键元素。
+* 第54行，通过`logger.store`_ 将诊断保存到日志记录的内部状态。
+* 第58行，计算图每个轮次通过 `logger.save_state`_ 保存一次。
+* 第61-66行，`logger.log_tabular`_ 和 `logger.dump_tabular`_ 用于将轮次诊断写入文件。
+  请注意，传递到 `logger.log_tabular`_ 的键与传递到 `logger.store`_ 的键相同。
 
 .. _`logger.save_config`: ../utils/logger.html#spinup.utils.logx.Logger.save_config
 .. _`logger.setup_tf_saver`: ../utils/logger.html#spinup.utils.logx.Logger.setup_tf_saver
@@ -128,17 +135,19 @@ In this example, observe that
 .. _`logger.dump_tabular`: ../utils/logger.html#spinup.utils.logx.Logger.dump_tabular
 
 
-Logging and MPI
+日志记录和MPI
 ---------------
 
-.. admonition:: You Should Know
+.. admonition:: 你应该知道
 
-    Several algorithms in RL are easily parallelized by using MPI to average gradients and/or other key quantities. The Spinning Up loggers are designed to be well-behaved when using MPI: things will only get written to stdout and to file from the process with rank 0. But information from other processes isn't lost if you use the EpochLogger: everything which is passed into EpochLogger via ``store``, regardless of which process it's stored in, gets used to compute average/std/min/max values for a diagnostic.
+    通过使用MPI求平均梯度和/或其他关键数量，可以轻松地并行化强化学习中的几种算法。
+    Spinning Up日志记录的设计使其在使用MPI时表现良好：只会从rank 0的进程中写入标准输出。
+    但是，如果你使用EpochLogger，其他进程的信息也不会丢失：通过 ``store`` 传递到EpochLogger中的数据，
+    无论存储在哪个进程中，都将用于计算诊断的平均值/标准差/最小值/最大值。
 
 
-Logger Classes
+Logger类
 ==============
-
 
 .. autoclass:: spinup.utils.logx.Logger
     :members:
@@ -150,20 +159,18 @@ Logger Classes
     :members:
 
 
-
-Loading Saved Graphs
+加载保存的图
 ====================
 
 .. autofunction:: spinup.utils.logx.restore_tf_graph
 
-When you use this method to restore a graph saved by a Spinning Up implementation, you can minimally expect it to include the following:
+当你使用此方法还原由Spinning Up实现保存的图时，可以最少期望它包括以下内容：
 
 ======  ===============================================
-Key     Value
+键      值
 ======  ===============================================
-``x``   Tensorflow placeholder for state input.
-``pi``  | Samples an action from the agent, conditioned
-        | on states in ``x``.
+``x``   Tensorflow 状态输入占位符。
+``pi``  以 ``x`` 中的状态为条件，从智能体中采样动作。
 ======  ===============================================
 
-The relevant value functions for an algorithm are also typically stored. For details of what else gets saved by a given algorithm, see its documentation page.
+通常还存储算法的相关值函数。 有关给定算法还能保存哪些内容的详细信息，请参见其文档页面。

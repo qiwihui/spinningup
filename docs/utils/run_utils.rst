@@ -1,21 +1,23 @@
 =========
-Run Utils
+运行工具
 =========
 
-.. contents:: Table of Contents
+.. contents:: 目录
+
 
 ExperimentGrid
 ==============
 
-Spinning Up ships with a tool called ExperimentGrid for making hyperparameter ablations easier. This is based on (but simpler than) `the rllab tool`_ called VariantGenerator.
+Spinning Up提供了一个叫ExperimentGrid的工具，可简化超参数。
+这是基于 `rllab工具`_ 的（但比它简单），该工具名为VariantGenerator。
 
-.. _`the rllab tool`: https://github.com/rll/rllab/blob/master/rllab/misc/instrument.py#L173
+.. _`rllab工具`: https://github.com/rll/rllab/blob/master/rllab/misc/instrument.py#L173
 
 .. autoclass:: spinup.utils.run_utils.ExperimentGrid
     :members:
 
 
-Calling Experiments
+运行实验
 ===================
 
 .. autofunction:: spinup.utils.run_utils.call_experiment

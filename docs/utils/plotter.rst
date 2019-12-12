@@ -1,7 +1,7 @@
 =======
-Plotter
+绘图
 =======
 
-See the page on `plotting results`_ for documentation of the plotter.
+有关绘图的文档，请参见 `绘图结果`_ 页面。
 
-.. _`plotting results`: ../user/plotting.html
+.. _`绘图结果`: ../user/plotting.html

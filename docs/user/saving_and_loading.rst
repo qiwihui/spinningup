@@ -4,69 +4,73 @@
 
 .. contents:: 目录
 
-In this section we'll cover
+在本节中，我们将介绍
 
-- what outputs come from Spinning Up algorithm implementations,
-- what formats they're stored in and how they're organized,
-- where they are stored and how you can change that,
-- and how to load and run trained policies.
+- Spinning Up算法实现的输出是什么，
+- 它们以什么格式存储以及如何组织，
+- 它们的存储位置以及如何更改它们，
+- 以及如何加载和运行经过训练的策略。
 
-.. admonition:: You Should Know
-    
-    Spinning Up implementations currently have no way to resume training for partially-trained agents. If you consider this feature important, please let us know---or consider it a hacking project!
+.. admonition:: 你应该知道
+
+    Spinning Up实现目前无法恢复对部分受训练智能体的训练。如果你认为此功能很重要，请告诉我们──或将其视为黑客项目！
+
 
 算法输出
 =================
 
-Each algorithm is set up to save a training run's hyperparameter configuration, learning progress, trained agent and value functions, and a copy of the environment if possible (to make it easy to load up the agent and environment simultaneously). The output directory contains the following:
+每种算法都设置为保存训练运行的超参数配置，学习进度，训练过的智能体和值函数，并在可能的情况下保存环境的副本（以便轻松地同时加载智能体和环境）。
+输出目录包含以下内容：
 
-+--------------------------------------------------------------------------------+
-| **Output Directory Structure**                                                 |
-+----------------+---------------------------------------------------------------+
-|``simple_save/``| | A directory containing everything needed to restore the     |
-|                | | trained agent and value functions. (`Details below.`_)      |
-+----------------+---------------------------------------------------------------+
-|``config.json`` | | A dict containing an as-complete-as-possible description    |
-|                | | of the args and kwargs you used to launch the training      |
-|                | | function. If you passed in something which can't be         |
-|                | | serialized to JSON, it should get handled gracefully by the |
-|                | | logger, and the config file will represent it with a string.|
-|                | | Note: this is meant for record-keeping only. Launching an   |
-|                | | experiment from a config file is not currently supported.   |
-+----------------+---------------------------------------------------------------+
-|``progress.txt``| | A tab-separated value file containing records of the metrics|
-|                | | recorded by the logger throughout training. eg, ``Epoch``,  |
-|                | | ``AverageEpRet``, etc.                                      |
-+----------------+---------------------------------------------------------------+
-|``vars.pkl``    | | A pickle file containing anything about the algorithm state |
-|                | | which should get stored. Currently, all algorithms only use |
-|                | | this to save a copy of the environment.                     |
-+----------------+---------------------------------------------------------------+
+.. code::
 
-.. admonition:: You Should Know
+    +--------------------------------------------------------------------------------+
+    | **输出目录结构**                                                                 |
+    +----------------+---------------------------------------------------------------+
+    |``simple_save/``| | 该目录包含恢复训练的智能体和值函数所需的所有内容。                   |
+    |                | | （`详细信息如下`_）                                            |
+    +----------------+---------------------------------------------------------------+
+    |``config.json`` | | 一个字典，其中包含你用来启动训练功能的args和kwargs的尽可能完整的描述。|
+    |                | | 如果你传入了无法序列化为JSON的内容，则日志记录程序应妥善处理它，       |
+    |                | | 并且配置文件将使用字符串来表示它。                                 |
+    |                | | 注意：这仅用于保存记录。当前不支持从配置文件启动实验。                 |
+    +----------------+---------------------------------------------------------------+
+    |``progress.txt``| | 制表符分隔的值文件，其中包含日志记录器在整个训练过程中记录的指标记录。  |
+    |                | | 比如 ``Epoch``，``AverageEpRet`` 等                            |
+    +----------------+---------------------------------------------------------------+
+    |``vars.pkl``    | | 包含有关算法状态的任何内容的应保存的 pickle 文件。                 |
+    |                | | 当前，所有算法仅使用此方法来保存环境的副本。                       |
+    +----------------+---------------------------------------------------------------+
 
-    Sometimes environment-saving fails because the environment can't be pickled, and ``vars.pkl`` is empty. This is known to be a problem for Gym Box2D environments in older versions of Gym, which can't be saved in this manner.
+.. admonition:: 你应该知道
 
-.. _`Details below.`:
+    有时，由于无法 pickled 环境而导致环境保存失败，并且 ``vars.pkl`` 为空。
+    对于旧版Gym中的Gym Box2D环境，这是一个已知问题，无法以这种方式保存。
 
-The ``simple_save`` directory contains:
+.. _`详细信息如下`:
 
-+----------------------------------------------------------------------------------+
-| **Simple_Save Directory Structure**                                              |
-+------------------+---------------------------------------------------------------+
-|``variables/``    | | A directory containing outputs from the Tensorflow Saver.   |
-|                  | | See documentation for `Tensorflow SavedModel`_.             |
-+------------------+---------------------------------------------------------------+
-|``model_info.pkl``| | A dict containing information (map from key to tensor name) |
-|                  | | which helps us unpack the saved model after loading.        |
-+------------------+---------------------------------------------------------------+
-|``saved_model.pb``| | A protocol buffer, needed for a `Tensorflow SavedModel`_.   |
-+------------------+---------------------------------------------------------------+
+``simple_save`` 目录包含：
 
-.. admonition:: You Should Know
+.. code::
 
-    The only file in here that you should ever have to use "by hand" is the ``config.json`` file. Our agent testing utility will load things from the ``simple_save/`` directory and ``vars.pkl`` file, and our plotter interprets the contents of ``progress.txt``, and those are the correct tools for interfacing with these outputs. But there is no tooling for ``config.json``---it's just there so that if you forget what hyperparameters you ran an experiment with, you can double-check.
+    +----------------------------------------------------------------------------------+
+    | **Simple_Save 文件结构**                                                          |
+    +------------------+---------------------------------------------------------------+
+    |``variables/``    | | 一个包含Tensorflow Saver的输出的目录。                         |
+    |                  | | 请参阅 `Tensorflow SavedModel`_ 的文档。                      |
+    +------------------+---------------------------------------------------------------+
+    |``model_info.pkl``| | 包含信息（从键到张量名称的映射）的字典，                           |
+    |                  | | 可帮助我们在加载后解压缩保存的模型。                              |
+    +------------------+---------------------------------------------------------------+
+    |``saved_model.pb``| | `Tensorflow SavedModel`_ 所需的 protocol buffer。            |
+    +------------------+---------------------------------------------------------------+
 
+.. admonition:: 你应该知道
+
+    您唯一必须“手动”使用的文件是 ``config.json`` 文件。
+    我们的智能体程序测试工具将从 ``simple_save/`` 目录和 ``vars.pkl`` 文件中加载内容，
+    并且我们的绘图将解释 ``progress.txt`` 的内容，而这些是用于与这些输出接口的正确工具。
+    但是没有用于 ``config.json`` 的工具，它只是存在，因此，如果你忘记了要进行实验的超参数，你可以再次检查。
 
 .. _`Tensorflow SavedModel`: https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/saved_model/README.md
 
@@ -74,7 +78,7 @@ The ``simple_save`` directory contains:
 保存目录位置
 =======================
 
-Experiment results will, by default, be saved in the same directory as the Spinning Up package, in a folder called ``data``:
+默认情况下，实验结果将与Spinning Up软件包保存在同一目录下的名为 ``data`` 的文件夹中：
 
 .. parsed-literal::
 
@@ -88,26 +92,22 @@ Experiment results will, by default, be saved in the same directory as the Spinn
         LICENSE
         setup.py
 
-You can change the default results directory by modifying ``DEFAULT_DATA_DIR`` in ``spinup/user_config.py``. 
+你可以通过 ``spinup/user_config.py`` 中的 ``DEFAULT_DATA_DIR`` 修改默认结果目录。
 
 
 加载并运行经过训练的策略
 ====================================
 
-
 如果环境成功保存
 ---------------------------------
 
-For cases where the environment is successfully saved alongside the agent, it's a cinch to watch the trained agent act in the environment using:
-
+对于成功将环境与智能体一起保存的情况，请注意使用以下方法查看训练的智能体在环境中的行为：
 
 .. parsed-literal::
 
     python -m spinup.run test_policy path/to/output_directory
 
-
-There are a few flags for options:
-
+选项有一些标志：
 
 .. option:: -l L, --len=L, default=0
 
@@ -149,11 +149,10 @@ There are a few flags for options:
     Another special case, which is only used for SAC. The Spinning Up SAC implementation trains a stochastic policy, but is evaluated using the deterministic *mean* of the action distribution. ``test_policy`` will default to using the stochastic policy trained by SAC, but you should set the deterministic flag to watch the deterministic mean policy (the correct evaluation policy for SAC). This flag is not used for any other algorithms.
 
 
-
 找不到环境错误
 ---------------------------
 
-If the environment wasn't saved successfully, you can expect ``test_policy.py`` to crash with
+如果未成功保存环境，则可能导致 ``test_policy.py`` 崩溃
 
 .. parsed-literal::
 
@@ -168,8 +167,7 @@ If the environment wasn't saved successfully, you can expect ``test_policy.py`` 
 
      Check out the readthedocs page on Experiment Outputs for how to handle this situation.
 
-
-In this case, watching your agent perform is slightly more of a pain but not impossible, as long as you can recreate your environment easily. Try the following in IPython:
+在这种情况下，只要你可以地重新创建环境，就可以观察智能体的执行情况。在IPython中尝试以下操作：
 
 >>> from spinup.utils.test_policy import load_policy, run_policy
 >>> import your_env
@@ -185,6 +183,7 @@ Episode 1    EpRet -346.164      EpLen 99
 使用经过训练的值函数
 -----------------------------
 
-The ``test_policy.py`` tool doesn't help you look at trained value functions, and if you want to use those, you will have to do some digging by hand. Check the documentation for the `restore_tf_graph`_ function for details on how.
+``test_policy.py`` 工具无法帮助你查看经过训练的值函数，如果要使用这些函数，则必须手工进行一些挖掘。
+有关详细信息，请查看 `restore_tf_graph`_ 函数的文档。
 
 .. _`restore_tf_graph`: ../utils/logger.html#spinup.utils.logx.restore_tf_graph

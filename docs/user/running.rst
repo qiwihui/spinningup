@@ -5,120 +5,134 @@
 
 .. contents:: 目录
 
-One of the best ways to get a feel for deep RL is to run the algorithms and see how they perform on different tasks. The Spinning Up code library makes small-scale (local) experiments easy to do, and in this section, we'll discuss two ways to run them: either from the command line, or through function calls in scripts.
+体验深度强化的最佳方法之一是运行算法，并查看它们在不同任务上的执行情况。
+Spinning Up代码库使小规模（本地）实验更容易实现，在本节中，我们将讨论两种运行方式：从命令行运行，或者通过脚本中的函数调用。
 
 
 从命令行启动
 ===============================
 
+Spinning Up提供了 ``spinup/run.py``，这是一个方便的工具，可让你从命令行轻松启动任何算法（可以选择任何超参数）。
+它也充当工具的精简包装，用于观看训练过的策略和绘图，尽管我们不会在此页上讨论该功能
+（有关这些详细信息，请参见 `试验输出`_ 和 `绘制结果`_）。
 
-Spinning Up ships with ``spinup/run.py``, a convenient tool that lets you easily launch any algorithm (with any choices of hyperparameters) from the command line. It also serves as a thin wrapper over the utilities for watching trained policies and plotting, although we will not discuss that functionality on this page (for those details, see the pages on `experiment outputs`_ and `plotting`_).
-
-The standard way to run a Spinning Up algorithm from the command line is
+从命令行运行Spinning Up算法的标准方法是
 
 .. parsed-literal::
 
     python -m spinup.run [algo name] [experiment flags]
 
-eg:
+例如：
 
 .. parsed-literal::
 
     python -m spinup.run ppo --env Walker2d-v2 --exp_name walker
 
-.. _`experiment outputs`: ../user/saving_and_loading.html
-.. _`plotting`: ../user/plotting.html
+.. _`试验输出`: ../user/saving_and_loading.html
+.. _`绘制结果`: ../user/plotting.html
 
-.. admonition:: You Should Know
+.. admonition:: 你应该知道
 
-    If you are using ZShell: ZShell interprets square brackets as special characters. Spinning Up uses square brackets in a few ways for command line arguments; make sure to escape them, or try the solution recommended `here <http://kinopyo.com/en/blog/escape-square-bracket-by-default-in-zsh>`_ if you want to escape them by default.
+    如果使用ZShell：ZShell会将方括号解释为特殊字符。Spinning Up在命令行参数中以几种方式使用方括号。
+    请确保对其进行转义，或者如果你希望默认情况下对其进行转义，请尝试 `此处`_ 推荐的解决方案。
 
-.. admonition:: Detailed Quickstart Guide
+.. _`此处`: http://kinopyo.com/en/blog/escape-square-bracket-by-default-in-zsh
+
+.. admonition:: 详细快速开始指南
 
     .. parsed-literal::
 
-        python -m spinup.run ppo --exp_name ppo_ant --env Ant-v2 --clip_ratio 0.1 0.2 
+        python -m spinup.run ppo --exp_name ppo_ant --env Ant-v2 --clip_ratio 0.1 0.2
             --hid[h] [32,32] [64,32] --act tf.nn.tanh --seed 0 10 20 --dt
             --data_dir path/to/data
 
-    runs PPO in the ``Ant-v2`` Gym environment, with various settings controlled by the flags.
+    在 ``Ant-v2`` Gym 环境中运行 PPO，可以使用多种配置。
 
-    ``clip_ratio``, ``hid``, and ``act`` are flags to set some algorithm hyperparameters. You can provide multiple values for hyperparameters to run multiple experiments. Check the docs to see what hyperparameters you can set (click here for the `PPO documentation`_).
+    ``clip_ratio``， ``hid`` 和 ``act`` 用于设置算法超参数。你可以为超参数提供多个值以运行多个实验。
+    检查文档以查看可以设置的超参数（单击此处获取 `PPO文档`_）。
 
-    ``hid`` and ``act`` are `special shortcut flags`_ for setting the hidden sizes and activation function for the neural networks trained by the algorithm.
+    ``hid`` 和 ``act`` 是 `特殊快捷标志`_ 用于为算法训练的神经网络设置隐藏层大小和激活函数。
 
-    The ``seed`` flag sets the seed for the random number generator. RL algorithms have high variance, so try multiple seeds to get a feel for how performance varies.
+    ``seed`` 标志设置随机数生成器的种子。强化学习算法具有较高的方差，因此请尝试多个种子以了解性能如何变化。
 
-    The ``dt`` flag ensures that the save directory names will have timestamps in them (otherwise they don't, unless you set ``FORCE_DATESTAMP=True`` in ``spinup/user_config.py``).
+    ``dt`` 标志可确保保存目录名称中包含时间戳
+    （否则，则不会包含时间戳，除非你在 ``spinup/user_config.py`` 的``FORCE_DATESTAMP=True`` 设置）。
 
-    The ``data_dir`` flag allows you to set the save folder for results. The default value is set by ``DEFAULT_DATA_DIR`` in ``spinup/user_config.py``, which will be a subfolder ``data`` in the ``spinningup`` folder (unless you change it).
+    ``data_dir`` 标志允许你设置保存结果的路径。
+    默认值由 ``spinup/user_config.py`` 中的 ``DEFAULT_DATA_DIR`` 设置，
+    它将是 ``spinningup`` 文件夹中的 ``data`` 子文件夹（除非你进行更改）。
 
-    `Save directory names`_ are based on ``exp_name`` and any flags which have multiple values. Instead of the full flag, a shorthand will appear in the directory name. Shorthands can be provided by the user in square brackets after the flag, like ``--hid[h]``; otherwise, shorthands are substrings of the flag (``clip_ratio`` becomes ``cli``). To illustrate, the save directory for the run with ``clip_ratio=0.1``, ``hid=[32,32]``, and ``seed=10`` will be:
+    `保存文件夹名称`_ 基于 ``exp_name`` 和具有多个值的所有标志。在目录名称中会出现一个简写，而不是完整的标志。
+    用户可以在标志后的方括号中提供简写方式，例如 ``--hid[h]``。否则，快捷是标志的子字符串（``clip_ratio`` 变为 ``cli``）。
+    为了说明这一点，以 ``clip_ratio=0.1``，``hid=[32,32]`` 和 ``seed=10`` 运行的保存目录将是：
 
     .. parsed-literal::
 
         path/to/data/YY-MM-DD_ppo_ant_cli0-1_h32-32/YY-MM-DD_HH-MM-SS-ppo_ant_cli0-1_h32-32_seed10
 
-.. _`PPO documentation`: ../algorithms/ppo.html#spinup.ppo
-.. _`special shortcut flags`: ../user/running.html#shortcut-flags
-.. _`Save directory names`: ../user/running.html#where-results-are-saved
+.. _`PPO文档`: ../algorithms/ppo.html#spinup.ppo
+.. _`特殊快捷标志`: ../user/running.html#shortcut-flags
+.. _`保存文件夹名称`: ../user/running.html#where-results-are-saved
+
 
 从命令行设置超参数
 ---------------------------------------------
 
-Every hyperparameter in every algorithm can be controlled directly from the command line. If ``kwarg`` is a valid keyword arg for the function call of an algorithm, you can set values for it with the flag ``--kwarg``. To find out what keyword args are available, see either the docs page for an algorithm, or try
+每种算法中的每个超参数都可以直接从命令行进行控制。
+如果 ``kwarg`` 是算法函数调用的有效关键字参数，则可以使用标志 ``--kwarg`` 为其设置值。
+要找出可用的关键字参数，请参见文档页面中的算法，或尝试
 
 .. parsed-literal::
 
     python -m spinup.run [algo name] --help
 
-to see a readout of the docstring.
+查看文档字符串的输出。
 
-.. admonition:: You Should Know
+.. admonition:: 你应该知道
 
-    Values pass through ``eval()`` before being used, so you can describe some functions and objects directly from the command line. For example:
+    值在使用前先通过 ``eval()``，因此你可以直接从命令行描述一些函数和对象。例如：
 
     .. parsed-literal::
 
         python -m spinup.run ppo --env Walker2d-v2 --exp_name walker --act tf.nn.elu
 
-    sets ``tf.nn.elu`` as the activation function.
+    设置 ``tf.nn.elu`` 为激活函数。
 
-.. admonition:: You Should Know
+.. admonition:: 你应该知道
 
-    There's some nice handling for kwargs that take dict values. Instead of having to provide
+    对于采用dict值的参数，有一些不错的处理方法。无需提供
 
     .. parsed-literal::
 
         --key dict(v1=value_1, v2=value_2)
 
-    you can give
+    你可以使用
 
     .. parsed-literal::
 
-        --key:v1 value_1 --key:v2 value_2 
+        --key:v1 value_1 --key:v2 value_2
 
-    to get the same result.
+    来获得同样的结果。
+
 
 一次启动多个实验
 --------------------------------------
 
-You can launch multiple experiments, to be executed **in series**, by simply providing more than one value for a given argument. (An experiment for each possible combination of values will be launched.)
+您可以通过简单地为给定参数提供多个值来启动要 **串联** 执行的多个实验。（将针对每种可能的值组合进行实验。）
 
-For example, to launch otherwise-equivalent runs with different random seeds (0, 10, and 20), do:
+例如，要启动具有不同随机种子（0、10和20）的等效运行，请执行以下操作：
 
 .. parsed-literal::
 
     python -m spinup.run ppo --env Walker2d-v2 --exp_name walker --seed 0 10 20
 
-Experiments don't launch in parallel because they soak up enough resources that executing several at the same time wouldn't get a speedup.
-
+实验无法并行启动，因为它们会占用足够的资源，因此无法同时执行多个实验，因此无法加快速度。
 
 
 特殊标志
 -------------
 
-A few flags receive special treatment.
+一些标志受到特殊对待。
 
 
 环境标志
@@ -128,26 +142,27 @@ A few flags receive special treatment.
 
     *string*. The name of an environment in the OpenAI Gym. All Spinning Up algorithms are implemented as functions that accept ``env_fn`` as an argument, where ``env_fn`` must be a callable function that builds a copy of the RL environment. Since the most common use case is Gym environments, though, all of which are built through ``gym.make(env_name)``, we allow you to just specify ``env_name`` (or ``env`` for short) at the command line, which gets converted to a lambda-function that builds the correct gym environment.
 
+.. _shortcut-flags:
 
 快捷标志
 ^^^^^^^^^^^^^^
 
-Some algorithm arguments are relatively long, and we enabled shortcuts for them: 
+一些算法参数相对较长，我们为它们启用了快捷方式：
 
 .. option:: --hid, --ac_kwargs:hidden_sizes
 
-    *list of ints*. Sets the sizes of the hidden layers in the neural networks (policies and value functions). 
+    *list of ints*. Sets the sizes of the hidden layers in the neural networks (policies and value functions).
 
 .. option:: --act, --ac_kwargs:activation
 
     *tf op*. The activation function for the neural networks in the actor and critic.
 
-These flags are valid for all current Spinning Up algorithms.
+这些标志对于所有当前的Spinning Up算法均有效。
 
 配置标志
 ^^^^^^^^^^^^
 
-These flags are not hyperparameters of any algorithm, but change the experimental configuration in some way.
+这些标志不是任何算法的超参数，而是以某种方式更改实验配置。
 
 .. option:: --cpu, --num_cpu
 
@@ -166,38 +181,44 @@ These flags are not hyperparameters of any algorithm, but change the experimenta
     *bool*. Include date and time in the name for the save directory of the experiment.
 
 
+.. _where-results-are-saved:
+
 保存结果的位置
 -----------------------
 
-Results for a particular experiment (a single run of a configuration of hyperparameters) are stored in
+特定实验的结果（单次运行的超参数配置）存储在
 
 ::
 
     data_dir/[outer_prefix]exp_name[suffix]/[inner_prefix]exp_name[suffix]_s[seed]
 
-where 
+其中
 
-* ``data_dir`` is the value of the ``--data_dir`` flag (defaults to ``DEFAULT_DATA_DIR`` from ``spinup/user_config.py`` if ``--data_dir`` is not given), 
-* the ``outer_prefix`` is a ``YY-MM-DD_`` timestamp if the ``--datestamp`` flag is raised, otherwise nothing,
-* the ``inner_prefix`` is a ``YY-MM-DD_HH-MM-SS-`` timestamp if the ``--datestamp`` flag is raised, otherwise nothing,
-* and ``suffix`` is a special string based on the experiment hyperparameters.
+* ``data_dir`` 是标志 ``--data_dir`` 的值（如果 ``--data_dir`` 没有设置，
+  默认为 ``spinup/user_config.py`` 中的 ``DEFAULT_DATA_DIR``），
+* 如果设置了 ``--datestamp`` 标志， ``outer_prefix`` 是 ``YY-MM-DD_`` 格式的时间戳，否则为空，
+* 如果设置了 ``--datestamp`` 标志，``inner_prefix`` 是 ``YY-MM-DD_HH-MM-SS-`` 格式的时间戳，
+  否则为空，
+* ``suffix`` 是基于实验超参数的特殊字符串。
 
 后缀如何确定？
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Suffixes are only included if you run multiple experiments at once, and they only include references to hyperparameters that differ across experiments, except for random seed. The goal is to make sure that results for similar experiments (ones which share all params except seed) are grouped in the same folder.
+仅当您一次运行多个实验时才包含后缀，并且后缀仅包含对跨实验而不同的超参数的引用，随机种子除外。
+目的是确保相似实验的结果（共享除种子外的所有参数的实验）被分组在同一文件夹中。
 
-Suffixes are constructed by combining *shorthands* for hyperparameters with their values, where a shorthand is either 1) constructed automatically from the hyperparameter name or 2) supplied by the user. The user can supply a shorthand by writing in square brackets after the kwarg flag. 
+后缀是通过将超参数的 **简写** 及其值组合在一起来构造的，其中简写可以是1）根据超参数名称自动构建，也可以是2）用户提供。
+用户可以通过在kwarg标志后的方括号中书写来提供速记。
 
-For example, consider:
+例如，考虑：
 
 .. parsed-literal::
 
     python -m spinup.run ddpg --env Hopper-v2 --hid[h] [300] [128,128] --act tf.nn.tanh tf.nn.relu
 
-Here, the ``--hid`` flag is given a **user-supplied shorthand**, ``h``. The ``--act`` flag is not given a shorthand by the user, so one will be constructed for it automatically.
+在此，``--hid`` 标志具有 **用户提供的简写** ``h``。 用户未提供 ``--act`` 标志的简写，因此将自动为其构造一个标志。
 
-The suffixes produced in this case are:
+在这种情况下产生的后缀是：
 
 .. parsed-literal::
     _h128-128_ac-actrelu
@@ -205,26 +226,29 @@ The suffixes produced in this case are:
     _h300_ac-actrelu
     _h300_ac-acttanh
 
-Note that the ``h`` was given by the user. the ``ac-act`` shorthand was constructed from ``ac_kwargs:activation`` (the true name for the ``act`` flag).
+注意，``h`` 是由用户给定的。``ac-act`` 简写由 ``ac_kwargs:activation``（``act`` 标志的真实名称）构造而成。
 
 
 其他
 -----
 
-.. admonition:: You Don't Actually Need to Know This One
+.. admonition:: 你实际上不需要知道这一点
 
-    Each individual algorithm is located in a file ``spinup/algos/ALGO_NAME/ALGO_NAME.py``, and these files can be run directly from the command line with a limited set of arguments (some of which differ from what's available to ``spinup/run.py``). The command line support in the individual algorithm files is essentially vestigial, however, and this is **not** a recommended way to perform experiments. 
+    每个单独的算法都位于文件 ``spinup/algos/ALGO_NAME/ALGO_NAME.py`` 中，
+    并且这些文件可以使用有限的一组参数直接从命令行运行（其中一些参数与 ``spinup/run.py`` 的可用参数不同）。
+    各个算法文件中的命令行支持基本上是残留的，但是，这 **不是** 执行实验的推荐方法。
 
-    This documentation page will not describe those command line calls, and will *only* describe calls through ``spinup/run.py``. 
+    本文档页面将不描述这些命令行调用，而 *仅* 描述通过 ``spinup/run.py`` 进行的调用。
+
 
 从脚本启动
 ======================
 
-Each algorithm is implemented as a python function, which can be imported directly from the ``spinup`` package, eg
+每种算法都实现为python函数，可以直接从 ``spinup`` 包中导入，例如
 
 >>> from spinup import ppo
 
-See the documentation page for each algorithm for a complete account of possible arguments. These methods can be used to set up specialized custom experiments, for example:
+有关每种算法的完整说明，请参见文档页面。 这些方法可用于建立专门的自定义实验，例如：
 
 .. code-block:: python
 
@@ -244,10 +268,10 @@ See the documentation page for each algorithm for a complete account of possible
 使用ExperimentGrid
 --------------------
 
-It's often useful in machine learning research to run the same algorithm with many possible hyperparameters. Spinning Up ships with a simple tool for facilitating this, called `ExperimentGrid`_. 
+在机器学习研究中运行具有许多可能的超参数的相同算法通常很有用。
+Spinning Up附带了一个用于简化此过程的简单工具，称为 `ExperimentGrid`_。
 
-
-Consider the example in ``spinup/examples/bench_ppo_cartpole.py``:
+考虑 ``spinup/examples/bench_ppo_cartpole.py`` 中的例子：
 
 .. code-block:: python
    :linenos:
@@ -272,24 +296,28 @@ Consider the example in ``spinup/examples/bench_ppo_cartpole.py``:
         eg.add('ac_kwargs:activation', [tf.tanh, tf.nn.relu], '')
         eg.run(ppo, num_cpu=args.cpu)
 
-After making the ExperimentGrid object, parameters are added to it with
+创建了ExperimentGrid对象后，将参数添加到其中
 
 .. parsed-literal::
 
     eg.add(param_name, values, shorthand, in_name)
 
-where ``in_name`` forces a parameter to appear in the experiment name, even if it has the same value across all experiments.
+其中，``in_name`` 会强制参数显示在实验名称中，即使该参数在所有实验中都具有相同的值。
 
-After all parameters have been added,
+添加所有参数后，
 
 .. parsed-literal::
 
     eg.run(thunk, **run_kwargs)
 
-runs all experiments in the grid (one experiment per valid configuration), by providing the configurations as kwargs to the function ``thunk``. ``ExperimentGrid.run`` uses a function named `call_experiment`_ to launch ``thunk``, and ``**run_kwargs`` specify behaviors for ``call_experiment``. See `the documentation page`_ for details.
+通过将配置作为函数 ``thunk`` 的kwarg提供，在网格中运行所有实验（每个有效配置对应一个实验）。
+``ExperimentGrid.run`` 使用名为 `call_experiment`_ 的函数来启动 ``thunk``，
+``**run_kwargs`` 指定 ``call_experiment`` 的行为。有关详细信息，请参见 `文档页面`_。
 
-Except for the absence of shortcut kwargs (you can't use ``hid`` for ``ac_kwargs:hidden_sizes`` in ``ExperimentGrid``), the basic behavior of ``ExperimentGrid`` is the same as running things from the command line. (In fact, ``spinup.run`` uses an ``ExperimentGrid`` under the hood.)
+除了没有快捷键kwargs（在 ``ExperimentGrid`` 中不能对 ``ac_kwargs:hidden_sizes`` 使用 ``hid``）
+之外，``ExperimentGrid`` 的基本行为与从命令行运行事物相同。
+（实际上，``spinup.run`` 在后台使用了 ``ExperimentGrid``。）
 
 .. _`ExperimentGrid`: ../utils/run_utils.html#experimentgrid
-.. _`the documentation page`: ../utils/run_utils.html#experimentgrid
+.. _`文档页面`: ../utils/run_utils.html#experimentgrid
 .. _`call_experiment`: ../utils/run_utils.html#spinup.utils.run_utils.call_experiment

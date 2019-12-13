@@ -2,14 +2,13 @@
 绘制结果
 ================
 
-Spinning Up ships with a simple plotting utility for interpreting results. Run it with:
+Spinning Up附带了一个用于解释结果的简单绘图工具。 使用以下命令运行它：
 
 .. parsed-literal::
 
-    python -m spinup.run plot [path/to/output_directory ...] [--legend [LEGEND ...]] 
+    python -m spinup.run plot [path/to/output_directory ...] [--legend [LEGEND ...]]
         [--xaxis XAXIS] [--value [VALUE ...]] [--count] [--smooth S]
         [--select [SEL ...]] [--exclude [EXC ...]]
-
 
 **位置参数：**
 
@@ -17,7 +16,7 @@ Spinning Up ships with a simple plotting utility for interpreting results. Run i
 
     *strings*. As many log directories (or prefixes to log directories, which the plotter will autocomplete internally) as you'd like to plot from. Logdirs will be searched recursively for experiment outputs.
 
-    .. admonition:: You Should Know
+    .. admonition:: 你应该知道
 
         The internal autocompleting is really handy! Suppose you have run several experiments, with the aim of comparing performance between different algorithms, resulting in a log directory structure of:
 
@@ -58,7 +57,7 @@ Spinning Up ships with a simple plotting utility for interpreting results. Run i
     Optional flag. By default, the plotter shows y-values which are averaged across all results that share an ``exp_name``, which is typically a set of identical experiments that only vary in random seed. But if you'd like to see all of those curves separately, use the ``--count`` flag.
 
 .. option:: -s, --smooth=S, default=1
-    
+
     *int*. Smooth data by averaging it over a fixed window. This parameter says how wide the averaging window will be.
 
 .. option:: --select=[SEL ...]

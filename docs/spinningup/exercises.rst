@@ -1,103 +1,114 @@
 =========
-Exercises
+练习
 =========
 
 
-.. contents:: Table of Contents
+.. contents:: 目录
     :depth: 2
 
-Problem Set 1: Basics of Implementation
+问题集1：基础实现
 ---------------------------------------
 
-.. admonition:: Exercise 1.1: Gaussian Log-Likelihood
+.. admonition:: 练习 1.1：高斯对数似然
 
-    **Path to Exercise.** ``spinup/exercises/problem_set_1/exercise1_1.py``
+    **练习路径** ``spinup/exercises/problem_set_1/exercise1_1.py``
 
-    **Path to Solution.** ``spinup/exercises/problem_set_1_solutions/exercise1_1_soln.py``
+    **解答路径** ``spinup/exercises/problem_set_1_solutions/exercise1_1_soln.py``
 
-    **Instructions.** Write a function which takes in Tensorflow symbols for the means and log stds of a batch of diagonal Gaussian distributions, along with a Tensorflow placeholder for (previously-generated) samples from those distributions, and returns a Tensorflow symbol for computing the log likelihoods of those samples.
+    **指示** 编写一个函数，该函数将Tensorflow符号用于一批对角高斯分布的均值和对数标准，
+    以及一个Tensorflow占位符用于从这些分布中生成（先前生成的）样本，
+    并返回一个Tensorflow符号以计算那些样品的对数似然。
 
-    You may find it useful to review the formula given in `this section of the RL introduction`_.
+    你可能会发现复习 `强化学习简介`_ 部分中给出的公式很有用。
 
-    Implement your solution in ``exercise1_1.py``, and run that file to automatically check your work.
+    在 ``exercise1_1.py`` 中完成你的实现，并运行该文件以自动检查你的工作。
 
-    **Evaluation Criteria.** Your solution will be checked by comparing outputs against a known-good implementation, using a batch of random inputs.
+    **评价标准** 通过使用一批随机输入将输出与已知良好的实现进行比较，来检查你的解决方案。
 
-.. _`this section of the RL introduction`: ../spinningup/rl_intro.html#stochastic-policies
-
-
-.. admonition:: Exercise 1.2: Policy for PPO
-
-    **Path to Exercise.** ``spinup/exercises/problem_set_1/exercise1_2.py``
-
-    **Path to Solution.** ``spinup/exercises/problem_set_1_solutions/exercise1_2_soln.py``
-
-    **Instructions.** Implement an MLP diagonal Gaussian policy for PPO. 
-
-    Implement your solution in ``exercise1_2.py``, and run that file to automatically check your work. 
-
-    **Evaluation Criteria.** Your solution will be evaluated by running for 20 epochs in the InvertedPendulum-v2 Gym environment, and this should take in the ballpark of 3-5 minutes (depending on your machine, and other processes you are running in the background). The bar for success is reaching an average score of over 500 in the last 5 epochs, or getting to a score of 1000 (the maximum possible score) in the last 5 epochs.
+.. _`强化学习简介`: ../spinningup/rl_intro.html#stochastic-policies
 
 
-.. admonition:: Exercise 1.3: Computation Graph for TD3
+.. admonition:: 练习 1.2：PPO的策略
 
-    **Path to Exercise.** ``spinup/exercises/problem_set_1/exercise1_3.py``
+    **练习路径** ``spinup/exercises/problem_set_1/exercise1_2.py``
 
-    **Path to Solution.** ``spinup/algos/td3/td3.py``
+    **解答路径** ``spinup/exercises/problem_set_1_solutions/exercise1_2_soln.py``
 
-    **Instructions.** Implement the core computation graph for the TD3 algorithm.
+    **指示** 为PPO实现MLP对角高斯策略。
 
-    As starter code, you are given the entirety of the TD3 algorithm except for the computation graph. Find "YOUR CODE HERE" to begin. 
+    在 ``exercise1_2.py`` 中实现你的解决方案，然后运行该文件以自动检查你的工作。
 
-    You may find it useful to review the pseudocode in our `page on TD3`_.
+    **评价标准** 你的解决方案将通过在InvertedPendulum-v2 Gym环境中运行20个轮次来进行评估，
+    这将花费3-5分钟的时间（取决于你的计算机以及在后台运行的其他进程）。
+    成功的标准是最近5个轮次的平均分数超过500，或者最近5个轮次的达到1000（最大可能分数）。
 
-    Implement your solution in ``exercise1_3.py``, and run that file to see the results of your work. There is no automatic checking for this exercise.
+.. admonition:: 练习 1.3：TD3的计算图
 
-    **Evaluation Criteria.** Evaluate your code by running ``exercise1_3.py`` with HalfCheetah-v2, InvertedPendulum-v2, and one other Gym MuJoCo environment of your choosing (set via the ``--env`` flag). It is set up to use smaller neural networks (hidden sizes [128,128]) than typical for TD3, with a maximum episode length of 150, and to run for only 10 epochs. The goal is to see significant learning progress relatively quickly (in terms of wall clock time). Experiments will likely take on the order of ~10 minutes. 
+    **练习路径** ``spinup/exercises/problem_set_1/exercise1_3.py``
 
-    Use the ``--use_soln`` flag to run Spinning Up's TD3 instead of your implementation. Anecdotally, within 10 epochs, the score in HalfCheetah should go over 300, and the score in InvertedPendulum should max out at 150.
+    **解答路径** ``spinup/algos/td3/td3.py``
 
-.. _`page on TD3`: ../algorithms/td3.html
+    **指示** 实现TD3算法的核心计算图。
+
+    作为入门代码，除了计算图外，我们还提供了完整的TD3算法。找到“YOUR CODE HERE”并开始。
+
+    你可能会发现在 `TD3的页面`_ 中查看伪代码很有用。
+
+    在 ``exercise1_3.py`` 中实现你的解决方案，然后运行该文件以查看工作结果。此练习没有自动检查。
+
+    **评价标准** 通过使用HalfCheetah-v2，InvertedPendulum-v2和其他所选的Gym MuJoCo环境
+    （通过 ``--env`` 标志设置）运行 ``exercise1_3.py`` 来评估代码。
+    它被设置为使用比TD3典型的较小的神经网络（隐藏的大小为[128,128]），最大剧集长度为150，并且仅运行10个轮次。
+    目标是要看到相对较快的学习进度（就挂钟时间而言）。实验可能需要约10分钟的时间。
+
+    使用 ``--use_soln`` 标志来运行Spinning Up的TD3，而不是你的实现。
+    有趣的是，在10个轮次内，HalfCheetah中的得分应超过300，而InvertedPendulum中的得分应达到150。
+
+.. _`TD3的页面`: ../algorithms/td3.html
 
 
-Problem Set 2: Algorithm Failure Modes
+问题集2：算法失败模型
 --------------------------------------
 
-.. admonition:: Exercise 2.1: Value Function Fitting in TRPO
+.. admonition:: 练习 2.1：值函数在TRPO中的拟合
 
-    **Path to Exercise.** (Not applicable, there is no code for this one.)
+    **练习路径** （不适用，没有代码。）
 
-    **Path to Solution.** `Solution available here. <../spinningup/exercise2_1_soln.html>`_
+    **解答路径** `解答在这里 <../spinningup/exercise2_1_soln.html>`_
 
-    Many factors can impact the performance of policy gradient algorithms, but few more drastically than the quality of the learned value function used for advantage estimation. 
+    许多因素会影响策略梯度算法的性能，但远不及用于优势估计的学习值函数的质量严重。
 
-    In this exercise, you will compare results between runs of TRPO where you put lots of effort into fitting the value function (``train_v_iters=80``), versus where you put very little effort into fitting the value function (``train_v_iters=0``). 
+    在本练习中，你将比较TRPO运行之间的结果，投入了大量精力来拟合值函数（``train_v_iters=80``）
+    对比投入很少的精力来拟合值函数（``train_v_iters=0``）。
 
-    **Instructions.** Run the following command:
+    **指示** 运行以下命令：
 
     .. parsed-literal::
 
         python -m spinup.run trpo --env Hopper-v2 --train_v_iters[v] 0 80 --exp_name ex2-1 --epochs 250 --steps_per_epoch 4000 --seed 0 10 20 --dt
 
-    and plot the results. (These experiments might take ~10 minutes each, and this command runs six of them.) What do you find?
+    并绘制结果。（这些实验每个可能需要10分钟左右的时间，而此命令将运行其中的6个。）你发现了什么？
 
-.. admonition:: Exercise 2.2: Silent Bug in DDPG
+.. admonition:: 练习 2.2：DDPG中的静默错误
 
-    **Path to Exercise.** ``spinup/exercises/problem_set_2/exercise2_2.py``
+    **练习路径** ``spinup/exercises/problem_set_2/exercise2_2.py``
 
-    **Path to Solution.** `Solution available here. <../spinningup/exercise2_2_soln.html>`_
+    **解答路径** `解答在这里 <../spinningup/exercise2_2_soln.html>`_
 
-    The hardest part of writing RL code is dealing with bugs, because failures are frequently silent. The code will appear to run correctly, but the agent's performance will degrade relative to a bug-free implementation---sometimes to the extent that it never learns anything.
+    编写强化学习代码最困难的部分是处理错误，因为故障通常是静默的。
+    该代码似乎可以正确运行，但是与无错误的实现相比，该代理的性能将降低，有时甚至永远无法学习任何内容。
 
-    In this exercise, you will observe a bug in vivo and compare results against correct code.
+    在本练习中，你将观察到一个体内的错误，并将结果与正确的代码进行比较。
 
-    **Instructions.** Run ``exercise2_2.py``, which will launch DDPG experiments with and without a bug. The non-bugged version runs the default Spinning Up implementation of DDPG, using a default method for creating the actor and critic networks. The bugged version runs the same DDPG code, except uses a bugged method for creating the networks.
+    **指示** 运行 ``exercise2_2.py``，这将启动带或不带错误的DDPG实验。
+    非调试版本运行DDPG的默认Spinning Up实现，并使用默认方法来创建参与者和评论者网络。
+    除了使用错误的方法创建网络之外，错误的版本运行相同的DDPG代码。
 
-    There will be six experiments in all (three random seeds for each case), and each should take in the ballpark of 10 minutes. When they're finished, plot the results. What is the difference in performance with and without the bug? 
+    总共将进行六个实验（每种情况下三个随机种子），每个实验都需要10分钟。 完成后，绘制结果。有无bug的性能有何区别？
 
-    Without referencing the correct actor-critic code (which is to say---don't look in DDPG's ``core.py`` file), try to figure out what the bug is and explain how it breaks things.
+    在没有引用正确的actor-critic代码的情况下（也就是说，不要在DDPG的 ``core.py`` 文件中查找），请尝试找出错误所在并解释它是如何破坏的。
 
-    **Hint.** To figure out what's going wrong, think about how the DDPG code implements the DDPG computation graph. Specifically, look at this excerpt:
+    **提示** 要找出问题所在，请考虑DDPG代码如何实现DDPG计算图。具体来说，请看以下片段：
 
     .. code-block:: python
 
@@ -108,21 +119,21 @@ Problem Set 2: Algorithm Failure Modes
         pi_loss = -tf.reduce_mean(q_pi)
         q_loss = tf.reduce_mean((q-backup)**2)
 
-    How could a bug in the actor-critic code have an impact here?
+    actor-critic 代码中的错误如何在这里产生影响？
 
-    **Bonus.** Are there any choices of hyperparameters which would have hidden the effects of the bug? 
+    **奖励** 是否有任何超参数选择会隐藏该错误的影响？
 
 
-Challenges
+挑战
 ----------
 
-.. admonition:: Write Code from Scratch
+.. admonition:: 从头开始编写代码
 
-    As we suggest in `the essay <../spinningup/spinningup.html#learn-by-doing>`_, try reimplementing various deep RL algorithms from scratch. 
+    正如我们在 `文章 <../spinningup/spinningup.html#learn-by-doing>`_ 中建议的那样，请尝试从头开始重新实现各种深度RL算法。
 
-.. admonition:: Requests for Research
+.. admonition:: 研究要求
 
-    If you feel comfortable with writing deep learning and deep RL code, consider trying to make progress on any of OpenAI's standing requests for research:
+    如果你对编写深度学习和强化学习代码深感满意，请考虑尝试在OpenAI的任何常规研究要求上取得进展：
 
-    * `Requests for Research 1 <https://openai.com/requests-for-research/>`_
-    * `Requests for Research 2 <https://blog.openai.com/requests-for-research-2/>`_
+    * `研究要求 1 <https://openai.com/requests-for-research/>`_
+    * `研究要求 2 <https://blog.openai.com/requests-for-research-2/>`_

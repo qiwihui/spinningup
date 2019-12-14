@@ -21,6 +21,8 @@ The Right Background
 
 **Get comfortable with the main concepts and terminology in RL.** Know what states, actions, trajectories, policies, rewards, value functions, and action-value functions are. If you're unfamiliar, Spinning Up ships with `an introduction`_ to this material; it's also worth checking out the `RL-Intro`_ from the OpenAI Hackathon, or the exceptional and thorough `overview by Lilian Weng`_. Optionally, if you’re the sort of person who enjoys mathematical theory, study up on the math of `monotonic improvement theory`_ (which forms the basis for advanced policy gradient algorithms), or `classical RL algorithms`_ (which despite being superseded by deep RL algorithms, contain valuable insights that sometimes drive new research).  
 
+.. _learn-by-doing:
+
 Learn by Doing
 ==============
 

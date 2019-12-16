@@ -1,0 +1,529 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>第二部分：强化学习算法 &mdash; Spinning Up  documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/openai_icon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/modify.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="第三部分：策略优化介绍" href="rl_intro3.html" />
+    <link rel="prev" title="第一部分：强化学习中的核心概念" href="rl_intro.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/spinning-up-logo2.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">用户文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user/introduction.html">介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/algorithms.html">算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/running.html">运行试验</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/saving_and_loading.html">试验输出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/plotting.html">绘制结果</a></li>
+</ul>
+<p class="caption"><span class="caption-text">强化学习介绍</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="rl_intro.html">第一部分：强化学习中的核心概念</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">第二部分：强化学习算法</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id3">强化学习算法分类</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#model-free-vs-model-based">免模型强化学习（Model-Free） vs 有模型强化学习（Model-Based）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">要学习什么</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id5">免模型强化学习中要学习什么</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">有模型强化学习要学习什么</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id14">分类中提到的算法链接</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="rl_intro3.html">第三部分：策略优化介绍</a></li>
+</ul>
+<p class="caption"><span class="caption-text">资源</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="spinningup.html">Spinning Up as a Deep RL Researcher</a></li>
+<li class="toctree-l1"><a class="reference internal" href="keypapers.html">深度强化学习的核心论文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exercises.html">练习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bench.html">Spinning Up 算法实现的基准</a></li>
+</ul>
+<p class="caption"><span class="caption-text">算法文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/vpg.html">Vanilla Policy Gradient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/trpo.html">Trust Region Policy Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/ppo.html">Proximal Policy Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/ddpg.html">Deep Deterministic Policy Gradient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/td3.html">Twin Delayed DDPG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/sac.html">Soft Actor-Critic</a></li>
+</ul>
+<p class="caption"><span class="caption-text">工具文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../utils/logger.html">日志记录</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/plotter.html">绘图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/mpi.html">MPI工具</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/run_utils.html">运行工具</a></li>
+</ul>
+<p class="caption"><span class="caption-text">其他</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../etc/acknowledgements.html">致谢</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../etc/author.html">关于作者</a></li>
+</ul>
+
+            
+          
+<style>
+.adsbygoogle-style {
+  background-color: #404452;
+  margin-top: 20px;
+}
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- square-ad -->
+<ins class="adsbygoogle adsbygoogle-style"
+     style="display:block"
+     data-ad-client="ca-pub-8935595858652656"
+     data-ad-slot="2636787302"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spinning Up</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>第二部分：强化学习算法</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/spinningup/rl_intro2.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1><a class="toc-backref" href="#id32">第二部分：强化学习算法</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">目录</p>
+<ul class="simple">
+<li><a class="reference internal" href="#id1" id="id32">第二部分：强化学习算法</a><ul>
+<li><a class="reference internal" href="#id3" id="id33">强化学习算法分类</a></li>
+<li><a class="reference internal" href="#id14" id="id34">分类中提到的算法链接</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>我们已经介绍了强化学习的基础术语和符号，现在可以讨论一些更丰富的内容：
+现代强化学习中算法的整体发展和算法设计时候要考虑的各种因素之间的权衡。</p>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id33">强化学习算法分类</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center" id="id31">
+<img alt="../_images/rl_algorithms_9_15.svg" src="../_images/rl_algorithms_9_15.svg" /><p class="caption"><span class="caption-text">一个不是很详细但是十分有用的现代强化学习算法分类。<a class="reference internal" href="#id15">参见底部链接</a>。</span></p>
+</div>
+<p>要先声明的是：很难准确全面的把所有现代强化学习算法都列举出来，因为这些内容本身不适合用树形结构展示。
+同时，把这么多内容放在一篇文章里，还要便于理解，必须省略掉一些更加前沿的内容，
+例如探索（exploration），迁移学习（transfer learning），元学习（meta learning）等。
+这篇文章的目标是：</p>
+<ul class="simple">
+<li>只强调深度强化学习中关于学习什么以及如何学习的最基本的设计选择，</li>
+<li>揭示这些选择中的利弊权衡，</li>
+<li>把其中部分优秀的现代算法介绍给大家。</li>
+</ul>
+<div class="section" id="model-free-vs-model-based">
+<h3>免模型强化学习（Model-Free） vs 有模型强化学习（Model-Based）<a class="headerlink" href="#model-free-vs-model-based" title="Permalink to this headline">¶</a></h3>
+<p>不同强化学习算法最重要的区分点之一就是 <strong>智能体是否能完整了解（或学习）到所在环境的模型</strong>。
+环境的模型是指一个预测状态转换和奖励的函数。</p>
+<p>有模型学习最大的优势在于 <strong>允许智能体</strong> 提前考虑来进行 <strong>规划</strong>，
+走到每一步的时候，都提前尝试未来可能的选择，然后明确地从这些候选项中进行选择。
+智能体可以把预先规划的结果提取为学习策略。这其中最著名的例子就是 <a class="reference external" href="https://arxiv.org/abs/1712.01815">AlphaZero</a>。
+相对于那些没有模型的方法，这个方法起作用的时候，可以大幅度提升采样效率。</p>
+<p>有模型学习最大的缺点就是 <strong>智能体往往不能获得环境的真实模型</strong>。
+如果智能体想在一个场景下使用模型，那它必须完全从经验中学习，这会带来很多挑战。
+最大的挑战就是，智能体探索出来的模型和真实模型之间存在偏差，
+而这种偏差会导致智能体在学习到的模型中表现很好，但在真实的环境中表现得不好（甚至很差）。
+模型学习从根本上讲是非常困难的，即使你愿意花费大量的时间和计算力，最终的结果也可能达不到预期的效果。</p>
+<p>使用模型的算法叫做 <strong>有模型</strong> 学习，不基于模型的叫做 <strong>免模型</strong> 学习。
+虽然免模型学习放弃了有模型学习在样本效率方面的潜在收益，但是他们往往更加易于实现和调整。
+截止到目前（2018年9月），相对于有模型学习，免模型学习方法更受欢迎，得到更加广泛的开发和测试。</p>
+</div>
+<div class="section" id="id4">
+<h3>要学习什么<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>强化学习算法另一个重要的区分点是 <strong>要学习什么</strong>。常提到的主题包括：</p>
+<ul class="simple">
+<li>策略，不管是随机的还是确定性的，</li>
+<li>动作值函数（Q 函数），</li>
+<li>值函数，</li>
+<li>以及/或者环境模型。</li>
+</ul>
+<div class="section" id="id5">
+<h4>免模型强化学习中要学习什么<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<p>有两种用来表示和训练免模型强化学习的主要方式：</p>
+<p><strong>策略优化</strong>：这个系列的方法将策略显示表示为 <span class="math">\pi_{\theta}(a|s)</span>。
+它们直接对性能目标 <span class="math">J(\pi_{\theta})</span> 进行梯度下降来优化参数 <span class="math">\theta</span>，
+或者间接地，通过最大化性能目标 <span class="math">J(\pi_{\theta})</span> 的局部近似来优化。
+优化基本都是基于 <strong>同轨策略</strong> 的，也就是说每一步更新只会用最新的策略执行时采集到的数据。
+策略优化通常还包括学习同轨值函数 <span class="math">V^{\pi}(s)</span> 的近似器 <span class="math">V_{\phi}(s)</span>，
+该近似器用于确定如何更新策略。</p>
+<p>基于策略优化的方法举例：</p>
+<ul class="simple">
+<li><a class="reference external" href="https://arxiv.org/abs/1602.01783">A2C / A3C</a>，通过梯度下降直接最大化性能，</li>
+<li>and <a class="reference external" href="https://arxiv.org/abs/1707.06347">PPO</a>，不直接通过最大化性能更新，而是最大化 <strong>替代目标</strong> 函数，
+该函数可以保守地估计更新后 <span class="math">J(\pi_{\theta})</span> 将发生多少变化。</li>
+</ul>
+<p><strong>Q-Learning</strong>：这个系列的算法学习最优动作值函数 <span class="math">Q^*(s,a)</span> 的近似函数 <span class="math">Q_{\theta}(s,a)</span>。
+它们通常使用基于 <a class="reference external" href="../spinningup/rl_intro.html#bellman-equations">贝尔曼方程</a> 的目标函数。优化过程属于 <strong>异轨策略</strong>，
+这意味着每次更新可以使用任意时间点的训练数据，不管获取数据时智能体选择如何探索环境。
+对应的策略是通过 <span class="math">Q^*</span> 和 <span class="math">\pi^*</span> 之间的联系得到的：Q-learning 智能体的动作由下面的式子给出：</p>
+<div class="math">
+<p><span class="math">a(s) = \arg \max_a Q_{\theta}(s,a).</span></p>
+</div><p>基于 Q-Learning 的方法举例：</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf">DQN</a>，一个让深度强化学习得到起步的经典方法，</li>
+<li>以及 <a class="reference external" href="https://arxiv.org/abs/1707.06887">C51</a>，学习关于回报的分布函数的变种，其期望是 <span class="math">Q^*</span>。</li>
+</ul>
+<p><strong>策略优化和 Q-Learning 的权衡</strong>：策略优化的主要优势在于这类方法是合理的，
+某种意义上讲，<em>你在直接在优化你想要的东西</em>。这倾向于使它们稳定和可靠。
+与此相反，Q-learning 方法通过训练 <span class="math">Q_{\theta}</span> 以满足自洽方程，<em>间接地</em> 优化智能体的表现。
+这种方法有很多失败的模型，所以相对来说稳定性较差。<a class="footnote-reference" href="#id7" id="id6">[1]</a>
+但是，Q-learning 有效的时候能获得更好的采样效率，因为它们能够比策略优化更加有效地重用数据。</p>
+<p><strong>策略优化和 Q-learning 的融合</strong> 意外的是，策略优化和 Q-learning 并不是不能兼容的（在某些场景下，它们两者是 <a class="reference external" href="https://arxiv.org/abs/1704.06440">等价的</a>），
+并且存在很多介于这两种极端之间的算法。这个范围的算法能够很好的平衡好两者之间的优点和缺点，比如说：</p>
+<ul class="simple">
+<li><a class="reference external" href="https://arxiv.org/abs/1509.02971">DDPG</a>，是一种使用一方提高另一方的，同时学习确定性策略和 Q 函数的算法，</li>
+<li>以及 <a class="reference external" href="https://arxiv.org/abs/1801.01290">SAC</a>，是一种变体，它使用随机策略、熵正则化和一些其它技巧来稳定学习，同时在标准基准上获得比 DDPG 更高的分数。</li>
+</ul>
+<table class="docutils footnote" frame="void" id="id7" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6">[1]</a></td><td>关于更多 Q-learning 可能会表现不好的情况，参见：1) 经典论文 <a class="reference external" href="http://web.mit.edu/jnt/www/Papers/J063-97-bvr-td.pdf">Tsitsiklis and van Roy</a>，
+2) 最近的文章 <a class="reference external" href="https://sites.ualberta.ca/~szepesva/papers/RLAlgsInMDPs.pdf">review by Szepesvari</a> （在 4.3.2 节），3) <a href="#id8"><span class="problematic" id="id9">`</span></a>Sutton and Barto`_的第11章节，
+尤其是 11.3（函数近似，自举和异轨数据的“致命三要素”，共同导致值学习算法的不稳定）。</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="id12">
+<h3>有模型强化学习要学习什么<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>不同于免模型学习，有模型强化学习方法不是很好分类：很多方法之间都会有交叉。
+我们会给出一些例子，当然肯定不够详尽，覆盖不到全部。在这些例子里面，模型要么已知，要么是可学习的。</p>
+<p><strong>背景：纯规划</strong> 这种最基础的方法，从来 <em>不</em> 显式地表示策略，而是单纯使用规划技术来选择动作，例如 <a class="reference external" href="https://en.wikipedia.org/wiki/Model_predictive_control">模型预测控制</a> (MPC)。</p>
+<p>在模型预测控制中，智能体每次观察环境的时候，都会计算得到一个对于当前模型最优的规划，
+这里的规划指的是未来一个固定时间段内，智能体会采取的所有行动（通过学习值函数，规划算法可能会考虑到超出范围的未来奖励）。
+智能体然后执行规划的第一个行动，然后立即舍弃规划的剩余部分。
+每次准备和环境进行互动时，它会计算出一个新的规划，从而避免执行规划范围短于预期范围的规划给出的行动。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://sites.google.com/view/mbmf">MBMF</a> 在一些深度强化学习的标准基准任务上，基于学习到的环境模型进行模型预测控制。</li>
+</ul>
+<p><strong>专家迭代</strong> 纯规划的后来之作，使用和学习策略的显式表示形式：<span class="math">\pi_{\theta}(a|s)</span>。
+智能体在模型中应用了一种规划算法，类似蒙特卡洛树搜索(Monte Carlo Tree Search)，通过对当前策略进行采样生成规划的候选动作。
+这种算法得到的动作比策略本身生成的要好，所以相对于策略来说，它是“专家”。随后策略更新以产生更类似于规划算法输出的动作。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://arxiv.org/abs/1705.08439">ExIt</a> 算法用这种方法训练深度神经网络来玩 Hex。</li>
+<li><a class="reference external" href="https://arxiv.org/abs/1712.01815">AlphaZero</a> 是这种方法的另一个例子。</li>
+</ul>
+<p><strong>免模型方法的数据增强</strong> 使用免模型算法来训练策略或者 Q 函数，
+要么 1）更新智能体的时候，用构造出的数据来增强真实经验，2）更新的时候 <em>仅</em> 使用构造的假经验。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://arxiv.org/abs/1803.00101">MBVE</a> 用构造出的数据来增强真实经验。</li>
+<li><a class="reference external" href="https://worldmodels.github.io/">World Models</a> 全部用假数据来训练智能体，所以被称为：“在梦里训练”。</li>
+</ul>
+<p><strong>将规划循环嵌入到策略中</strong> 另一种方法直接把规划程序作为策略的子程序，这样在基于任何免模型算法训练策略输出的时候，整个规划就变成了策略的附属信息。
+这个框架最核心的概念就是，策略可以学习到如何以及何时使用规划。
+这使得模型偏差不再是问题，因为如果模型在某些状态下不利于规划，那么策略可以简单地学会忽略它。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://arxiv.org/abs/1707.06203">I2A</a> 智能体被赋予这种形式的想象的例子。</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id14">
+<h2><a class="toc-backref" href="#id34">分类中提到的算法链接</a><a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="id15"></span><table class="docutils footnote" frame="void" id="id16" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td><a class="reference external" href="https://arxiv.org/abs/1602.01783">A2C / A3C</a> (Asynchronous Advantage Actor-Critic): Mnih et al, 2016</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id17" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[3]</td><td><a class="reference external" href="https://arxiv.org/abs/1707.06347">PPO</a> (Proximal Policy Optimization): Schulman et al, 2017</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id18" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[4]</td><td><a class="reference external" href="https://arxiv.org/abs/1502.05477">TRPO</a> (Trust Region Policy Optimization): Schulman et al, 2015</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id19" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[5]</td><td><a class="reference external" href="https://arxiv.org/abs/1509.02971">DDPG</a> (Deep Deterministic Policy Gradient): Lillicrap et al, 2015</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id20" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[6]</td><td><a class="reference external" href="https://arxiv.org/abs/1802.09477">TD3</a> (Twin Delayed DDPG): Fujimoto et al, 2018</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id21" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[7]</td><td><a class="reference external" href="https://arxiv.org/abs/1801.01290">SAC</a> (Soft Actor-Critic): Haarnoja et al, 2018</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id22" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[8]</td><td><a class="reference external" href="https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf">DQN</a> (Deep Q-Networks): Mnih et al, 2013</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id23" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[9]</td><td><a class="reference external" href="https://arxiv.org/abs/1707.06887">C51</a> (Categorical 51-Atom DQN): Bellemare et al, 2017</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id24" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[10]</td><td><a class="reference external" href="https://arxiv.org/abs/1710.10044">QR-DQN</a> (Quantile Regression DQN): Dabney et al, 2017</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id25" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[11]</td><td><a class="reference external" href="https://arxiv.org/abs/1707.01495">HER</a> (Hindsight Experience Replay): Andrychowicz et al, 2017</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id26" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[12]</td><td><a class="reference external" href="https://worldmodels.github.io/">World Models</a>: Ha and Schmidhuber, 2018</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id27" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[13]</td><td><a class="reference external" href="https://arxiv.org/abs/1707.06203">I2A</a> (Imagination-Augmented Agents): Weber et al, 2017</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id28" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[14]</td><td><a class="reference external" href="https://sites.google.com/view/mbmf">MBMF</a> (Model-Based RL with Model-Free Fine-Tuning): Nagabandi et al, 2017</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id29" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[15]</td><td><a class="reference external" href="https://arxiv.org/abs/1803.00101">MBVE</a> (Model-Based Value Expansion): Feinberg et al, 2018</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id30" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[16]</td><td><a class="reference external" href="https://arxiv.org/abs/1712.01815">AlphaZero</a>: Silver et al, 2017</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="rl_intro3.html" class="btn btn-neutral float-right" title="第三部分：策略优化介绍" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="rl_intro.html" class="btn btn-neutral" title="第一部分：强化学习中的核心概念" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, OpenAI.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-46660488-7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-46660488-7');
+</script>
+
+
+
+</body>
+</html>

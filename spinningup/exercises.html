@@ -1,0 +1,402 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>练习 &mdash; Spinning Up  documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/openai_icon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/modify.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Spinning Up 算法实现的基准" href="bench.html" />
+    <link rel="prev" title="深度强化学习的核心论文" href="keypapers.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/spinning-up-logo2.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">用户文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user/introduction.html">介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/algorithms.html">算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/running.html">运行试验</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/saving_and_loading.html">试验输出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/plotting.html">绘制结果</a></li>
+</ul>
+<p class="caption"><span class="caption-text">强化学习介绍</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="rl_intro.html">第一部分：强化学习中的核心概念</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rl_intro2.html">第二部分：强化学习算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rl_intro3.html">第三部分：策略优化介绍</a></li>
+</ul>
+<p class="caption"><span class="caption-text">资源</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="spinningup.html">Spinning Up as a Deep RL Researcher</a></li>
+<li class="toctree-l1"><a class="reference internal" href="keypapers.html">深度强化学习的核心论文</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">练习</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id3">问题集1：基础实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">问题集2：算法失败模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">挑战</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bench.html">Spinning Up 算法实现的基准</a></li>
+</ul>
+<p class="caption"><span class="caption-text">算法文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/vpg.html">Vanilla Policy Gradient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/trpo.html">Trust Region Policy Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/ppo.html">Proximal Policy Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/ddpg.html">Deep Deterministic Policy Gradient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/td3.html">Twin Delayed DDPG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/sac.html">Soft Actor-Critic</a></li>
+</ul>
+<p class="caption"><span class="caption-text">工具文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../utils/logger.html">日志记录</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/plotter.html">绘图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/mpi.html">MPI工具</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/run_utils.html">运行工具</a></li>
+</ul>
+<p class="caption"><span class="caption-text">其他</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../etc/acknowledgements.html">致谢</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../etc/author.html">关于作者</a></li>
+</ul>
+
+            
+          
+<style>
+.adsbygoogle-style {
+  background-color: #404452;
+  margin-top: 20px;
+}
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- square-ad -->
+<ins class="adsbygoogle adsbygoogle-style"
+     style="display:block"
+     data-ad-client="ca-pub-8935595858652656"
+     data-ad-slot="2636787302"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spinning Up</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>练习</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/spinningup/exercises.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1><a class="toc-backref" href="#id12">练习</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">目录</p>
+<ul class="simple">
+<li><a class="reference internal" href="#id1" id="id12">练习</a><ul>
+<li><a class="reference internal" href="#id3" id="id13">问题集1：基础实现</a></li>
+<li><a class="reference internal" href="#id5" id="id14">问题集2：算法失败模型</a></li>
+<li><a class="reference internal" href="#id8" id="id15">挑战</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id13">问题集1：基础实现</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="admonition- admonition">
+<p class="first admonition-title">练习 1.1：高斯对数似然</p>
+<p><strong>练习路径</strong> <code class="docutils literal"><span class="pre">spinup/exercises/problem_set_1/exercise1_1.py</span></code></p>
+<p><strong>解答路径</strong> <code class="docutils literal"><span class="pre">spinup/exercises/problem_set_1_solutions/exercise1_1_soln.py</span></code></p>
+<p><strong>指示</strong> 编写一个函数，该函数将Tensorflow符号用于一批对角高斯分布的均值和对数标准，
+以及一个Tensorflow占位符用于从这些分布中生成（先前生成的）样本，
+并返回一个Tensorflow符号以计算那些样品的对数似然。</p>
+<p>你可能会发现复习 <a class="reference external" href="../spinningup/rl_intro.html#stochastic-policies">强化学习简介</a> 部分中给出的公式很有用。</p>
+<p>在 <code class="docutils literal"><span class="pre">exercise1_1.py</span></code> 中完成你的实现，并运行该文件以自动检查你的工作。</p>
+<p class="last"><strong>评价标准</strong> 通过使用一批随机输入将输出与已知良好的实现进行比较，来检查你的解决方案。</p>
+</div>
+<div class="admonition-ppo admonition">
+<p class="first admonition-title">练习 1.2：PPO的策略</p>
+<p><strong>练习路径</strong> <code class="docutils literal"><span class="pre">spinup/exercises/problem_set_1/exercise1_2.py</span></code></p>
+<p><strong>解答路径</strong> <code class="docutils literal"><span class="pre">spinup/exercises/problem_set_1_solutions/exercise1_2_soln.py</span></code></p>
+<p><strong>指示</strong> 为PPO实现MLP对角高斯策略。</p>
+<p>在 <code class="docutils literal"><span class="pre">exercise1_2.py</span></code> 中实现你的解决方案，然后运行该文件以自动检查你的工作。</p>
+<p class="last"><strong>评价标准</strong> 你的解决方案将通过在InvertedPendulum-v2 Gym环境中运行20个轮次来进行评估，
+这将花费3-5分钟的时间（取决于你的计算机以及在后台运行的其他进程）。
+成功的标准是最近5个轮次的平均分数超过500，或者最近5个轮次的达到1000（最大可能分数）。</p>
+</div>
+<div class="admonition-td3 admonition">
+<p class="first admonition-title">练习 1.3：TD3的计算图</p>
+<p><strong>练习路径</strong> <code class="docutils literal"><span class="pre">spinup/exercises/problem_set_1/exercise1_3.py</span></code></p>
+<p><strong>解答路径</strong> <code class="docutils literal"><span class="pre">spinup/algos/td3/td3.py</span></code></p>
+<p><strong>指示</strong> 实现TD3算法的核心计算图。</p>
+<p>作为入门代码，除了计算图外，我们还提供了完整的TD3算法。找到“YOUR CODE HERE”并开始。</p>
+<p>你可能会发现在 <a class="reference external" href="../algorithms/td3.html">TD3的页面</a> 中查看伪代码很有用。</p>
+<p>在 <code class="docutils literal"><span class="pre">exercise1_3.py</span></code> 中实现你的解决方案，然后运行该文件以查看工作结果。此练习没有自动检查。</p>
+<p><strong>评价标准</strong> 通过使用HalfCheetah-v2，InvertedPendulum-v2和其他所选的Gym MuJoCo环境
+（通过 <code class="docutils literal"><span class="pre">--env</span></code> 标志设置）运行 <code class="docutils literal"><span class="pre">exercise1_3.py</span></code> 来评估代码。
+它被设置为使用比TD3典型的较小的神经网络（隐藏的大小为[128,128]），最大剧集长度为150，并且仅运行10个轮次。
+目标是要看到相对较快的学习进度（就挂钟时间而言）。实验可能需要约10分钟的时间。</p>
+<p class="last">使用 <code class="docutils literal"><span class="pre">--use_soln</span></code> 标志来运行Spinning Up的TD3，而不是你的实现。
+有趣的是，在10个轮次内，HalfCheetah中的得分应超过300，而InvertedPendulum中的得分应达到150。</p>
+</div>
+</div>
+<div class="section" id="id5">
+<h2><a class="toc-backref" href="#id14">问题集2：算法失败模型</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-trpo admonition">
+<p class="first admonition-title">练习 2.1：值函数在TRPO中的拟合</p>
+<p><strong>练习路径</strong> （不适用，没有代码。）</p>
+<p><strong>解答路径</strong> <a class="reference external" href="../spinningup/exercise2_1_soln.html">解答在这里</a></p>
+<p>许多因素会影响策略梯度算法的性能，但远不及用于优势估计的学习值函数的质量严重。</p>
+<p>在本练习中，你将比较TRPO运行之间的结果，投入了大量精力来拟合值函数（<code class="docutils literal"><span class="pre">train_v_iters=80</span></code>）
+对比投入很少的精力来拟合值函数（<code class="docutils literal"><span class="pre">train_v_iters=0</span></code>）。</p>
+<p><strong>指示</strong> 运行以下命令：</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">spinup</span><span class="o">.</span><span class="n">run</span> <span class="n">trpo</span> <span class="o">--</span><span class="n">env</span> <span class="n">Hopper</span><span class="o">-</span><span class="n">v2</span> <span class="o">--</span><span class="n">train_v_iters</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="mi">0</span> <span class="mi">80</span> <span class="o">--</span><span class="n">exp_name</span> <span class="n">ex2</span><span class="o">-</span><span class="mi">1</span> <span class="o">--</span><span class="n">epochs</span> <span class="mi">250</span> <span class="o">--</span><span class="n">steps_per_epoch</span> <span class="mi">4000</span> <span class="o">--</span><span class="n">seed</span> <span class="mi">0</span> <span class="mi">10</span> <span class="mi">20</span> <span class="o">--</span><span class="n">dt</span>
+</pre></div>
+</div>
+<p class="last">并绘制结果。（这些实验每个可能需要10分钟左右的时间，而此命令将运行其中的6个。）你发现了什么？</p>
+</div>
+<div class="admonition-ddpg admonition">
+<p class="first admonition-title">练习 2.2：DDPG中的静默错误</p>
+<p><strong>练习路径</strong> <code class="docutils literal"><span class="pre">spinup/exercises/problem_set_2/exercise2_2.py</span></code></p>
+<p><strong>解答路径</strong> <a class="reference external" href="../spinningup/exercise2_2_soln.html">解答在这里</a></p>
+<p>编写强化学习代码最困难的部分是处理错误，因为故障通常是静默的。
+该代码似乎可以正确运行，但是与无错误的实现相比，该代理的性能将降低，有时甚至永远无法学习任何内容。</p>
+<p>在本练习中，你将观察到一个体内的错误，并将结果与正确的代码进行比较。</p>
+<p><strong>指示</strong> 运行 <code class="docutils literal"><span class="pre">exercise2_2.py</span></code>，这将启动带或不带错误的DDPG实验。
+非调试版本运行DDPG的默认Spinning Up实现，并使用默认方法来创建参与者和评论者网络。
+除了使用错误的方法创建网络之外，错误的版本运行相同的DDPG代码。</p>
+<p>总共将进行六个实验（每种情况下三个随机种子），每个实验都需要10分钟。 完成后，绘制结果。有无bug的性能有何区别？</p>
+<p>在没有引用正确的actor-critic代码的情况下（也就是说，不要在DDPG的 <code class="docutils literal"><span class="pre">core.py</span></code> 文件中查找），请尝试找出错误所在并解释它是如何破坏的。</p>
+<p><strong>提示</strong> 要找出问题所在，请考虑DDPG代码如何实现DDPG计算图。具体来说，请看以下片段：</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Bellman backup for Q function</span>
+<span class="n">backup</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">stop_gradient</span><span class="p">(</span><span class="n">r_ph</span> <span class="o">+</span> <span class="n">gamma</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">d_ph</span><span class="p">)</span><span class="o">*</span><span class="n">q_pi_targ</span><span class="p">)</span>
+
+<span class="c1"># DDPG losses</span>
+<span class="n">pi_loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">q_pi</span><span class="p">)</span>
+<span class="n">q_loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">((</span><span class="n">q</span><span class="o">-</span><span class="n">backup</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>actor-critic 代码中的错误如何在这里产生影响？</p>
+<p class="last"><strong>奖励</strong> 是否有任何超参数选择会隐藏该错误的影响？</p>
+</div>
+</div>
+<div class="section" id="id8">
+<h2><a class="toc-backref" href="#id15">挑战</a><a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="admonition- admonition">
+<p class="first admonition-title">从头开始编写代码</p>
+<p class="last">正如我们在 <a class="reference external" href="../spinningup/spinningup.html#learn-by-doing">文章</a> 中建议的那样，请尝试从头开始重新实现各种深度RL算法。</p>
+</div>
+<div class="admonition- admonition">
+<p class="first admonition-title">研究要求</p>
+<p>如果你对编写深度学习和强化学习代码深感满意，请考虑尝试在OpenAI的任何常规研究要求上取得进展：</p>
+<ul class="last simple">
+<li><a class="reference external" href="https://openai.com/requests-for-research/">研究要求 1</a></li>
+<li><a class="reference external" href="https://blog.openai.com/requests-for-research-2/">研究要求 2</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="bench.html" class="btn btn-neutral float-right" title="Spinning Up 算法实现的基准" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="keypapers.html" class="btn btn-neutral" title="深度强化学习的核心论文" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, OpenAI.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-46660488-7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-46660488-7');
+</script>
+
+
+
+</body>
+</html>

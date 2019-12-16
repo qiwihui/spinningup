@@ -1,0 +1,419 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>安装 &mdash; Spinning Up  documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/openai_icon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/modify.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="算法" href="algorithms.html" />
+    <link rel="prev" title="介绍" href="introduction.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/spinning-up-logo2.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">用户文档</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">介绍</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">安装</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#python">安装 Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#openmpi">安装 OpenMPI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ubuntu">Ubuntu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mac-os-x">Mac OS X</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#spinning-up">安装 Spinning Up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">检查你的安装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">安装 MuJoCo （可选）</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">运行试验</a></li>
+<li class="toctree-l1"><a class="reference internal" href="saving_and_loading.html">试验输出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plotting.html">绘制结果</a></li>
+</ul>
+<p class="caption"><span class="caption-text">强化学习介绍</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spinningup/rl_intro.html">第一部分：强化学习中的核心概念</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spinningup/rl_intro2.html">第二部分：强化学习算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spinningup/rl_intro3.html">第三部分：策略优化介绍</a></li>
+</ul>
+<p class="caption"><span class="caption-text">资源</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spinningup/spinningup.html">Spinning Up as a Deep RL Researcher</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spinningup/keypapers.html">深度强化学习的核心论文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spinningup/exercises.html">练习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spinningup/bench.html">Spinning Up 算法实现的基准</a></li>
+</ul>
+<p class="caption"><span class="caption-text">算法文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/vpg.html">Vanilla Policy Gradient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/trpo.html">Trust Region Policy Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/ppo.html">Proximal Policy Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/ddpg.html">Deep Deterministic Policy Gradient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/td3.html">Twin Delayed DDPG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/sac.html">Soft Actor-Critic</a></li>
+</ul>
+<p class="caption"><span class="caption-text">工具文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../utils/logger.html">日志记录</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/plotter.html">绘图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/mpi.html">MPI工具</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/run_utils.html">运行工具</a></li>
+</ul>
+<p class="caption"><span class="caption-text">其他</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../etc/acknowledgements.html">致谢</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../etc/author.html">关于作者</a></li>
+</ul>
+
+            
+          
+<style>
+.adsbygoogle-style {
+  background-color: #404452;
+  margin-top: 20px;
+}
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- square-ad -->
+<ins class="adsbygoogle adsbygoogle-style"
+     style="display:block"
+     data-ad-client="ca-pub-8935595858652656"
+     data-ad-slot="2636787302"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spinning Up</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>安装</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/user/installation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1><a class="toc-backref" href="#id9">安装</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">目录</p>
+<ul class="simple">
+<li><a class="reference internal" href="#id1" id="id9">安装</a><ul>
+<li><a class="reference internal" href="#python" id="id10">安装 Python</a></li>
+<li><a class="reference internal" href="#openmpi" id="id11">安装 OpenMPI</a><ul>
+<li><a class="reference internal" href="#ubuntu" id="id12">Ubuntu</a></li>
+<li><a class="reference internal" href="#mac-os-x" id="id13">Mac OS X</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#spinning-up" id="id14">安装 Spinning Up</a></li>
+<li><a class="reference internal" href="#id6" id="id15">检查你的安装</a></li>
+<li><a class="reference internal" href="#id7" id="id16">安装 MuJoCo （可选）</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Spinning Up 要求 Python3, OpenAI Gym, and OpenMPI.</p>
+<p>Spinning Up 现在只支持 Linux 和 OSX。尽管尚未经过广泛测试，但可以在Windows上安装。<a class="footnote-reference" href="#id4" id="id3">[1]</a></p>
+<div class="admonition- admonition">
+<p class="first admonition-title">你应该知道</p>
+<p>Spinning Up中的许多示例和基准都是针对使用 <a class="reference external" href="http://www.mujoco.org/index.html">MuJoCo</a> 物理引擎的RL环境。MuJoCo是需要许可证的专有软件，该许可证可免费试用，对学生免费，其它则收费。
+安装它是可选的，但是由于它对研究界很重要，它是在连续控制中对深度强化学习算法进行基准测试的事实上的标准，因此，建议安装。</p>
+<p class="last">不过，如果你决定不安装MuJoCo，请不要担心。你绝对可以通过在Gym的 <a class="reference external" href="https://gym.openai.com/envs/#classic_control">Classic Control</a> 和 <a class="reference external" href="https://gym.openai.com/envs/#box2d">Box2d</a> 环境上运行算法来完全开始学习强化学习，这是完全免费的。</p>
+</div>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[1]</a></td><td>似乎至少有一个人找出了一种 <a class="reference external" href="https://github.com/openai/spinningup/issues/23">在Windows上运行的解决方法</a>。 如果您尝试其他方法并成功，请告诉我们你的做法！</td></tr>
+</tbody>
+</table>
+<div class="section" id="python">
+<h2><a class="toc-backref" href="#id10">安装 Python</a><a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h2>
+<p>我们建议通过 Anaconda 安装 Python。
+Anaconda是一个包含Python和许多有用的Python软件包的库，以及一个名为conda的环境管理器，它使软件包管理变得简单。</p>
+<p>此处按照Anaconda的 <a class="reference external" href="https://docs.continuum.io/anaconda/install/">安装说明</a> 进行操作。下载并安装Anaconda3（撰写本文时，<a class="reference external" href="https://repo.anaconda.com/archive/">Anaconda3-5.3.0</a>）。
+然后创建一个conda Python 3.6 环境来组织Spinning Up中使用的软件包：</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">spinningup</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.6</span>
+</pre></div>
+</div>
+<p>要在刚创建的环境中使用Python，请使用以下方法激活环境：</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">activate</span> <span class="n">spinningup</span>
+</pre></div>
+</div>
+<div class="admonition- admonition">
+<p class="first admonition-title">你应该知道</p>
+<p>如果你是python环境和软件包管理的新手，那么这些内容可能会很快变得令人困惑或不知所措，并且一路上你可能会遇到一些麻烦。
+（特别是，你应该会遇到诸如“我刚刚安装了此东西，但是它说它在我尝试使用时找不到的问题！”之类的问题。）
+你可能需要通读一些干净的解释，有关什么是软件包管理，为什么这样做是个好主意以及通常必须执行哪些命令才能正确使用它。</p>
+<p class="last"><a class="reference external" href="https://medium.freecodecamp.org/why-you-need-python-environments-and-how-to-manage-them-with-conda-85f155f4353c">FreeCodeCamp</a> 有一个很好的解释，值得一读。 在 <a class="reference external" href="https://towardsdatascience.com/environment-management-with-conda-python-2-3-b9961a8a5097">Towards Data Science</a> 上有一个简短的描述，该描述也很有帮助且内容丰富。
+最后，如果你是一个非常有耐心的人，则可能需要阅读 <a class="reference external" href="https://conda.io/docs/user-guide/tasks/manage-environments.html">Conda的文档页面</a> （枯燥但非常有用的）。</p>
+</div>
+</div>
+<div class="section" id="openmpi">
+<h2><a class="toc-backref" href="#id11">安装 OpenMPI</a><a class="headerlink" href="#openmpi" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ubuntu">
+<h3><a class="toc-backref" href="#id12">Ubuntu</a><a class="headerlink" href="#ubuntu" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span> <span class="o">&amp;&amp;</span> <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">libopenmpi</span><span class="o">-</span><span class="n">dev</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mac-os-x">
+<h3><a class="toc-backref" href="#id13">Mac OS X</a><a class="headerlink" href="#mac-os-x" title="Permalink to this headline">¶</a></h3>
+<p>在Mac上安装系统软件包需要 <a class="reference external" href="https://brew.sh">Homebrew</a>。 安装Homebrew后，运行以下命令：</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">brew</span> <span class="n">install</span> <span class="n">openmpi</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="spinning-up">
+<h2><a class="toc-backref" href="#id14">安装 Spinning Up</a><a class="headerlink" href="#spinning-up" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">openai</span><span class="o">/</span><span class="n">spinningup</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">spinningup</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="o">.</span>
+</pre></div>
+</div>
+<div class="admonition- admonition">
+<p class="first admonition-title">你应该知道</p>
+<p class="last">Spinning Up默认情况下会安装Gym的所有内容，<strong>除了</strong> MuJoCo环境。如果你在安装Gym时遇到任何麻烦，请查看`Gym`_ github页面以获取帮助。
+如果要使用MuJoCo环境，请参见下面的可选安装部分。</p>
+</div>
+</div>
+<div class="section" id="id6">
+<h2><a class="toc-backref" href="#id15">检查你的安装</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>要查看是否已成功安装Spinning Up，请尝试在 LunarLander-v2 环境中使用以下命令运行PPO：</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">spinup</span><span class="o">.</span><span class="n">run</span> <span class="n">ppo</span> <span class="o">--</span><span class="n">hid</span> <span class="s2">&quot;[32,32]&quot;</span> <span class="o">--</span><span class="n">env</span> <span class="n">LunarLander</span><span class="o">-</span><span class="n">v2</span> <span class="o">--</span><span class="n">exp_name</span> <span class="n">installtest</span> <span class="o">--</span><span class="n">gamma</span> <span class="mf">0.999</span>
+</pre></div>
+</div>
+<p>该过程可能会持续10分钟左右，你可以在继续阅读文档的同时将其保留在后台。
+这不会训练智能完成任务，但是会运行足够长的时间，以至于结果出现时你可以看到 <em>一些</em> 学习进度。</p>
+<p>训练结束后，观看有关训练过的策略的视频</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">spinup</span><span class="o">.</span><span class="n">run</span> <span class="n">test_policy</span> <span class="n">data</span><span class="o">/</span><span class="n">installtest</span><span class="o">/</span><span class="n">installtest_s0</span>
+</pre></div>
+</div>
+<p>并绘制结果</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">spinup</span><span class="o">.</span><span class="n">run</span> <span class="n">plot</span> <span class="n">data</span><span class="o">/</span><span class="n">installtest</span><span class="o">/</span><span class="n">installtest_s0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id7">
+<h2><a class="toc-backref" href="#id16">安装 MuJoCo （可选）</a><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>首先，转到 <a class="reference external" href="https://github.com/openai/mujoco-py">mujoco-py</a> github页面。请遵循 README 文件中的安装说明，
+该说明描述了如何安装MuJoCo物理引擎和mujoco-py软件包（允许在Python中使用MuJoCo）。</p>
+<div class="admonition- admonition">
+<p class="first admonition-title">你应该知道</p>
+<p class="last">为了使用MuJoCo仿真器，您将需要获得`MuJoCo许可证`_。任何人均可享受30天免费许可证，全日制学生可享受1年免费许可证。</p>
+</div>
+<p>安装MuJoCo后，请使用以下命令安装相应的Gym环境</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">gym</span><span class="p">[</span><span class="n">mujoco</span><span class="p">,</span><span class="n">robotics</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>然后通过在Walker2d-v2环境中运行PPO来检查一切是否正常</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">spinup</span><span class="o">.</span><span class="n">run</span> <span class="n">ppo</span> <span class="o">--</span><span class="n">hid</span> <span class="s2">&quot;[32,32]&quot;</span> <span class="o">--</span><span class="n">env</span> <span class="n">Walker2d</span><span class="o">-</span><span class="n">v2</span> <span class="o">--</span><span class="n">exp_name</span> <span class="n">mujocotest</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="algorithms.html" class="btn btn-neutral float-right" title="算法" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="introduction.html" class="btn btn-neutral" title="介绍" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, OpenAI.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-46660488-7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-46660488-7');
+</script>
+
+
+
+</body>
+</html>

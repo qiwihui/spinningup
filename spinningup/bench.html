@@ -1,0 +1,368 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Spinning Up 算法实现的基准 &mdash; Spinning Up  documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/openai_icon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/modify.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Vanilla Policy Gradient" href="../algorithms/vpg.html" />
+    <link rel="prev" title="练习" href="exercises.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/spinning-up-logo2.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">用户文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user/introduction.html">介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/algorithms.html">算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/running.html">运行试验</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/saving_and_loading.html">试验输出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/plotting.html">绘制结果</a></li>
+</ul>
+<p class="caption"><span class="caption-text">强化学习介绍</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="rl_intro.html">第一部分：强化学习中的核心概念</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rl_intro2.html">第二部分：强化学习算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rl_intro3.html">第三部分：策略优化介绍</a></li>
+</ul>
+<p class="caption"><span class="caption-text">资源</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="spinningup.html">Spinning Up as a Deep RL Researcher</a></li>
+<li class="toctree-l1"><a class="reference internal" href="keypapers.html">深度强化学习的核心论文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exercises.html">练习</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Spinning Up 算法实现的基准</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">每个环境中的性能</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#halfcheetah">HalfCheetah</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hopper">Hopper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#walker">Walker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#swimmer">Swimmer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ant">Ant</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">实验细节</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">算法文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/vpg.html">Vanilla Policy Gradient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/trpo.html">Trust Region Policy Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/ppo.html">Proximal Policy Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/ddpg.html">Deep Deterministic Policy Gradient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/td3.html">Twin Delayed DDPG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/sac.html">Soft Actor-Critic</a></li>
+</ul>
+<p class="caption"><span class="caption-text">工具文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../utils/logger.html">日志记录</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/plotter.html">绘图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/mpi.html">MPI工具</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/run_utils.html">运行工具</a></li>
+</ul>
+<p class="caption"><span class="caption-text">其他</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../etc/acknowledgements.html">致谢</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../etc/author.html">关于作者</a></li>
+</ul>
+
+            
+          
+<style>
+.adsbygoogle-style {
+  background-color: #404452;
+  margin-top: 20px;
+}
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- square-ad -->
+<ins class="adsbygoogle adsbygoogle-style"
+     style="display:block"
+     data-ad-client="ca-pub-8935595858652656"
+     data-ad-slot="2636787302"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spinning Up</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Spinning Up 算法实现的基准</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/spinningup/bench.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spinning-up">
+<h1><a class="toc-backref" href="#id9">Spinning Up 算法实现的基准</a><a class="headerlink" href="#spinning-up" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="id1">
+<p class="topic-title first">目录</p>
+<ul class="simple">
+<li><a class="reference internal" href="#spinning-up" id="id9">Spinning Up 算法实现的基准</a><ul>
+<li><a class="reference internal" href="#id2" id="id10">每个环境中的性能</a><ul>
+<li><a class="reference internal" href="#halfcheetah" id="id11">HalfCheetah</a></li>
+<li><a class="reference internal" href="#hopper" id="id12">Hopper</a></li>
+<li><a class="reference internal" href="#walker" id="id13">Walker</a></li>
+<li><a class="reference internal" href="#swimmer" id="id14">Swimmer</a></li>
+<li><a class="reference internal" href="#ant" id="id15">Ant</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id3" id="id16">实验细节</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>我们在 <a class="reference external" href="https://gym.openai.com/envs/#mujoco">MuJoCo</a> Gym任务套件中的五个环境中对Spinning Up算法实现进行了基准测试：
+HalfCheetah，Hopper，Walker2d，Swimmer和Ant。</p>
+<div class="section" id="id2">
+<h2><a class="toc-backref" href="#id10">每个环境中的性能</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="halfcheetah">
+<h3><a class="toc-backref" href="#id11">HalfCheetah</a><a class="headerlink" href="#halfcheetah" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-center" id="id4">
+<img alt="../_images/bench_halfcheetah.svg" src="../_images/bench_halfcheetah.svg" /><p class="caption"><span class="caption-text">HalfCheetah-2 环境的 3M 时步性能。</span></p>
+</div>
+</div>
+<div class="section" id="hopper">
+<h3><a class="toc-backref" href="#id12">Hopper</a><a class="headerlink" href="#hopper" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-center" id="id5">
+<img alt="../_images/bench_hopper.svg" src="../_images/bench_hopper.svg" /><p class="caption"><span class="caption-text">Hopper-v2 环境的 3M 时步性能。</span></p>
+</div>
+</div>
+<div class="section" id="walker">
+<h3><a class="toc-backref" href="#id13">Walker</a><a class="headerlink" href="#walker" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-center" id="id6">
+<img alt="../_images/bench_walker.svg" src="../_images/bench_walker.svg" /><p class="caption"><span class="caption-text">Walker2d-v2 环境的 3M 时步性能。</span></p>
+</div>
+</div>
+<div class="section" id="swimmer">
+<h3><a class="toc-backref" href="#id14">Swimmer</a><a class="headerlink" href="#swimmer" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-center" id="id7">
+<img alt="../_images/bench_swim.svg" src="../_images/bench_swim.svg" /><p class="caption"><span class="caption-text">Swimmer-v2 环境的 3M 时步性能。</span></p>
+</div>
+</div>
+<div class="section" id="ant">
+<h3><a class="toc-backref" href="#id15">Ant</a><a class="headerlink" href="#ant" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-center" id="id8">
+<img alt="../_images/bench_ant.svg" src="../_images/bench_ant.svg" /><p class="caption"><span class="caption-text">Ant-v2 环境的 3M 时步性能。</span></p>
+</div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id16">实验细节</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p><strong>随机种子</strong> 分别对3个随机种子每个运行同轨策略算法（VPG，TPRO，PPO），
+对随机10个种子每个运行异策略算法（DDPG，TD3，SAC）。
+图表显示了训练过程中随机种子的平均（实线）和标准发展（阴影）。</p>
+<p><strong>性能指标</strong> 同轨策略算法的性能是通过每个回合收集的批次中的平均轨迹回报来衡量的。
+通过在十条轨迹上运行没有动作噪声的确定性策略（或者在SAC的情况下为均值策略），
+并报告这些测试轨迹的平均回报，每10,000步就对异轨策略算法的性能进行一次测量。</p>
+<p><strong>网络结构</strong> 同轨策略算法使用大小为（64，32），带有tanh单元的网络同时用于策略和值函数。
+异轨策略算法使用大小为（400，300），具有relu单元的网络。</p>
+<p><strong>批次大小</strong> 同轨策略上的算法每批更新收集了4000步智能体与环境的交互。异轨策略算法在每个梯度下降步骤使用大小为100的微型批次。</p>
+<p>所有其他超参数均保留为Spinning Up实现的默认设置。有关详细信息，请参见算法页面。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../algorithms/vpg.html" class="btn btn-neutral float-right" title="Vanilla Policy Gradient" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="exercises.html" class="btn btn-neutral" title="练习" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, OpenAI.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-46660488-7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-46660488-7');
+</script>
+
+
+
+</body>
+</html>

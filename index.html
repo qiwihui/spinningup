@@ -1,1 +1,476 @@
-My GitHub Page
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>深度强化学习 Spinning Up 项目中文版 &mdash; Spinning Up  documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="_static/openai_icon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/modify.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="介绍" href="user/introduction.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#">
+          
+
+          
+            
+            <img src="_static/spinning-up-logo2.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">用户文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="user/introduction.html">介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user/installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user/algorithms.html">算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user/running.html">运行试验</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user/saving_and_loading.html">试验输出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user/plotting.html">绘制结果</a></li>
+</ul>
+<p class="caption"><span class="caption-text">强化学习介绍</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="spinningup/rl_intro.html">第一部分：强化学习中的核心概念</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spinningup/rl_intro2.html">第二部分：强化学习算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spinningup/rl_intro3.html">第三部分：策略优化介绍</a></li>
+</ul>
+<p class="caption"><span class="caption-text">资源</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="spinningup/spinningup.html">Spinning Up as a Deep RL Researcher</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spinningup/keypapers.html">深度强化学习的核心论文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spinningup/exercises.html">练习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spinningup/bench.html">Spinning Up 算法实现的基准</a></li>
+</ul>
+<p class="caption"><span class="caption-text">算法文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="algorithms/vpg.html">Vanilla Policy Gradient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms/trpo.html">Trust Region Policy Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms/ppo.html">Proximal Policy Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms/ddpg.html">Deep Deterministic Policy Gradient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms/td3.html">Twin Delayed DDPG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms/sac.html">Soft Actor-Critic</a></li>
+</ul>
+<p class="caption"><span class="caption-text">工具文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utils/logger.html">日志记录</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils/plotter.html">绘图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils/mpi.html">MPI工具</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils/run_utils.html">运行工具</a></li>
+</ul>
+<p class="caption"><span class="caption-text">其他</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="etc/acknowledgements.html">致谢</a></li>
+<li class="toctree-l1"><a class="reference internal" href="etc/author.html">关于作者</a></li>
+</ul>
+
+            
+          
+<style>
+.adsbygoogle-style {
+  background-color: #404452;
+  margin-top: 20px;
+}
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- square-ad -->
+<ins class="adsbygoogle adsbygoogle-style"
+     style="display:block"
+     data-ad-client="ca-pub-8935595858652656"
+     data-ad-slot="2636787302"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Spinning Up</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>深度强化学习 Spinning Up 项目中文版</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spinning-up">
+<h1>深度强化学习 Spinning Up 项目中文版<a class="headerlink" href="#spinning-up" title="Permalink to this headline">¶</a></h1>
+<img alt="_images/spinning-up-in-rl.png" src="_images/spinning-up-in-rl.png" />
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">用户文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="user/introduction.html">介绍</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user/introduction.html#id3">这个项目是什么</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/introduction.html#id6">为什么创建这个项目</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/introduction.html#id7">这个项目如何服务我们的使命</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/introduction.html#id9">代码设计的原则</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/introduction.html#id10">支持计划</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user/installation.html">安装</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user/installation.html#python">安装 Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/installation.html#openmpi">安装 OpenMPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/installation.html#spinning-up">安装 Spinning Up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/installation.html#id6">检查你的安装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/installation.html#id7">安装 MuJoCo （可选）</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user/algorithms.html">算法</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user/algorithms.html#id3">包括哪些算法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/algorithms.html#id5">为什么使用这些算法？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/algorithms.html#id6">代码格式</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user/running.html">运行试验</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user/running.html#id3">从命令行启动</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/running.html#id18">从脚本启动</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user/saving_and_loading.html">试验输出</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user/saving_and_loading.html#id3">算法输出</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/saving_and_loading.html#id5">保存目录位置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/saving_and_loading.html#id6">加载并运行经过训练的策略</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user/plotting.html">绘制结果</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">强化学习介绍</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="spinningup/rl_intro.html">第一部分：强化学习中的核心概念</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/rl_intro.html#id3">强化学习能做什么？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/rl_intro.html#id6">核心概念和术语</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/rl_intro.html#id21">（可选）数学形式</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="spinningup/rl_intro2.html">第二部分：强化学习算法</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/rl_intro2.html#id3">强化学习算法分类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/rl_intro2.html#id14">分类中提到的算法链接</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="spinningup/rl_intro3.html">第三部分：策略优化介绍</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/rl_intro3.html#deriving-the-simplest-policy-gradient">推导最简单的策略梯度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/rl_intro3.html#id8">实现最简单的策略梯度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/rl_intro3.html#id10">期望梯度对数概率引理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/rl_intro3.html#don-t-let-the-past-distract-you">不要让过去使你分心</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/rl_intro3.html#reward-to-go">实现 Reward-to-Go 策略梯度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/rl_intro3.html#baselines-in-policy-gradients">策略梯度基准</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/rl_intro3.html#id17">其他形式的策略梯度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/rl_intro3.html#id18">概括</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">资源</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="spinningup/spinningup.html">Spinning Up as a Deep RL Researcher</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/spinningup.html#the-right-background">The Right Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/spinningup.html#learn-by-doing">Learn by Doing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/spinningup.html#developing-a-research-project">Developing a Research Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/spinningup.html#doing-rigorous-research-in-rl">Doing Rigorous Research in RL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/spinningup.html#closing-thoughts">Closing Thoughts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/spinningup.html#ps-other-resources">PS: Other Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/spinningup.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="spinningup/keypapers.html">深度强化学习的核心论文</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/keypapers.html#id3">1. 免模型强化学习</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/keypapers.html#id35">2. 探索</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/keypapers.html#id48">3. 迁移和多任务强化学习</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/keypapers.html#hierarchy">4. 层次（Hierarchy）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/keypapers.html#memory">5. 记忆（Memory）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/keypapers.html#id65">6. 有模型强化学习</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/keypapers.html#meta-rl">7. 元学习（Meta-RL）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/keypapers.html#id80">8. 扩展强化学习</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/keypapers.html#id86">9. 现实世界的强化学习</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/keypapers.html#id91">10. 安全性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/keypapers.html#id98">11. 模仿学习和逆强化学习</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/keypapers.html#id105">12. 可复现、分析和评价</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/keypapers.html#id113">13. 额外奖励：强化学习理论的经典论文</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="spinningup/exercises.html">练习</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/exercises.html#id3">问题集1：基础实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/exercises.html#id5">问题集2：算法失败模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/exercises.html#id8">挑战</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="spinningup/bench.html">Spinning Up 算法实现的基准</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/bench.html#id2">每个环境中的性能</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spinningup/bench.html#id3">实验细节</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">算法文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="algorithms/vpg.html">Vanilla Policy Gradient</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/vpg.html#background">Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/vpg.html#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/vpg.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms/trpo.html">Trust Region Policy Optimization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/trpo.html#background">Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/trpo.html#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/trpo.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms/ppo.html">Proximal Policy Optimization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/ppo.html#background">Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/ppo.html#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/ppo.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms/ddpg.html">Deep Deterministic Policy Gradient</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/ddpg.html#background">Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/ddpg.html#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/ddpg.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms/td3.html">Twin Delayed DDPG</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/td3.html#background">Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/td3.html#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/td3.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms/sac.html">Soft Actor-Critic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/sac.html#background">Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/sac.html#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/sac.html#references">References</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">工具文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utils/logger.html">日志记录</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils/logger.html#logger">使用Logger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/logger.html#id4">Logger类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/logger.html#id5">加载保存的图</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="utils/plotter.html">绘图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils/mpi.html">MPI工具</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils/mpi.html#module-spinup.utils.mpi_tools">核心MPI工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/mpi.html#mpi-tensorflow">MPI + Tensorflow 工具</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="utils/run_utils.html">运行工具</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils/run_utils.html#experimentgrid">ExperimentGrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/run_utils.html#id3">运行实验</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">其他</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="etc/acknowledgements.html">致谢</a></li>
+<li class="toctree-l1"><a class="reference internal" href="etc/author.html">关于作者</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="id1">
+<h1>索引和目录<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="user/introduction.html" class="btn btn-neutral float-right" title="介绍" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, OpenAI.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-46660488-7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-46660488-7');
+</script>
+
+
+
+</body>
+</html>

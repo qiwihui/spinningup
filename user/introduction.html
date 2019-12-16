@@ -1,0 +1,401 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>介绍 &mdash; Spinning Up  documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/openai_icon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/modify.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="安装" href="installation.html" />
+    <link rel="prev" title="深度强化学习 Spinning Up 项目中文版" href="../index.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/spinning-up-logo2.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">用户文档</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">介绍</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id3">这个项目是什么</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">为什么创建这个项目</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">这个项目如何服务我们的使命</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">代码设计的原则</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">支持计划</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">运行试验</a></li>
+<li class="toctree-l1"><a class="reference internal" href="saving_and_loading.html">试验输出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plotting.html">绘制结果</a></li>
+</ul>
+<p class="caption"><span class="caption-text">强化学习介绍</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spinningup/rl_intro.html">第一部分：强化学习中的核心概念</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spinningup/rl_intro2.html">第二部分：强化学习算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spinningup/rl_intro3.html">第三部分：策略优化介绍</a></li>
+</ul>
+<p class="caption"><span class="caption-text">资源</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../spinningup/spinningup.html">Spinning Up as a Deep RL Researcher</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spinningup/keypapers.html">深度强化学习的核心论文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spinningup/exercises.html">练习</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spinningup/bench.html">Spinning Up 算法实现的基准</a></li>
+</ul>
+<p class="caption"><span class="caption-text">算法文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/vpg.html">Vanilla Policy Gradient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/trpo.html">Trust Region Policy Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/ppo.html">Proximal Policy Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/ddpg.html">Deep Deterministic Policy Gradient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/td3.html">Twin Delayed DDPG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/sac.html">Soft Actor-Critic</a></li>
+</ul>
+<p class="caption"><span class="caption-text">工具文档</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../utils/logger.html">日志记录</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/plotter.html">绘图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/mpi.html">MPI工具</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/run_utils.html">运行工具</a></li>
+</ul>
+<p class="caption"><span class="caption-text">其他</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../etc/acknowledgements.html">致谢</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../etc/author.html">关于作者</a></li>
+</ul>
+
+            
+          
+<style>
+.adsbygoogle-style {
+  background-color: #404452;
+  margin-top: 20px;
+}
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- square-ad -->
+<ins class="adsbygoogle adsbygoogle-style"
+     style="display:block"
+     data-ad-client="ca-pub-8935595858652656"
+     data-ad-slot="2636787302"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Spinning Up</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>介绍</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/user/introduction.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1><a class="toc-backref" href="#id20">介绍</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">目录</p>
+<ul class="simple">
+<li><a class="reference internal" href="#id1" id="id20">介绍</a><ul>
+<li><a class="reference internal" href="#id3" id="id21">这个项目是什么</a></li>
+<li><a class="reference internal" href="#id6" id="id22">为什么创建这个项目</a></li>
+<li><a class="reference internal" href="#id7" id="id23">这个项目如何服务我们的使命</a></li>
+<li><a class="reference internal" href="#id9" id="id24">代码设计的原则</a></li>
+<li><a class="reference internal" href="#id10" id="id25">支持计划</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id21">这个项目是什么</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>欢迎来到深度强化学习（Deep Reinforement Learning）的Spinning Up项目！
+这是一份由OpenAI提供的教育资源，旨在让深度强化学习的学习变得更加简单。</p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Reinforcement_learning">强化学习</a> ，是一种通过教会智能体反复试验（trial and error）从而完成任务的机器学习方法。
+深度强化学习指的是强化学习和 <a class="reference external" href="http://ufldl.stanford.edu/tutorial/">深度学习</a> 的结合。</p>
+<p>这个模块包含一系列有用的资源，包括：</p>
+<ul class="simple">
+<li>关于强化学习术语、算法和基础理论的简单 <a class="reference external" href="../spinningup/rl_intro.html">介绍</a>；</li>
+<li>关于如何成为强化学习的研究人员的 <a class="reference external" href="../spinningup/spinningup.html">文章</a>；</li>
+<li>一个按照主题整理的重要论文 <a class="reference external" href="../spinningup/keypapers.html">清单</a>；</li>
+<li>简短独立的关键算法实现，包含详细文档的 <a class="reference external" href="https://github.com/openai/spinningup">代码仓库</a>；</li>
+<li>以及一些用来练手的 <a class="reference external" href="../spinningup/exercises.html">练习项目</a>。</li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h2><a class="toc-backref" href="#id22">为什么创建这个项目</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>我们最常听到的问题是：</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">如果我想为AI安全做贡献，我应该如何开始？</div>
+</div>
+</div></blockquote>
+<p>在OpenAI，我们相信一般的深度学习，特别是深度强化学习将在强大的AI技术的发展中发挥核心作用。
+为了确保AI是安全的，我们必须提出与该范例兼容的安全策略和算法。因此我们鼓励每一个提出这个问题的人研究这些领域。</p>
+<p>尽管深度学习现在有很多帮助人们快速入门的资源，相比之下，深度强化学习显得门槛高很多。
+首先，深度强化学习的学生要有数学、编程和常规深度学习的背景。
+除此之外，他们需要对于这一领域有高水准的理解：都有哪些研究课题？这些课题为什么重要？哪些东西已经做出来了？
+他们也需要认真的指导，从而了解如何将算法理论和代码结合起来。</p>
+<p>这个领域还很新，所以一时很难有高层次的看法。现在深度强化学习领域还没有标准的教材，所以很多知识都被藏在了论文和讲座中，需要很长时间理解吸收。
+深度强化学习算法的实现学习也很痛苦，因为：</p>
+<ul class="simple">
+<li>很多算法论文或有意或无意地掩盖了关键设计细节，</li>
+<li>一些广泛公开的算法实现代码很难读懂，难以把代码和算法联系在一起。</li>
+</ul>
+<p>虽然类似 <a class="reference external" href="https://github.com/rlworkgroup/garage">garage</a>，<a class="reference external" href="https://github.com/openai/baselines">Baselines</a> 和 <a class="reference external" href="https://github.com/ray-project/ray/tree/master/python/ray/rllib">rllib</a> 这样很棒的项目让那些已经在这个领域的研究者更加容易做出成果，
+但他们将算法构建到框架中的方式涉及许多非显而易见的选择和折衷，这使它们很难学习。
+所以说，不管是对于学者还是从业者、业余爱好者来说，深度强化学习领域的门槛都很高。</p>
+<p>我们的软件包就是为了填上中间缺失的这一部分，服务于那些希望了解深度强化学习或者希望做出自己的贡献，
+但是对于要学习什么内容以及如果把算法变成代码不清楚的学生。我们努力把这个项目变成一个助推器。</p>
+<p>也就是说，从业者并不是唯一可以（或应该）从这些材料中受益的人。
+解决AI安全，不仅需要具有广泛专业知识和观点的人员，而且许多相关专业根本与工程或计算机科学无关。
+但是，每个参与人员都需要对技术有足够的了解，以便做出明智的决策，并且Spinning Up 项目的很多地方都提到了这一点。</p>
+</div>
+<div class="section" id="id7">
+<h2><a class="toc-backref" href="#id23">这个项目如何服务我们的使命</a><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>OpenAI 的 <a class="reference external" href="https://blog.openai.com/openai-charter/">使命</a> 是确保通用人工智能的安全发展以及让人工智能带来的收益分配更加广泛。
+Spinning Up这样的教学工具可帮助我们在这两个目标上取得进步。</p>
+<p>只要我们能帮助更多人了解人工智能究竟是什么以及它是怎么工作的，我们就能更接近广泛的利益分配。
+这使人们能够批判性地思考随着人工智能在我们生活中变得越来越复杂和重要，我们预期会出现的许多问题。</p>
+<p>同时，至关重要的是，<a class="reference external" href="https://jobs.lever.co/openai">我们需要人们帮助</a> 共同确保通用人工智能是安全的。
+由于这一领域还很新，所以拥有这项技能的人才目前供不应求。我们知道很多人有兴趣帮助我们，但不知道怎么做，这里是你应该学习的内容！
+如果你能通过这个项目成为专家，那你一定能在我们的人工智能安全上发挥作用。</p>
+</div>
+<div class="section" id="id9">
+<h2><a class="toc-backref" href="#id24">代码设计的原则</a><a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<p>Spinning Up项目仓库的算法实现旨在：</p>
+<blockquote>
+<div><ul class="simple">
+<li>尽量简单，同时还要足够好，</li>
+<li>不同算法实现之间高度一致，以揭示它们之间的基本相似之处。</li>
+</ul>
+</div></blockquote>
+<p>这些算法基本上都是相互独立的，没有相互依赖的代码（除了日志打印、保存、载入和 <a class="reference external" href="https://en.wikipedia.org/wiki/Message_Passing_Interface">MPI</a> 等工具模块），
+所以感兴趣的你可以分别学习每一个算法而不用去管那些繁琐的依赖关系。对实现模式化，以便尽可能做到和伪代码一致，最大程度地减少理论与代码之间的差距。</p>
+<p>重要的是，他们的结构都很相似，所以如果你清楚地理解了一个算法，再看剩下的就很简单。</p>
+<p>我们尽量减少算法实现时候的技巧和相似算法之间的区别。
+这里我们展示一些移除的技巧，我们把原始 Soft-Actor Critic 代码中的 <a class="reference external" href="https://github.com/haarnoja/sac/blob/108a4229be6f040360fcca983113df9c4ac23a6a/sac/distributions/normal.py#L69">正则</a> 术语，以及所有算法中的 <a class="reference external" href="https://github.com/openai/baselines/blob/28aca637d0f13f4415cc5ebb778144154cff3110/baselines/run.py#L131">观测归一化</a>。
+例如，我们消除了算法之间的差异：我们在 DDPG，TD3 和 SAC 的实现中都遵循了 <a class="reference external" href="https://github.com/sfujim/TD3/blob/25dfc0a6562c54ae5575fad5b8f08bc9d5c4e26c/main.py#L89">原始 TD3 代码</a> 的约定，
+所有的梯度更新都是在每一个回合的最后执行的（而不是整个回合都在执行）。</p>
+<p>从某种意义上说，所有的算法都做到“足够好”，它们都能达到预期的性能，但不一定与文献中关于每个任务的最佳报告结果相匹配。
+因此，如果将这些实现中的任何一种用于科研基准比较时应小心。有关每个实现的特定性能级别的详细信息，请参见我们的 <a class="reference external" href="../spinningup/bench.html">基准</a> 页面。</p>
+</div>
+<div class="section" id="id10">
+<h2><a class="toc-backref" href="#id25">支持计划</a><a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<p>我们计划支持 Spinning Up 项目来确保他能够作为学习深度强化学习的实用资料。这个项目的长期支持（数年内）还没有确定，但是短期内我们可以承诺:</p>
+<ul>
+<li><p class="first">发布后的前三周会大力支持（2018年11月8日至2018年11月29日）。</p>
+<blockquote>
+<div><ul class="simple">
+<li>我们将快速修复错误，解答问题以及对文档进行修改，以消除歧义。</li>
+<li>我们将努力简化用户体验，以便尽可能轻松地使用Spinning Up进行自学。</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>发布后大约六个月（2019年4月），我们将根据从社区获得的反馈对软件包的状态进行认真审查，并宣布任何未来的修改计划，包括长期路线图。</p>
+<p>此外，正如博客文章讨论的，我们也会在即将到来的 <a class="reference external" href="https://jobs.lever.co/openai/cf6de4ed-4afd-4ace-9273-8842c003c842">Scholars</a> 和 <a class="reference external" href="https://jobs.lever.co/openai/c9ba3f64-2419-4ff9-b81d-0526ae059f57">Fellows</a> 课程中使用 Spinning Up。任何更改和更新都会实时同步公开。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="installation.html" class="btn btn-neutral float-right" title="安装" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../index.html" class="btn btn-neutral" title="深度强化学习 Spinning Up 项目中文版" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, OpenAI.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-46660488-7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-46660488-7');
+</script>
+
+
+
+</body>
+</html>

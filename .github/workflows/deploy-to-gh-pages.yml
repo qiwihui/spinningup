@@ -24,6 +24,11 @@ jobs:
       run: |
         cd docs
         make html
+        
+    - name: Setup github pages domain
+      run: |
+        touch docs/_build/html/.nojekyll
+        echo "${{ secrets.GH_DOMAIN }}" > docs/_build/html/CNAME
 
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3

@@ -111,20 +111,20 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Vanilla Policy Gradient</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">背景</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#quick-facts">Quick Facts</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#key-equations">Key Equations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#exploration-vs-exploitation">Exploration vs. Exploitation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">伪代码</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">速览</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">关键方程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">探索与利用</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">伪代码</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">文档</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id5">保存的模型的内容</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">文档</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id9">保存的模型的内容</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">参考</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id7">相关论文</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">为什么是这些论文？</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">其他公开实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">参考</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id11">相关论文</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">为什么是这些论文？</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">其他公开实现</a></li>
 </ul>
 </li>
 </ul>
@@ -229,26 +229,26 @@
            <div itemprop="articleBody">
             
   <div class="section" id="vanilla-policy-gradient">
-<h1><a class="toc-backref" href="#id10">Vanilla Policy Gradient</a><a class="headerlink" href="#vanilla-policy-gradient" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id14">Vanilla Policy Gradient</a><a class="headerlink" href="#vanilla-policy-gradient" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="id1">
 <p class="topic-title first">目录</p>
 <ul class="simple">
-<li><a class="reference internal" href="#vanilla-policy-gradient" id="id10">Vanilla Policy Gradient</a><ul>
-<li><a class="reference internal" href="#id2" id="id11">背景</a><ul>
-<li><a class="reference internal" href="#quick-facts" id="id12">Quick Facts</a></li>
-<li><a class="reference internal" href="#key-equations" id="id13">Key Equations</a></li>
-<li><a class="reference internal" href="#exploration-vs-exploitation" id="id14">Exploration vs. Exploitation</a></li>
-<li><a class="reference internal" href="#id3" id="id15">伪代码</a></li>
+<li><a class="reference internal" href="#vanilla-policy-gradient" id="id14">Vanilla Policy Gradient</a><ul>
+<li><a class="reference internal" href="#id2" id="id15">背景</a><ul>
+<li><a class="reference internal" href="#id4" id="id16">速览</a></li>
+<li><a class="reference internal" href="#id5" id="id17">关键方程</a></li>
+<li><a class="reference internal" href="#id6" id="id18">探索与利用</a></li>
+<li><a class="reference internal" href="#id7" id="id19">伪代码</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id4" id="id16">文档</a><ul>
-<li><a class="reference internal" href="#id5" id="id17">保存的模型的内容</a></li>
+<li><a class="reference internal" href="#id8" id="id20">文档</a><ul>
+<li><a class="reference internal" href="#id9" id="id21">保存的模型的内容</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id6" id="id18">参考</a><ul>
-<li><a class="reference internal" href="#id7" id="id19">相关论文</a></li>
-<li><a class="reference internal" href="#id8" id="id20">为什么是这些论文？</a></li>
-<li><a class="reference internal" href="#id9" id="id21">其他公开实现</a></li>
+<li><a class="reference internal" href="#id10" id="id22">参考</a><ul>
+<li><a class="reference internal" href="#id11" id="id23">相关论文</a></li>
+<li><a class="reference internal" href="#id12" id="id24">为什么是这些论文？</a></li>
+<li><a class="reference internal" href="#id13" id="id25">其他公开实现</a></li>
 </ul>
 </li>
 </ul>
@@ -256,39 +256,43 @@
 </ul>
 </div>
 <div class="section" id="id2">
-<h2><a class="toc-backref" href="#id11">背景</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>(Previously: <a class="reference external" href="../spinningup/rl_intro3.html">Introduction to RL, Part 3</a>)</p>
-<p>The key idea underlying policy gradients is to push up the probabilities of actions that lead to higher return, and push down the probabilities of actions that lead to lower return, until you arrive at the optimal policy.</p>
-<div class="section" id="quick-facts">
-<h3><a class="toc-backref" href="#id12">Quick Facts</a><a class="headerlink" href="#quick-facts" title="Permalink to this headline">¶</a></h3>
+<h2><a class="toc-backref" href="#id15">背景</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>（预先：<a class="reference external" href="../spinningup/rl_intro3.html">强化学习介绍：第三部分</a>）</p>
+<p>策略梯度背后的关键思想是提高导致更高回报的动作的概率，并降低导致更低回报的动作的概率，直到你获得最佳策略。</p>
+<div class="section" id="id4">
+<h3><a class="toc-backref" href="#id16">速览</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>VPG is an on-policy algorithm.</li>
-<li>VPG can be used for environments with either discrete or continuous action spaces.</li>
-<li>The Spinning Up implementation of VPG supports parallelization with MPI.</li>
+<li>VPG 是一种在轨策略算法。</li>
+<li>VPG可用于具有离散或连续动作空间的环境。</li>
+<li>VPG的Spinning Up实现支持与MPI并行化。</li>
 </ul>
 </div>
-<div class="section" id="key-equations">
-<h3><a class="toc-backref" href="#id13">Key Equations</a><a class="headerlink" href="#key-equations" title="Permalink to this headline">¶</a></h3>
-<p>Let <span class="math">\pi_{\theta}</span> denote a policy with parameters <span class="math">\theta</span>, and <span class="math">J(\pi_{\theta})</span> denote the expected finite-horizon undiscounted return of the policy. The gradient of <span class="math">J(\pi_{\theta})</span> is</p>
+<div class="section" id="id5">
+<h3><a class="toc-backref" href="#id17">关键方程</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>令 <span class="math">\pi_{\theta}</span> 表示参数为 <span class="math">\theta</span> 的策略，
+而 <span class="math">J(\pi_{\theta})</span> 表示有限视野无折扣的策略回报期望。
+<span class="math">J(\pi_{\theta})</span> 的梯度为</p>
 <div class="math">
 <p><span class="math">\nabla_{\theta} J(\pi_{\theta}) = \underE{\tau \sim \pi_{\theta}}{
     \sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta}(a_t|s_t) A^{\pi_{\theta}}(s_t,a_t)
     },</span></p>
-</div><p>where <span class="math">\tau</span> is a trajectory and <span class="math">A^{\pi_{\theta}}</span> is the advantage function for the current policy.</p>
-<p>The policy gradient algorithm works by updating policy parameters via stochastic gradient ascent on policy performance:</p>
+</div><p>其中 <span class="math">\tau</span> 是轨迹，<span class="math">A^{\pi_{\theta}}</span> 是当前策略的优势函数。</p>
+<p>策略梯度算法的工作原理是通过随机梯度提升策略性能来更新策略参数：</p>
 <div class="math">
 <p><span class="math">\theta_{k+1} = \theta_k + \alpha \nabla_{\theta} J(\pi_{\theta_k})</span></p>
-</div><p>Policy gradient implementations typically compute advantage function estimates based on the infinite-horizon discounted return, despite otherwise using the finite-horizon undiscounted policy gradient formula.</p>
+</div><p>策略梯度实现通常基于无限视野折扣回报来计算优势函数估计，尽管其他情况下使用有限视野无折扣策略梯度公式。</p>
 </div>
-<div class="section" id="exploration-vs-exploitation">
-<h3><a class="toc-backref" href="#id14">Exploration vs. Exploitation</a><a class="headerlink" href="#exploration-vs-exploitation" title="Permalink to this headline">¶</a></h3>
-<p>VPG trains a stochastic policy in an on-policy way. This means that it explores by sampling actions according to the latest version of its stochastic policy. The amount of randomness in action selection depends on both initial conditions and the training procedure. Over the course of training, the policy typically becomes progressively less random, as the update rule encourages it to exploit rewards that it has already found. This may cause the policy to get trapped in local optima.</p>
+<div class="section" id="id6">
+<h3><a class="toc-backref" href="#id18">探索与利用</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>VPG以在轨策略方式训练随机策略。这意味着它会根据其随机策略的最新版本通过采样操作来进行探索。
+动作选择的随机性取决于初始条件和训练程序。在训练过程中，由于更新规则鼓励该策略利用已经发现的奖励，因此该策略通常变得越来越少随机性。
+这可能会导致策略陷入局部最优状态。</p>
 </div>
-<div class="section" id="id3">
-<h3><a class="toc-backref" href="#id15">伪代码</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3><a class="toc-backref" href="#id19">伪代码</a><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <div class="math">
 <p><span class="math">\begin{algorithm}[H]
-    \caption{Vanilla Policy Gradient 算法}
+    \caption{Vanilla Policy Gradient Algorithm}
     \label{alg1}
 \begin{algorithmic}[1]
     \STATE Input: initial policy parameters $\theta_0$, initial value function parameters $\phi_0$
@@ -315,8 +319,8 @@
 \end{algorithm}</span></p>
 </div></div>
 </div>
-<div class="section" id="id4">
-<h2><a class="toc-backref" href="#id16">文档</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h2><a class="toc-backref" href="#id20">文档</a><a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="spinup.vpg">
 <code class="descclassname">spinup.</code><code class="descname">vpg</code><span class="sig-paren">(</span><em>env_fn</em>, <em>actor_critic=&lt;function mlp_actor_critic&gt;</em>, <em>ac_kwargs={}</em>, <em>seed=0</em>, <em>steps_per_epoch=4000</em>, <em>epochs=50</em>, <em>gamma=0.99</em>, <em>pi_lr=0.0003</em>, <em>vf_lr=0.001</em>, <em>train_v_iters=80</em>, <em>lam=0.97</em>, <em>max_ep_len=1000</em>, <em>logger_kwargs={}</em>, <em>save_freq=10</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spinup/algos/vpg/vpg.html#vpg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spinup.vpg" title="Permalink to this definition">¶</a></dt>
@@ -406,8 +410,8 @@ the current policy and value function.</li>
 </table>
 </dd></dl>
 
-<div class="section" id="id5">
-<h3><a class="toc-backref" href="#id17">保存的模型的内容</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3><a class="toc-backref" href="#id21">保存的模型的内容</a><a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <p>记录的计算图包括：</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -438,10 +442,10 @@ the current policy and value function.</li>
 </ul>
 </div>
 </div>
-<div class="section" id="id6">
-<h2><a class="toc-backref" href="#id18">参考</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id7">
-<h3><a class="toc-backref" href="#id19">相关论文</a><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h2><a class="toc-backref" href="#id22">参考</a><a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id11">
+<h3><a class="toc-backref" href="#id23">相关论文</a><a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a class="reference external" href="https://papers.nips.cc/paper/1713-policy-gradient-methods-for-reinforcement-learning-with-function-approximation.pdf">Policy Gradient Methods for Reinforcement Learning with Function Approximation</a>, Sutton et al. 2000</li>
 <li><a class="reference external" href="http://joschu.net/docs/thesis.pdf">Optimizing Expectations: From Deep Reinforcement Learning to Stochastic Computation Graphs</a>, Schulman 2016(a)</li>
@@ -449,8 +453,8 @@ the current policy and value function.</li>
 <li><a class="reference external" href="https://arxiv.org/abs/1506.02438">High Dimensional Continuous Control Using Generalized Advantage Estimation</a>, Schulman et al. 2016(b)</li>
 </ul>
 </div>
-<div class="section" id="id8">
-<h3><a class="toc-backref" href="#id20">为什么是这些论文？</a><a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3><a class="toc-backref" href="#id24">为什么是这些论文？</a><a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <p>包含Sutton 2000是因为它是强化学习理论的永恒经典，并且包含了导致现代策略梯度的早期工作的参考。
 之所以包括Schulman 2016（a），是因为第2章对策略梯度算法（包括伪代码）的理论进行了清晰的介绍。
 Duan 2016是一份清晰的，最新的基准论文，显示了深度强化学习设置
@@ -458,8 +462,8 @@ Duan 2016是一份清晰的，最新的基准论文，显示了深度强化学�
 之所以包含Schulman 2016（b），是因为我们在VPG的实现中利用了
 通用优势估计（Generalized Advantage Estimation）来计算策略梯度。</p>
 </div>
-<div class="section" id="id9">
-<h3><a class="toc-backref" href="#id21">其他公开实现</a><a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3><a class="toc-backref" href="#id25">其他公开实现</a><a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a class="reference external" href="https://github.com/rll/rllab/blob/master/rllab/algos/vpg.py">rllab</a></li>
 <li><a class="reference external" href="https://github.com/ray-project/ray/blob/master/python/ray/rllib/agents/pg">rllib (Ray)</a></li>

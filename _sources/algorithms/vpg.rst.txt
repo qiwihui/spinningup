@@ -2,10 +2,10 @@
 Vanilla Policy Gradient
 =======================
 
-.. contents:: Table of Contents
+.. contents:: 目录
 
 
-Background
+背景
 ==========
 
 (Previously: `Introduction to RL, Part 3`_)
@@ -48,14 +48,14 @@ Exploration vs. Exploitation
 VPG trains a stochastic policy in an on-policy way. This means that it explores by sampling actions according to the latest version of its stochastic policy. The amount of randomness in action selection depends on both initial conditions and the training procedure. Over the course of training, the policy typically becomes progressively less random, as the update rule encourages it to exploit rewards that it has already found. This may cause the policy to get trapped in local optima.
 
 
-Pseudocode
+伪代码
 ----------
 
 .. math::
     :nowrap:
 
     \begin{algorithm}[H]
-        \caption{Vanilla Policy Gradient Algorithm}
+        \caption{Vanilla Policy Gradient 算法}
         \label{alg1}
     \begin{algorithmic}[1]
         \STATE Input: initial policy parameters $\theta_0$, initial value function parameters $\phi_0$
@@ -82,36 +82,37 @@ Pseudocode
     \end{algorithm}
 
 
-Documentation
+文档
 =============
 
 .. autofunction:: spinup.vpg
 
-Saved Model Contents
+保存的模型的内容
 --------------------
 
-The computation graph saved by the logger includes:
+记录的计算图包括：
 
 ========  ====================================================================
-Key       Value
+键        值
 ========  ====================================================================
 ``x``     Tensorflow placeholder for state input.
 ``pi``    Samples an action from the agent, conditioned on states in ``x``.
-``v``     Gives value estimate for states in ``x``. 
+``v``     Gives value estimate for states in ``x``.
 ========  ====================================================================
 
-This saved model can be accessed either by
+可以通过以下方式访问此保存的模型
 
-* running the trained policy with the `test_policy.py`_ tool,
-* or loading the whole saved graph into a program with `restore_tf_graph`_. 
+* 使用 `test_policy.py`_ 工具运行经过训练的策略，
+* 或使用 `restore_tf_graph`_ 将整个保存的图形加载到程序中。
 
 .. _`test_policy.py`: ../user/saving_and_loading.html#loading-and-running-trained-policies
 .. _`restore_tf_graph`: ../utils/logger.html#spinup.utils.logx.restore_tf_graph
 
-References
+
+参考
 ==========
 
-Relevant Papers
+相关论文
 ---------------
 
 - `Policy Gradient Methods for Reinforcement Learning with Function Approximation`_, Sutton et al. 2000
@@ -124,13 +125,17 @@ Relevant Papers
 .. _`Benchmarking Deep Reinforcement Learning for Continuous Control`: https://arxiv.org/abs/1604.06778
 .. _`High Dimensional Continuous Control Using Generalized Advantage Estimation`: https://arxiv.org/abs/1506.02438
 
-Why These Papers?
------------------
+为什么是这些论文？
+-------------------
 
-Sutton 2000 is included because it is a timeless classic of reinforcement learning theory, and contains references to the earlier work which led to modern policy gradients. Schulman 2016(a) is included because Chapter 2 contains a lucid introduction to the theory of policy gradient algorithms, including pseudocode. Duan 2016 is a clear, recent benchmark paper that shows how vanilla policy gradient in the deep RL setting (eg with neural network policies and Adam as the optimizer) compares with other deep RL algorithms. Schulman 2016(b) is included because our implementation of VPG makes use of Generalized Advantage Estimation for computing the policy gradient.
+包含Sutton 2000是因为它是强化学习理论的永恒经典，并且包含了导致现代策略梯度的早期工作的参考。
+之所以包括Schulman 2016（a），是因为第2章对策略梯度算法（包括伪代码）的理论进行了清晰的介绍。
+Duan 2016是一份清晰的，最新的基准论文，显示了深度强化学习设置
+（例如，以神经网络策略和Adam为优化器）中的vanilla policy gradient与其他深度强化算法的比较。
+之所以包含Schulman 2016（b），是因为我们在VPG的实现中利用了
+通用优势估计（Generalized Advantage Estimation）来计算策略梯度。
 
-
-Other Public Implementations
+其他公开实现
 ----------------------------
 
 - rllab_

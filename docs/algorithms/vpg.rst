@@ -8,45 +8,48 @@ Vanilla Policy Gradient
 背景
 ==========
 
-(Previously: `Introduction to RL, Part 3`_)
+（预先：`强化学习介绍：第三部分`_）
 
-.. _`Introduction to RL, Part 3`: ../spinningup/rl_intro3.html
+.. _`强化学习介绍：第三部分`: ../spinningup/rl_intro3.html
 
-The key idea underlying policy gradients is to push up the probabilities of actions that lead to higher return, and push down the probabilities of actions that lead to lower return, until you arrive at the optimal policy.
+策略梯度背后的关键思想是提高导致更高回报的动作的概率，并降低导致更低回报的动作的概率，直到你获得最佳策略。
 
-Quick Facts
+速览
 -----------
 
-* VPG is an on-policy algorithm.
-* VPG can be used for environments with either discrete or continuous action spaces.
-* The Spinning Up implementation of VPG supports parallelization with MPI.
+* VPG 是一种在轨策略算法。
+* VPG可用于具有离散或连续动作空间的环境。
+* VPG的Spinning Up实现支持与MPI并行化。
 
-Key Equations
+关键方程
 -------------
 
-Let :math:`\pi_{\theta}` denote a policy with parameters :math:`\theta`, and :math:`J(\pi_{\theta})` denote the expected finite-horizon undiscounted return of the policy. The gradient of :math:`J(\pi_{\theta})` is
+令 :math:`\pi_{\theta}` 表示参数为 :math:`\theta` 的策略，
+而 :math:`J(\pi_{\theta})` 表示有限视野无折扣的策略回报期望。
+:math:`J(\pi_{\theta})` 的梯度为
 
-.. math:: 
-    
+.. math::
+
     \nabla_{\theta} J(\pi_{\theta}) = \underE{\tau \sim \pi_{\theta}}{
         \sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta}(a_t|s_t) A^{\pi_{\theta}}(s_t,a_t)
         },
 
-where :math:`\tau` is a trajectory and :math:`A^{\pi_{\theta}}` is the advantage function for the current policy. 
+其中 :math:`\tau` 是轨迹，:math:`A^{\pi_{\theta}}` 是当前策略的优势函数。
 
-The policy gradient algorithm works by updating policy parameters via stochastic gradient ascent on policy performance:
+策略梯度算法的工作原理是通过随机梯度提升策略性能来更新策略参数：
 
 .. math::
 
     \theta_{k+1} = \theta_k + \alpha \nabla_{\theta} J(\pi_{\theta_k})
 
-Policy gradient implementations typically compute advantage function estimates based on the infinite-horizon discounted return, despite otherwise using the finite-horizon undiscounted policy gradient formula. 
+策略梯度实现通常基于无限视野折扣回报来计算优势函数估计，尽管其他情况下使用有限视野无折扣策略梯度公式。
 
-Exploration vs. Exploitation
+探索与利用
 ----------------------------
 
-VPG trains a stochastic policy in an on-policy way. This means that it explores by sampling actions according to the latest version of its stochastic policy. The amount of randomness in action selection depends on both initial conditions and the training procedure. Over the course of training, the policy typically becomes progressively less random, as the update rule encourages it to exploit rewards that it has already found. This may cause the policy to get trapped in local optima.
-
+VPG以在轨策略方式训练随机策略。这意味着它会根据其随机策略的最新版本通过采样操作来进行探索。
+动作选择的随机性取决于初始条件和训练程序。在训练过程中，由于更新规则鼓励该策略利用已经发现的奖励，因此该策略通常变得越来越少随机性。
+这可能会导致策略陷入局部最优状态。
 
 伪代码
 ----------
@@ -55,7 +58,7 @@ VPG trains a stochastic policy in an on-policy way. This means that it explores 
     :nowrap:
 
     \begin{algorithm}[H]
-        \caption{Vanilla Policy Gradient 算法}
+        \caption{Vanilla Policy Gradient Algorithm}
         \label{alg1}
     \begin{algorithmic}[1]
         \STATE Input: initial policy parameters $\theta_0$, initial value function parameters $\phi_0$

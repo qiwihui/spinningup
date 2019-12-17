@@ -94,6 +94,7 @@
 
 你可以通过 ``spinup/user_config.py`` 中的 ``DEFAULT_DATA_DIR`` 修改默认结果目录。
 
+.. _loading-and-running-trained-policies:
 
 加载并运行经过训练的策略
 ====================================

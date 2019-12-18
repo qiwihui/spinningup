@@ -5,13 +5,13 @@ Proximal Policy Optimization
 .. contents:: Table of Contents
 
 
-Background
+背景
 ==========
 
 
-(Previously: `Background for TRPO`_)
+(Previously: `背景 for TRPO`_)
 
-.. _`Background for TRPO`: ../algorithms/trpo.html#background
+.. _`背景 for TRPO`: ../algorithms/trpo.html#背景
 
 PPO is motivated by the same question as TRPO: how can we take the biggest possible improvement step on a policy using the data we currently have, without stepping so far that we accidentally cause performance collapse? Where TRPO tries to solve this problem with a complex second-order method, PPO is a family of first-order methods that use a few other tricks to keep new policies close to old. PPO methods are significantly simpler to implement, and empirically seem to perform at least as well as TRPO.
 
@@ -23,14 +23,14 @@ There are two primary variants of PPO: PPO-Penalty and PPO-Clip.
 
 Here, we'll focus only on PPO-Clip (the primary variant used at OpenAI).
 
-Quick Facts
+速览
 -----------
 
 * PPO is an on-policy algorithm.
 * PPO can be used for environments with either discrete or continuous action spaces.
 * The Spinning Up implementation of PPO supports parallelization with MPI.
 
-Key Equations
+关键方程
 -------------
 
 PPO-clip updates policies via
@@ -95,7 +95,7 @@ Because the advantage is negative, the objective will increase if the action bec
 
 What we have seen so far is that clipping serves as a regularizer by removing incentives for the policy to change dramatically, and the hyperparameter :math:`\epsilon` corresponds to how far away the new policy can go from the old while still profiting the objective.
 
-.. admonition:: You Should Know
+.. admonition:: 你应该知道
 
     While this kind of clipping goes a long way towards ensuring reasonable policy updates, it is still possible to end up with a new policy which is too far from the old policy, and there are a bunch of tricks used by different PPO implementations to stave this off. In our implementation here, we use a particularly simple method: early stopping. If the mean KL-divergence of the new policy from the old grows beyond a threshold, we stop taking gradient steps. 
 
@@ -108,13 +108,13 @@ What we have seen so far is that clipping serves as a regularizer by removing in
 .. _`this note`: https://drive.google.com/file/d/1PDzn9RPvaXjJFZkGeapMHbHGiWWW20Ey/view?usp=sharing
 
 
-Exploration vs. Exploitation
+探索与利用
 ----------------------------
 
 PPO trains a stochastic policy in an on-policy way. This means that it explores by sampling actions according to the latest version of its stochastic policy. The amount of randomness in action selection depends on both initial conditions and the training procedure. Over the course of training, the policy typically becomes progressively less random, as the update rule encourages it to exploit rewards that it has already found. This may cause the policy to get trapped in local optima.
 
 
-Pseudocode
+伪代码
 ----------
 
 .. math::
@@ -147,36 +147,37 @@ Pseudocode
     \end{algorithm}
 
 
-Documentation
+文档
 =============
 
 .. autofunction:: spinup.ppo
 
-Saved Model Contents
+保存的模型的内容
 --------------------
 
-The computation graph saved by the logger includes:
+记录的计算图包括：
 
 ========  ====================================================================
-Key       Value
+键        值
 ========  ====================================================================
 ``x``     Tensorflow placeholder for state input.
 ``pi``    Samples an action from the agent, conditioned on states in ``x``.
-``v``     Gives value estimate for states in ``x``. 
+``v``     Gives value estimate for states in ``x``.
 ========  ====================================================================
 
-This saved model can be accessed either by
+可以通过以下方式访问此保存的模型
 
-* running the trained policy with the `test_policy.py`_ tool,
-* or loading the whole saved graph into a program with `restore_tf_graph`_. 
+* 使用 `test_policy.py`_ 工具运行经过训练的策略，
+* 或使用 `restore_tf_graph`_ 将整个保存的图形加载到程序中。
 
 .. _`test_policy.py`: ../user/saving_and_loading.html#loading-and-running-trained-policies
 .. _`restore_tf_graph`: ../utils/logger.html#spinup.utils.logx.restore_tf_graph
 
-References
+
+参考
 ==========
 
-Relevant Papers
+相关论文
 ---------------
 
 - `Proximal Policy Optimization Algorithms`_, Schulman et al. 2017
@@ -187,20 +188,20 @@ Relevant Papers
 .. _`High Dimensional Continuous Control Using Generalized Advantage Estimation`: https://arxiv.org/abs/1506.02438
 .. _`Emergence of Locomotion Behaviours in Rich Environments`: https://arxiv.org/abs/1707.02286
 
-Why These Papers?
------------------
+为什么是这些论文？
+--------------------
 
-Schulman 2017 is included because it is the original paper describing PPO. Schulman 2016 is included because our implementation of PPO makes use of Generalized Advantage Estimation for computing the policy gradient. Heess 2017 is included because it presents a large-scale empirical analysis of behaviors learned by PPO agents in complex environments (although it uses PPO-penalty instead of PPO-clip). 
+包含Schulman 2017是因为它是描述PPO的原始论文。
+之所以包含Schulman 2016，是因为我们对PPO的实现利用了通用优势估计来计算策略梯度。
+包含了Heess 2017，因为它提供了对复杂环境中PPO代理所学行为的大规模实证分析（尽管它使用PPO惩罚而不是PPO-clip）。
 
-
-
-Other Public Implementations
+其他公开实现
 ----------------------------
 
 - Baselines_
 - ModularRL_ (Caution: this implements PPO-penalty instead of PPO-clip.)
 - rllab_ (Caution: this implements PPO-penalty instead of PPO-clip.)
-- `rllib (Ray)`_ 
+- `rllib (Ray)`_
 
 .. _Baselines: https://github.com/openai/baselines/tree/master/baselines/ppo2
 .. _ModularRL: https://github.com/joschu/modular_rl/blob/master/modular_rl/ppo.py

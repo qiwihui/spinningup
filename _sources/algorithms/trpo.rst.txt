@@ -6,12 +6,12 @@ Trust Region Policy Optimization
 
 
 
-Background
+背景
 ==========
 
-(Previously: `Background for VPG`_)
+(Previously: `背景 for VPG`_)
 
-.. _`Background for VPG`: ../algorithms/vpg.html#background
+.. _`背景 for VPG`: ../algorithms/vpg.html#背景
 
 TRPO updates policies by taking the largest step possible to improve performance, while satisfying a special constraint on how close the new and old policies are allowed to be. The constraint is expressed in terms of `KL-Divergence`_, a measure of (something like, but not exactly) distance between probability distributions. 
 
@@ -19,14 +19,14 @@ This is different from normal policy gradient, which keeps new and old policies 
 
 .. _`KL-Divergence`: https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence
 
-Quick Facts
+速览
 -----------
 
 * TRPO is an on-policy algorithm.
 * TRPO can be used for environments with either discrete or continuous action spaces.
 * The Spinning Up implementation of TRPO supports parallelization with MPI.
 
-Key Equations
+关键方程
 -------------
 
 Let :math:`\pi_{\theta}` denote a policy with parameters :math:`\theta`. The theoretical TRPO update is:
@@ -52,7 +52,7 @@ and :math:`\bar{D}_{KL}(\theta || \theta_k)` is an average KL-divergence between
         D_{KL}\left(\pi_{\theta}(\cdot|s) || \pi_{\theta_k} (\cdot|s) \right)
     }.
 
-.. admonition:: You Should Know
+.. admonition:: 你应该知道
 
     The objective and constraint are both zero when :math:`\theta = \theta_k`. Furthermore, the gradient of the constraint with respect to :math:`\theta` is zero when :math:`\theta = \theta_k`. Proving these facts requires some subtle command of the relevant math---it's an exercise worth doing, whenever you feel ready!
 
@@ -71,7 +71,7 @@ resulting in an approximate optimization problem,
     \theta_{k+1} = \arg \max_{\theta} \; & g^T (\theta - \theta_k) \\
     \text{s.t.} \; & \frac{1}{2} (\theta - \theta_k)^T H (\theta - \theta_k) \leq \delta.
 
-.. admonition:: You Should Know
+.. admonition:: 你应该知道
 
     By happy coincidence, the gradient :math:`g` of the surrogate advantage function with respect to :math:`\theta`, evaluated at :math:`\theta = \theta_k`, is exactly equal to the policy gradient, :math:`\nabla_{\theta} J(\pi_{\theta})`! Try proving this, if you feel comfortable diving into the math.
 
@@ -104,13 +104,13 @@ which gives us the correct output without computing the whole matrix.
 .. _`conjugate gradient`: https://en.wikipedia.org/wiki/Conjugate_gradient_method
 
 
-Exploration vs. Exploitation
+探索与利用
 ----------------------------
 
 TRPO trains a stochastic policy in an on-policy way. This means that it explores by sampling actions according to the latest version of its stochastic policy. The amount of randomness in action selection depends on both initial conditions and the training procedure. Over the course of training, the policy typically becomes progressively less random, as the update rule encourages it to exploit rewards that it has already found. This may cause the policy to get trapped in local optima.
 
 
-Pseudocode
+伪代码
 ----------
 
 .. math::
@@ -151,37 +151,37 @@ Pseudocode
 
 
 
-Documentation
+文档
 =============
 
 .. autofunction:: spinup.trpo
 
-
-Saved Model Contents
+保存的模型的内容
 --------------------
 
-The computation graph saved by the logger includes:
+记录的计算图包括：
 
 ========  ====================================================================
-Key       Value
+键        值
 ========  ====================================================================
 ``x``     Tensorflow placeholder for state input.
 ``pi``    Samples an action from the agent, conditioned on states in ``x``.
-``v``     Gives value estimate for states in ``x``. 
+``v``     Gives value estimate for states in ``x``.
 ========  ====================================================================
 
-This saved model can be accessed either by
+可以通过以下方式访问此保存的模型
 
-* running the trained policy with the `test_policy.py`_ tool,
-* or loading the whole saved graph into a program with `restore_tf_graph`_. 
+* 使用 `test_policy.py`_ 工具运行经过训练的策略，
+* 或使用 `restore_tf_graph`_ 将整个保存的图形加载到程序中。
 
 .. _`test_policy.py`: ../user/saving_and_loading.html#loading-and-running-trained-policies
 .. _`restore_tf_graph`: ../utils/logger.html#spinup.utils.logx.restore_tf_graph
 
-References
+
+参考
 ==========
 
-Relevant Papers
+相关论文
 ---------------
 
 - `Trust Region Policy Optimization`_, Schulman et al. 2015
@@ -192,14 +192,14 @@ Relevant Papers
 .. _`High Dimensional Continuous Control Using Generalized Advantage Estimation`: https://arxiv.org/abs/1506.02438
 .. _`Approximately Optimal Approximate Reinforcement Learning`: https://people.eecs.berkeley.edu/~pabbeel/cs287-fa09/readings/KakadeLangford-icml2002.pdf
 
-Why These Papers?
------------------
+为什么是这些论文？
+--------------------
 
-Schulman 2015 is included because it is the original paper describing TRPO. Schulman 2016 is included because our implementation of TRPO makes use of Generalized Advantage Estimation for computing the policy gradient. Kakade and Langford 2002 is included because it contains theoretical results which motivate and deeply connect to the theoretical foundations of TRPO. 
+包含Schulman 2015是因为它是描述TRPO的原始论文。
+之所以包含Schulman 2016，是因为我们对TRPO的实现利用了通用优势估计来计算策略梯度。
+之所以将Kakade和Langford 2002包括在内是因为它包含的理论结果激励并深深地与TRPO的理论基础联系在一起。
 
-
-
-Other Public Implementations
+其他公开实现
 ----------------------------
 
 - Baselines_

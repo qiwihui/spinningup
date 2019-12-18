@@ -4,12 +4,12 @@ Twin Delayed DDPG
 
 .. contents:: Table of Contents
 
-Background
+背景
 ==========
 
-(Previously: `Background for DDPG`_)
+(Previously: `背景 for DDPG`_)
 
-.. _`Background for DDPG`: ../algorithms/ddpg.html#background
+.. _`背景 for DDPG`: ../algorithms/ddpg.html#背景
 
 While DDPG can achieve great performance sometimes, it is frequently brittle with respect to hyperparameters and other kinds of tuning. A common failure mode for DDPG is that the learned Q-function begins to dramatically overestimate Q-values, which then leads to the policy breaking, because it exploits the errors in the Q-function. Twin Delayed DDPG (TD3) is an algorithm which addresses this issue by introducing three critical tricks:
 
@@ -21,14 +21,14 @@ While DDPG can achieve great performance sometimes, it is frequently brittle wit
 
 Together, these three tricks result in substantially improved performance over baseline DDPG.
 
-Quick Facts
+速览
 -----------
 
 * TD3 is an off-policy algorithm.
 * TD3 can only be used for environments with continuous action spaces.
 * The Spinning Up implementation of TD3 does not support parallelization.
 
-Key Equations
+关键方程
 -------------
 
 TD3 concurrently learns two Q-functions, :math:`Q_{\phi_1}` and :math:`Q_{\phi_2}`, by mean square Bellman error minimization, in almost the same way that DDPG learns its single Q-function. To show exactly how TD3 does this and how it differs from normal DDPG, we'll work from the innermost part of the loss function outwards.
@@ -72,19 +72,19 @@ Lastly: the policy is learned just by maximizing :math:`Q_{\phi_1}`:
 which is pretty much unchanged from DDPG. However, in TD3, the policy is updated less frequently than the Q-functions are. This helps damp the volatility that normally arises in DDPG because of how a policy update changes the target.
 
 
-Exploration vs. Exploitation
+探索与利用
 ----------------------------
 
 TD3 trains a deterministic policy in an off-policy way. Because the policy is deterministic, if the agent were to explore on-policy, in the beginning it would probably not try a wide enough variety of actions to find useful learning signals. To make TD3 policies explore better, we add noise to their actions at training time, typically uncorrelated mean-zero Gaussian noise. To facilitate getting higher-quality training data, you may reduce the scale of the noise over the course of training. (We do not do this in our implementation, and keep noise scale fixed throughout.)
 
 At test time, to see how well the policy exploits what it has learned, we do not add noise to the actions.
 
-.. admonition:: You Should Know
+.. admonition:: 你应该知道
 
     Our TD3 implementation uses a trick to improve exploration at the start of training. For a fixed number of steps at the beginning (set with the ``start_steps`` keyword argument), the agent takes actions which are sampled from a uniform random distribution over valid actions. After that, it returns to normal TD3 exploration.
 
 
-Pseudocode
+伪代码
 ----------
 
 
@@ -138,47 +138,47 @@ Pseudocode
 
 
 
-Documentation
+文档
 =============
 
 .. autofunction:: spinup.td3
 
-Saved Model Contents
+保存的模型的内容
 --------------------
 
-The computation graph saved by the logger includes:
+记录的计算图包括：
 
 ========  ====================================================================
-Key       Value
+键        值
 ========  ====================================================================
 ``x``     Tensorflow placeholder for state input.
 ``a``     Tensorflow placeholder for action input.
-``pi``    | Deterministically computes an action from the agent, conditioned 
+``pi``    | Deterministically computes an action from the agent, conditioned
           | on states in ``x``.
 ``q1``    Gives one action-value estimate for states in ``x`` and actions in ``a``.
 ``q2``    Gives the other action-value estimate for states in ``x`` and actions in ``a``.
 ========  ====================================================================
 
-This saved model can be accessed either by
+可以通过以下方式访问此保存的模型
 
-* running the trained policy with the `test_policy.py`_ tool,
-* or loading the whole saved graph into a program with `restore_tf_graph`_. 
+* 使用 `test_policy.py`_ 工具运行经过训练的策略，
+* 或使用 `restore_tf_graph`_ 将整个保存的图形加载到程序中。
 
 .. _`test_policy.py`: ../user/saving_and_loading.html#loading-and-running-trained-policies
 .. _`restore_tf_graph`: ../utils/logger.html#spinup.utils.logx.restore_tf_graph
 
-References
+
+参考
 ==========
 
-Relevant Papers
+相关论文
 ---------------
 
 - `Addressing Function Approximation Error in Actor-Critic Methods`_, Fujimoto et al, 2018
 
 .. _`Addressing Function Approximation Error in Actor-Critic Methods`: https://arxiv.org/abs/1802.09477
 
-
-Other Public Implementations
+其他公开实现
 ----------------------------
 
 - `TD3 release repo`_

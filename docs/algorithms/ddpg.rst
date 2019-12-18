@@ -4,7 +4,7 @@ Deep Deterministic Policy Gradient
 
 .. contents:: Table of Contents
 
-Background
+背景
 ==========
 
 (Previously: `Introduction to RL Part 1: The Optimal Q-Function and the Optimal Action`_)
@@ -23,10 +23,10 @@ DDPG interleaves learning an approximator to :math:`Q^*(s,a)` with learning an a
 
 When there are a finite number of discrete actions, the max poses no problem, because we can just compute the Q-values for each action separately and directly compare them. (This also immediately gives us the action which maximizes the Q-value.) But when the action space is continuous, we can't exhaustively evaluate the space, and solving the optimization problem is highly non-trivial. Using a normal optimization algorithm would make calculating :math:`\max_a Q^*(s,a)` a painfully expensive subroutine. And since it would need to be run every time the agent wants to take an action in the environment, this is unacceptable.
 
-Because the action space is continuous, the function :math:`Q^*(s,a)` is presumed to be differentiable with respect to the action argument. This allows us to set up an efficient, gradient-based learning rule for a policy :math:`\mu(s)` which exploits that fact. Then, instead of running an expensive optimization subroutine each time we wish to compute :math:`\max_a Q(s,a)`, we can approximate it with :math:`\max_a Q(s,a) \approx Q(s,\mu(s))`. See the Key Equations section details.
+Because the action space is continuous, the function :math:`Q^*(s,a)` is presumed to be differentiable with respect to the action argument. This allows us to set up an efficient, gradient-based learning rule for a policy :math:`\mu(s)` which exploits that fact. Then, instead of running an expensive optimization subroutine each time we wish to compute :math:`\max_a Q(s,a)`, we can approximate it with :math:`\max_a Q(s,a) \approx Q(s,\mu(s))`. See the 关键方程 section details.
 
 
-Quick Facts
+速览
 -----------
 
 * DDPG is an off-policy algorithm.
@@ -34,7 +34,7 @@ Quick Facts
 * DDPG can be thought of as being deep Q-learning for continuous action spaces.
 * The Spinning Up implementation of DDPG does not support parallelization.
 
-Key Equations
+关键方程
 -------------
 
 Here, we'll explain the math behind the two parts of DDPG: learning a Q function, and learning a policy.
@@ -64,7 +64,7 @@ Q-learning algorithms for function approximators, such as DQN (and all its varia
 
 **Trick One: Replay Buffers.** All standard algorithms for training a deep neural network to approximate :math:`Q^*(s,a)` make use of an experience replay buffer. This is the set :math:`{\mathcal D}` of previous experiences. In order for the algorithm to have stable behavior, the replay buffer should be large enough to contain a wide range of experiences, but it may not always be good to keep everything. If you only use the very-most recent data, you will overfit to that and things will break; if you use too much experience, you may slow down your learning. This may take some tuning to get right.
 
-.. admonition:: You Should Know
+.. admonition:: 你应该知道
 
     We've mentioned that DDPG is an off-policy algorithm: this is as good a point as any to highlight why and how. Observe that the replay buffer *should* contain old experiences, even though they might have been obtained using an outdated policy. Why are we able to use these at all? The reason is that the Bellman equation *doesn't care* which transition tuples are used, or how the actions were selected, or what happens after a given transition, because the optimal Q-function should satisfy the Bellman equation for *all* possible transitions. So any transitions that we've ever experienced are fair game when trying to fit a Q-function approximator via MSBE minimization.
 
@@ -111,7 +111,7 @@ Note that the Q-function parameters are treated as constants here.
 
 
 
-Exploration vs. Exploitation
+探索与利用
 ----------------------------
 
 DDPG trains a deterministic policy in an off-policy way. Because the policy is deterministic, if the agent were to explore on-policy, in the beginning it would probably not try a wide enough variety of actions to find useful learning signals. To make DDPG policies explore better, we add noise to their actions at training time. The authors of the original DDPG paper recommended time-correlated `OU noise`_, but more recent results suggest that uncorrelated, mean-zero Gaussian noise works perfectly well. Since the latter is simpler, it is preferred. To facilitate getting higher-quality training data, you may reduce the scale of the noise over the course of training. (We do not do this in our implementation, and keep noise scale fixed throughout.)
@@ -120,12 +120,12 @@ At test time, to see how well the policy exploits what it has learned, we do not
 
 .. _`OU noise`: https://en.wikipedia.org/wiki/Ornstein%E2%80%93Uhlenbeck_process
 
-.. admonition:: You Should Know
+.. admonition:: 你应该知道
 
     Our DDPG implementation uses a trick to improve exploration at the start of training. For a fixed number of steps at the beginning (set with the ``start_steps`` keyword argument), the agent takes actions which are sampled from a uniform random distribution over valid actions. After that, it returns to normal DDPG exploration.
 
 
-Pseudocode
+伪代码
 ----------
 
 .. math::
@@ -170,39 +170,39 @@ Pseudocode
     \end{algorithm}
 
 
-Documentation
+文档
 =============
 
 .. autofunction:: spinup.ddpg
 
-Saved Model Contents
+保存的模型的内容
 --------------------
 
-The computation graph saved by the logger includes:
+记录的计算图包括：
 
 ========  ====================================================================
 Key       Value
 ========  ====================================================================
 ``x``     Tensorflow placeholder for state input.
 ``a``     Tensorflow placeholder for action input.
-``pi``    | Deterministically computes an action from the agent, conditioned 
+``pi``    | Deterministically computes an action from the agent, conditioned
           | on states in ``x``.
 ``q``     Gives action-value estimate for states in ``x`` and actions in ``a``.
 ========  ====================================================================
 
-This saved model can be accessed either by
+可以通过以下方式访问此保存的模型
 
-* running the trained policy with the `test_policy.py`_ tool,
-* or loading the whole saved graph into a program with `restore_tf_graph`_. 
+* 使用 `test_policy.py`_ 工具运行经过训练的策略，
+* 或使用 `restore_tf_graph`_ 将整个保存的图形加载到程序中。
 
 .. _`test_policy.py`: ../user/saving_and_loading.html#loading-and-running-trained-policies
 .. _`restore_tf_graph`: ../utils/logger.html#spinup.utils.logx.restore_tf_graph
 
 
-References
+参考
 ==========
 
-Relevant Papers
+相关论文
 ---------------
 
 - `Deterministic Policy Gradient Algorithms`_, Silver et al. 2014
@@ -211,20 +211,18 @@ Relevant Papers
 .. _`Deterministic Policy Gradient Algorithms`: http://proceedings.mlr.press/v32/silver14.pdf
 .. _`Continuous Control With Deep Reinforcement Learning`: https://arxiv.org/abs/1509.02971
 
+为什么是这些论文？
+--------------------
 
-Why These Papers?
------------------
+包括Silver 2014，是因为它建立了确定性策略梯度（DPG）的理论基础。
+包含Lillicrap 2016是因为它使理论上扎实的DPG算法适应于深度强化学习设定，从而获得了DDPG。
 
-Silver 2014 is included because it establishes the theory underlying deterministic policy gradients (DPG). Lillicrap 2016 is included because it adapts the theoretically-grounded DPG algorithm to the deep RL setting, giving DDPG.
-
-
-
-Other Public Implementations
+其他公开实现
 ----------------------------
 
 - Baselines_
-- rllab_ 
-- `rllib (Ray)`_ 
+- rllab_
+- `rllib (Ray)`_
 - `TD3 release repo`_
 
 .. _Baselines: https://github.com/openai/baselines/tree/master/baselines/ddpg

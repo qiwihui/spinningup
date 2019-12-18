@@ -4,12 +4,12 @@ Soft Actor-Critic
 
 .. contents:: Table of Contents
 
-Background
+背景
 ==========
 
-(Previously: `Background for TD3`_)
+(Previously: `背景 for TD3`_)
 
-.. _`Background for TD3`: ../algorithms/td3.html#background
+.. _`背景 for TD3`: ../algorithms/td3.html#背景
 
 Soft Actor Critic (SAC) is an algorithm which optimizes a stochastic policy in an off-policy way, forming a bridge between stochastic policy optimization and DDPG-style approaches. It isn't a direct successor to TD3 (having been published roughly concurrently), but it incorporates the clipped double-Q trick, and due to the inherent stochasticity of the policy in SAC, it also winds up benefiting from something like target policy smoothing. 
 
@@ -17,7 +17,7 @@ A central feature of SAC is **entropy regularization.** The policy is trained to
 
 .. _`entropy`: https://en.wikipedia.org/wiki/Entropy_(information_theory)
 
-Quick Facts
+速览
 -----------
 
 * SAC is an off-policy algorithm.
@@ -25,7 +25,7 @@ Quick Facts
 * An alternate version of SAC, which slightly changes the policy update rule, can be implemented to handle discrete action spaces.
 * The Spinning Up implementation of SAC does not support parallelization.
 
-Key Equations
+关键方程
 -------------
 
 To explain Soft Actor Critic, we first have to introduce the entropy-regularized reinforcement learning setting. In entropy-regularized RL, there are slightly-different equations for value functions. 
@@ -74,7 +74,7 @@ and the Bellman equation for :math:`Q^{\pi}` is
 
 .. _`the RL problem`: ../spinningup/rl_intro.html#the-rl-problem
 
-.. admonition:: You Should Know
+.. admonition:: 你应该知道
 
     The way we've set up the value functions in the entropy-regularized setting is a little bit arbitrary, and actually we could have done it differently (eg make :math:`Q^{\pi}` include the entropy bonus at the first timestep). The choice of definition may vary slightly across papers on the subject.
 
@@ -127,7 +127,7 @@ The way we optimize the policy makes use of the **reparameterization trick**, in
 
     \tilde{a}_{\theta}(s, \xi) = \tanh\left( \mu_{\theta}(s) + \sigma_{\theta}(s) \odot \xi \right), \;\;\;\;\; \xi \sim \mathcal{N}(0, I).
 
-.. admonition:: You Should Know
+.. admonition:: 你应该知道
 
     This policy has two key differences from the policies we use in the other policy optimization algorithms:
 
@@ -150,19 +150,19 @@ To get the policy loss, the final step is that we need to substitute :math:`Q^{\
 which is almost the same as the DDPG and TD3 policy optimization, except for the stochasticity and entropy term.
 
 
-Exploration vs. Exploitation
+探索与利用
 ----------------------------
 
 SAC trains a stochastic policy with entropy regularization, and explores in an on-policy way. The entropy regularization coefficient :math:`\alpha` explicitly controls the explore-exploit tradeoff, with higher :math:`\alpha` corresponding to more exploration, and lower :math:`\alpha` corresponding to more exploitation. The right coefficient (the one which leads to the stablest / highest-reward learning) may vary from environment to environment, and could require careful tuning.
 
 At test time, to see how well the policy exploits what it has learned, we remove stochasticity and use the mean action instead of a sample from the distribution. This tends to improve performance over the original stochastic policy.
 
-.. admonition:: You Should Know
+.. admonition:: 你应该知道
 
     Our SAC implementation uses a trick to improve exploration at the start of training. For a fixed number of steps at the beginning (set with the ``start_steps`` keyword argument), the agent takes actions which are sampled from a uniform random distribution over valid actions. After that, it returns to normal SAC exploration.
 
 
-Pseudocode
+伪代码
 ----------
 
 
@@ -212,51 +212,50 @@ Pseudocode
     \end{algorithmic}
     \end{algorithm}
 
-Documentation
+文档
 =============
 
 .. autofunction:: spinup.sac
 
-Saved Model Contents
+保存的模型的内容
 --------------------
 
-The computation graph saved by the logger includes:
+记录的计算图包括：
 
 ========  ====================================================================
-Key       Value
+键         值
 ========  ====================================================================
 ``x``     Tensorflow placeholder for state input.
 ``a``     Tensorflow placeholder for action input.
-``mu``    Deterministically computes mean action from the agent, given states in ``x``. 
+``mu``    Deterministically computes mean action from the agent, given states in ``x``.
 ``pi``    Samples an action from the agent, conditioned on states in ``x``.
 ``q1``    Gives one action-value estimate for states in ``x`` and actions in ``a``.
 ``q2``    Gives the other action-value estimate for states in ``x`` and actions in ``a``.
-``v``     Gives the value estimate for states in ``x``. 
+``v``     Gives the value estimate for states in ``x``.
 ========  ====================================================================
 
-This saved model can be accessed either by
+可以通过以下方式访问此保存的模型
 
-* running the trained policy with the `test_policy.py`_ tool,
-* or loading the whole saved graph into a program with `restore_tf_graph`_. 
+* 使用 `test_policy.py`_ 工具运行经过训练的策略，
+* 或使用 `restore_tf_graph`_ 将整个保存的图形加载到程序中。
 
-Note: for SAC, the correct evaluation policy is given by ``mu`` and not by ``pi``. The policy ``pi`` may be thought of as the exploration policy, while ``mu`` is the exploitation policy.
+注意：对于SAC，正确的评估策略由 ``mu`` 而不是 ``pi`` 给出。可以将策略 ``pi`` 视为探索策略，而将 ``mu`` 视为开发策略。
 
 .. _`test_policy.py`: ../user/saving_and_loading.html#loading-and-running-trained-policies
 .. _`restore_tf_graph`: ../utils/logger.html#spinup.utils.logx.restore_tf_graph
 
 
-References
+参考
 ==========
 
-Relevant Papers
+相关论文
 ---------------
 
 - `Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor`_, Haarnoja et al, 2018
 
 .. _`Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor`: https://arxiv.org/abs/1801.01290
 
-
-Other Public Implementations
+其他公开实现
 ----------------------------
 
 - `SAC release repo`_

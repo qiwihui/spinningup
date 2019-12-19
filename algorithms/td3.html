@@ -114,7 +114,7 @@
 <li class="toctree-l1"><a class="reference internal" href="ppo.html">Proximal Policy Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ddpg.html">Deep Deterministic Policy Gradient</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Twin Delayed DDPG</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">背景</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#background">背景</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id2">速览</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id3">关键方程</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id4">探索与利用</a></li>
@@ -233,7 +233,7 @@
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#twin-delayed-ddpg" id="id11">Twin Delayed DDPG</a><ul>
-<li><a class="reference internal" href="#id1" id="id12">背景</a><ul>
+<li><a class="reference internal" href="#background" id="id12">背景</a><ul>
 <li><a class="reference internal" href="#id2" id="id13">速览</a></li>
 <li><a class="reference internal" href="#id3" id="id14">关键方程</a></li>
 <li><a class="reference internal" href="#id4" id="id15">探索与利用</a></li>
@@ -253,9 +253,9 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id1">
-<h2><a class="toc-backref" href="#id12">背景</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>(Previously: <a class="reference external" href="../algorithms/ddpg.html#背景">背景 for DDPG</a>)</p>
+<div class="section" id="background">
+<span id="id1"></span><h2><a class="toc-backref" href="#id12">背景</a><a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
+<p>(前一节 <a class="reference external" href="../algorithms/ddpg.html#background">背景 for DDPG</a>)</p>
 <p>While DDPG can achieve great performance sometimes, it is frequently brittle with respect to hyperparameters and other kinds of tuning. A common failure mode for DDPG is that the learned Q-function begins to dramatically overestimate Q-values, which then leads to the policy breaking, because it exploits the errors in the Q-function. Twin Delayed DDPG (TD3) is an algorithm which addresses this issue by introducing three critical tricks:</p>
 <p><strong>Trick One: Clipped Double-Q Learning.</strong> TD3 learns <em>two</em> Q-functions instead of one (hence &#8220;twin&#8221;), and uses the smaller of the two Q-values to form the targets in the Bellman error loss functions.</p>
 <p><strong>Trick Two: &#8220;Delayed&#8221; Policy Updates.</strong> TD3 updates the policy (and target networks) less frequently than the Q-function. The paper recommends one policy update for every two Q-function updates.</p>

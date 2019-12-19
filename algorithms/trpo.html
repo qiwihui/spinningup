@@ -111,21 +111,21 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="vpg.html">Vanilla Policy Gradient</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Trust Region Policy Optimization</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">背景</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id2">速览</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">关键方程</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">探索与利用</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">伪代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#background">背景</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">速览</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">关键方程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">探索与利用</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">伪代码</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id8">文档</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id9">保存的模型的内容</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">文档</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id13">保存的模型的内容</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id10">参考</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id11">相关论文</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id13">为什么是这些论文？</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id14">其他公开实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id14">参考</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id15">相关论文</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">为什么是这些论文？</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">其他公开实现</a></li>
 </ul>
 </li>
 </ul>
@@ -229,101 +229,125 @@
            <div itemprop="articleBody">
             
   <div class="section" id="trust-region-policy-optimization">
-<h1><a class="toc-backref" href="#id15">Trust Region Policy Optimization</a><a class="headerlink" href="#trust-region-policy-optimization" title="Permalink to this headline">¶</a></h1>
-<div class="contents topic" id="table-of-contents">
-<p class="topic-title first">Table of Contents</p>
+<h1><a class="toc-backref" href="#id19">Trust Region Policy Optimization</a><a class="headerlink" href="#trust-region-policy-optimization" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="id1">
+<p class="topic-title first">目录</p>
 <ul class="simple">
-<li><a class="reference internal" href="#trust-region-policy-optimization" id="id15">Trust Region Policy Optimization</a><ul>
-<li><a class="reference internal" href="#id1" id="id16">背景</a><ul>
-<li><a class="reference internal" href="#id2" id="id17">速览</a></li>
-<li><a class="reference internal" href="#id3" id="id18">关键方程</a></li>
-<li><a class="reference internal" href="#id6" id="id19">探索与利用</a></li>
-<li><a class="reference internal" href="#id7" id="id20">伪代码</a></li>
+<li><a class="reference internal" href="#trust-region-policy-optimization" id="id19">Trust Region Policy Optimization</a><ul>
+<li><a class="reference internal" href="#background" id="id20">背景</a><ul>
+<li><a class="reference internal" href="#id3" id="id21">速览</a></li>
+<li><a class="reference internal" href="#id4" id="id22">关键方程</a></li>
+<li><a class="reference internal" href="#id10" id="id23">探索与利用</a></li>
+<li><a class="reference internal" href="#id11" id="id24">伪代码</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id8" id="id21">文档</a><ul>
-<li><a class="reference internal" href="#id9" id="id22">保存的模型的内容</a></li>
+<li><a class="reference internal" href="#id12" id="id25">文档</a><ul>
+<li><a class="reference internal" href="#id13" id="id26">保存的模型的内容</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id10" id="id23">参考</a><ul>
-<li><a class="reference internal" href="#id11" id="id24">相关论文</a></li>
-<li><a class="reference internal" href="#id13" id="id25">为什么是这些论文？</a></li>
-<li><a class="reference internal" href="#id14" id="id26">其他公开实现</a></li>
+<li><a class="reference internal" href="#id14" id="id27">参考</a><ul>
+<li><a class="reference internal" href="#id15" id="id28">相关论文</a></li>
+<li><a class="reference internal" href="#id17" id="id29">为什么是这些论文？</a></li>
+<li><a class="reference internal" href="#id18" id="id30">其他公开实现</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="section" id="id1">
-<h2><a class="toc-backref" href="#id16">背景</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>(Previously: <a class="reference external" href="../algorithms/vpg.html#背景">背景 for VPG</a>)</p>
-<p>TRPO updates policies by taking the largest step possible to improve performance, while satisfying a special constraint on how close the new and old policies are allowed to be. The constraint is expressed in terms of <a class="reference external" href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">KL-Divergence</a>, a measure of (something like, but not exactly) distance between probability distributions.</p>
-<p>This is different from normal policy gradient, which keeps new and old policies close in parameter space. But even seemingly small differences in parameter space can have very large differences in performance&#8212;so a single bad step can collapse the policy performance. This makes it dangerous to use large step sizes with vanilla policy gradients, thus hurting its sample efficiency. TRPO nicely avoids this kind of collapse, and tends to quickly and monotonically improve performance.</p>
-<div class="section" id="id2">
-<h3><a class="toc-backref" href="#id17">速览</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li>TRPO is an on-policy algorithm.</li>
-<li>TRPO can be used for environments with either discrete or continuous action spaces.</li>
-<li>The Spinning Up implementation of TRPO supports parallelization with MPI.</li>
-</ul>
-</div>
+<div class="section" id="background">
+<span id="id2"></span><h2><a class="toc-backref" href="#id20">背景</a><a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
+<p>（前一节： <a class="reference external" href="../algorithms/vpg.html#background">VPG背景</a>）</p>
+<p>TRPO通过采取最大的可以改进策略的步来更新策略，同时满足关于允许新旧策略接近的特殊约束。
+约束用 <a class="reference external" href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">KL散度</a> 表示，KL散度是对概率分布之间的距离（但不完全相同）的一种度量。</p>
+<p>这与常规策略梯度不同，后者使新策略和旧策略在参数空间中保持紧密联系。
+但是，即使参数空间上看似很小的差异也可能在性能上产生很大的差异──因此，一个糟糕的步骤可能会使策略性能崩溃。
+这使得使用大步长的vanilla policy gradients变得危险，从而损害了其采样效率。
+TRPO很好地避免了这种崩溃，并且倾向于快速单调地提高性能。</p>
 <div class="section" id="id3">
-<h3><a class="toc-backref" href="#id18">关键方程</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<p>Let <span class="math">\pi_{\theta}</span> denote a policy with parameters <span class="math">\theta</span>. The theoretical TRPO update is:</p>
+<h3><a class="toc-backref" href="#id21">速览</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>TRPO是在轨算法。</li>
+<li>TRPOVPG可用于具有离散或连续动作空间的环境。</li>
+<li>TRPO的Spinning Up实现支持与MPI并行化。</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3><a class="toc-backref" href="#id22">关键方程</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>令 <span class="math">\pi_{\theta}</span> 表示参数为 <span class="math">\theta</span> 的策略，理论上的TRPO更新为：</p>
 <div class="math">
 <p><span class="math">\theta_{k+1} = \arg \max_{\theta} \; &amp; {\mathcal L}(\theta_k, \theta) \\
 \text{s.t.} \; &amp; \bar{D}_{KL}(\theta || \theta_k) \leq \delta</span></p>
-</div><p>where <span class="math">{\mathcal L}(\theta_k, \theta)</span> is the <em>surrogate advantage</em>, a measure of how policy <span class="math">\pi_{\theta}</span> performs relative to the old policy <span class="math">\pi_{\theta_k}</span> using data from the old policy:</p>
+</div><p>其中 <span class="math">{\mathcal L}(\theta_k, \theta)</span> 是 <em>替代优势</em>，
+它使用旧策略中的数据来衡量策略 <span class="math">\pi_{\theta}</span> 与旧策略 <span class="math">\pi_{\theta_k}</span> 的相对性能：</p>
 <div class="math">
 <p><span class="math">{\mathcal L}(\theta_k, \theta) = \underE{s,a \sim \pi_{\theta_k}}{
     \frac{\pi_{\theta}(a|s)}{\pi_{\theta_k}(a|s)} A^{\pi_{\theta_k}}(s,a)
     },</span></p>
-</div><p>and <span class="math">\bar{D}_{KL}(\theta || \theta_k)</span> is an average KL-divergence between policies across states visited by the old policy:</p>
+</div><p><span class="math">\bar{D}_{KL}(\theta || \theta_k)</span> 是旧策略访问的各状态之间的策略之间的平均散度差异：</p>
 <div class="math">
 <p><span class="math">\bar{D}_{KL}(\theta || \theta_k) = \underE{s \sim \pi_{\theta_k}}{
     D_{KL}\left(\pi_{\theta}(\cdot|s) || \pi_{\theta_k} (\cdot|s) \right)
 }.</span></p>
 </div><div class="admonition- admonition">
 <p class="first admonition-title">你应该知道</p>
-<p class="last">The objective and constraint are both zero when <span class="math">\theta = \theta_k</span>. Furthermore, the gradient of the constraint with respect to <span class="math">\theta</span> is zero when <span class="math">\theta = \theta_k</span>. Proving these facts requires some subtle command of the relevant math&#8212;it&#8217;s an exercise worth doing, whenever you feel ready!</p>
+<p class="last">当 <span class="math">\theta = \theta_k</span> 时，目标和约束都为零。
+此外，当 <span class="math">\theta = \theta_k</span> 时，约束相对于 <span class="math">\theta</span> 的梯度为零。
+要证明这些事实，需要对相关数学有一些微妙的掌握──每当您准备就绪时，这都是值得做的练习！</p>
 </div>
-<p>The theoretical TRPO update isn&#8217;t the easiest to work with, so TRPO makes some approximations to get an answer quickly. We Taylor expand the objective and constraint to leading order around <span class="math">\theta_k</span>:</p>
+<p>理论上的TRPO更新不是最容易使用的，因此TRPO做出了一些近似以快速获得答案。
+我们使用泰勒展开将目标和约束扩展到 <span class="math">\theta_k</span> 周围的首阶指数（leading order）：</p>
 <div class="math">
 <p><span class="math">{\mathcal L}(\theta_k, \theta) &amp;\approx g^T (\theta - \theta_k) \\
 \bar{D}_{KL}(\theta || \theta_k) &amp; \approx \frac{1}{2} (\theta - \theta_k)^T H (\theta - \theta_k)</span></p>
-</div><p>resulting in an approximate optimization problem,</p>
+</div><p>结果产生一个近似的优化问题，</p>
 <div class="math">
 <p><span class="math">\theta_{k+1} = \arg \max_{\theta} \; &amp; g^T (\theta - \theta_k) \\
 \text{s.t.} \; &amp; \frac{1}{2} (\theta - \theta_k)^T H (\theta - \theta_k) \leq \delta.</span></p>
 </div><div class="admonition- admonition">
 <p class="first admonition-title">你应该知道</p>
-<p class="last">By happy coincidence, the gradient <span class="math">g</span> of the surrogate advantage function with respect to <span class="math">\theta</span>, evaluated at <span class="math">\theta = \theta_k</span>, is exactly equal to the policy gradient, <span class="math">\nabla_{\theta} J(\pi_{\theta})</span>! Try proving this, if you feel comfortable diving into the math.</p>
+<p class="last">巧合的是，以 <span class="math">\theta = \theta_k</span> 评估的替代优势函数相对于 <span class="math">\theta</span> 的梯度 <span class="math">g</span>
+恰好等于策略梯度 <span class="math">\nabla_{\theta} J(\pi_{\theta})</span>！
+如果您愿意精通数学，请尝试证明这一点。</p>
 </div>
-<p>This approximate problem can be analytically solved by the methods of Lagrangian duality <a class="footnote-reference" href="#id5" id="id4">[1]</a>, yielding the solution:</p>
+<p>这个近似问题可以通过拉格朗日对偶 <a class="footnote-reference" href="#id6" id="id5">[1]</a> 的方法来解析地解决，得出的结果是：</p>
 <div class="math">
 <p><span class="math">\theta_{k+1} = \theta_k + \sqrt{\frac{2 \delta}{g^T H^{-1} g}} H^{-1} g.</span></p>
-</div><p>If we were to stop here, and just use this final result, the algorithm would be exactly calculating the <a class="reference external" href="https://papers.nips.cc/paper/2073-a-natural-policy-gradient.pdf">Natural Policy Gradient</a>. A problem is that, due to the approximation errors introduced by the Taylor expansion, this may not satisfy the KL constraint, or actually improve the surrogate advantage. TRPO adds a modification to this update rule: a backtracking line search,</p>
+</div><p>如果我们到此为止，并仅使用此最终结果，该算法将准确地计算 <a class="reference external" href="https://papers.nips.cc/paper/2073-a-natural-policy-gradient.pdf">自然策略梯度</a> （Natural Policy Gradient）。
+一个问题是，由于泰勒展开式引入的近似误差，这可能无法满足KL约束，或实际上提高了替代优势。
+TRPO对此更新规则进行了修改：回溯行搜索，</p>
 <div class="math">
 <p><span class="math">\theta_{k+1} = \theta_k + \alpha^j \sqrt{\frac{2 \delta}{g^T H^{-1} g}} H^{-1} g,</span></p>
-</div><p>where <span class="math">\alpha \in (0,1)</span> is the backtracking coefficient, and <span class="math">j</span> is the smallest nonnegative integer such that <span class="math">\pi_{\theta_{k+1}}</span> satisfies the KL constraint and produces a positive surrogate advantage.</p>
-<p>Lastly: computing and storing the matrix inverse, <span class="math">H^{-1}</span>, is painfully expensive when dealing with neural network policies with thousands or millions of parameters. TRPO sidesteps the issue by using the <a class="reference external" href="https://en.wikipedia.org/wiki/Conjugate_gradient_method">conjugate gradient</a> algorithm to solve <span class="math">Hx = g</span> for <span class="math">x = H^{-1} g</span>, requiring only a function which can compute the matrix-vector product <span class="math">Hx</span> instead of computing and storing the whole matrix <span class="math">H</span> directly. This is not too hard to do: we set up a symbolic operation to calculate</p>
+</div><p>其中 <span class="math">\alpha \in (0,1)</span> 是回溯系数，
+<span class="math">j</span> 是 <span class="math">\pi_{\theta_{k+1}}</span> 满足KL约束并产生正的替代优势的最小非负整数。</p>
+<p>Lastly: computing and storing the matrix inverse, <span class="math">H^{-1}</span>, is painfully expensive when dealing with neural network policies with thousands or millions of parameters.
+TRPO sidesteps the issue by using the <a href="#id31"><span class="problematic" id="id32">`conjugate gradient`_</span></a> algorithm to solve <span class="math">Hx = g</span> for <span class="math">x = H^{-1} g</span>,
+requiring only a function which can compute the matrix-vector product <span class="math">Hx</span> instead of computing and storing the whole matrix <span class="math">H</span> directly.
+This is not too hard to do: we set up a symbolic operation to calculate</p>
+<p>最后：处理带有成千上万个参数的神经网络策略时，矩阵逆 <span class="math">H^{-1}</span> 的计算和存储非常昂贵。
+TRPO通过使用 <a class="reference external" href="https://en.wikipedia.org/wiki/Conjugate_gradient_method">共轭梯度</a> 算法对 <span class="math">x = H^{-1} g</span> 求解 <span class="math">Hx = g</span> 来回避问题，
+仅需要一个可以计算矩阵矢量乘积 <span class="math">Hx</span> 的函数，而不是直接计算和存储整个矩阵 <span class="math">H</span>。
+这并不难：我们设置了一个符号运算来计算</p>
 <div class="math">
 <p><span class="math">Hx = \nabla_{\theta} \left( \left(\nabla_{\theta} \bar{D}_{KL}(\theta || \theta_k)\right)^T x \right),</span></p>
-</div><p>which gives us the correct output without computing the whole matrix.</p>
-<table class="docutils footnote" frame="void" id="id5" rules="none">
+</div><p>这样就可以在不计算整个矩阵的情况下提供正确的输出。</p>
+<table class="docutils footnote" frame="void" id="id6" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id4">[1]</a></td><td>See <a class="reference external" href="http://stanford.edu/~boyd/cvxbook/">Convex Optimization</a> by Boyd and Vandenberghe, especially chapters 2 through 5.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id5">[1]</a></td><td>参见Boyd和Vandenberghe的 <a class="reference external" href="http://stanford.edu/~boyd/cvxbook/">凸优化</a>，特别是第2至第5章。</td></tr>
 </tbody>
 </table>
 </div>
-<div class="section" id="id6">
-<h3><a class="toc-backref" href="#id19">探索与利用</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3><a class="toc-backref" href="#id23">探索与利用</a><a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <p>TRPO trains a stochastic policy in an on-policy way. This means that it explores by sampling actions according to the latest version of its stochastic policy. The amount of randomness in action selection depends on both initial conditions and the training procedure. Over the course of training, the policy typically becomes progressively less random, as the update rule encourages it to exploit rewards that it has already found. This may cause the policy to get trapped in local optima.</p>
+<p>TRPO以一种在轨方式训练随机策略。这意味着它会根据其随机策略的最新版本通过采样操作来进行探索。
+动作选择的随机性取决于初始条件和训练程序。
+在训练过程中，由于更新规则鼓励该策略利用已经发现的奖励，因此该策略通常变得越来越少随机性。
+这可能会导致策略陷入局部最优状态。</p>
 </div>
-<div class="section" id="id7">
-<h3><a class="toc-backref" href="#id20">伪代码</a><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3><a class="toc-backref" href="#id24">伪代码</a><a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <div class="math">
 <p><span class="math">\begin{algorithm}[H]
     \caption{Trust Region Policy Optimization}
@@ -359,8 +383,8 @@
 \end{algorithm}</span></p>
 </div></div>
 </div>
-<div class="section" id="id8">
-<h2><a class="toc-backref" href="#id21">文档</a><a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id12">
+<h2><a class="toc-backref" href="#id25">文档</a><a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="spinup.trpo">
 <code class="descclassname">spinup.</code><code class="descname">trpo</code><span class="sig-paren">(</span><em>env_fn</em>, <em>actor_critic=&lt;function mlp_actor_critic&gt;</em>, <em>ac_kwargs={}</em>, <em>seed=0</em>, <em>steps_per_epoch=4000</em>, <em>epochs=50</em>, <em>gamma=0.99</em>, <em>delta=0.01</em>, <em>vf_lr=0.001</em>, <em>train_v_iters=80</em>, <em>damping_coeff=0.1</em>, <em>cg_iters=10</em>, <em>backtrack_iters=10</em>, <em>backtrack_coeff=0.8</em>, <em>lam=0.97</em>, <em>max_ep_len=1000</em>, <em>logger_kwargs={}</em>, <em>save_freq=10</em>, <em>algo='trpo'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spinup/algos/trpo/trpo.html#trpo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spinup.trpo" title="Permalink to this definition">¶</a></dt>
@@ -504,8 +528,8 @@ almost the same.</li>
 </table>
 </dd></dl>
 
-<div class="section" id="id9">
-<h3><a class="toc-backref" href="#id22">保存的模型的内容</a><a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3><a class="toc-backref" href="#id26">保存的模型的内容</a><a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <p>记录的计算图包括：</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -536,24 +560,24 @@ almost the same.</li>
 </ul>
 </div>
 </div>
-<div class="section" id="id10">
-<h2><a class="toc-backref" href="#id23">参考</a><a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id11">
-<h3><a class="toc-backref" href="#id24">相关论文</a><a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h2><a class="toc-backref" href="#id27">参考</a><a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id15">
+<h3><a class="toc-backref" href="#id28">相关论文</a><a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a class="reference external" href="https://arxiv.org/abs/1502.05477">Trust Region Policy Optimization</a>, Schulman et al. 2015</li>
 <li><a class="reference external" href="https://arxiv.org/abs/1506.02438">High Dimensional Continuous Control Using Generalized Advantage Estimation</a>, Schulman et al. 2016</li>
 <li><a class="reference external" href="https://people.eecs.berkeley.edu/~pabbeel/cs287-fa09/readings/KakadeLangford-icml2002.pdf">Approximately Optimal Approximate Reinforcement Learning</a>, Kakade and Langford 2002</li>
 </ul>
 </div>
-<div class="section" id="id13">
-<h3><a class="toc-backref" href="#id25">为什么是这些论文？</a><a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id17">
+<h3><a class="toc-backref" href="#id29">为什么是这些论文？</a><a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <p>包含Schulman 2015是因为它是描述TRPO的原始论文。
 之所以包含Schulman 2016，是因为我们对TRPO的实现利用了通用优势估计来计算策略梯度。
 之所以将Kakade和Langford 2002包括在内是因为它包含的理论结果激励并深深地与TRPO的理论基础联系在一起。</p>
 </div>
-<div class="section" id="id14">
-<h3><a class="toc-backref" href="#id26">其他公开实现</a><a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id18">
+<h3><a class="toc-backref" href="#id30">其他公开实现</a><a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a class="reference external" href="https://github.com/openai/baselines/tree/master/baselines/trpo_mpi">Baselines</a></li>
 <li><a class="reference external" href="https://github.com/joschu/modular_rl/blob/master/modular_rl/trpo.py">ModularRL</a></li>

@@ -113,7 +113,7 @@
 <li class="toctree-l1"><a class="reference internal" href="trpo.html">Trust Region Policy Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ppo.html">Proximal Policy Optimization</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Deep Deterministic Policy Gradient</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">背景</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#background">背景</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id2">速览</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id3">关键方程</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#the-q-learning-side-of-ddpg">The Q-Learning Side of DDPG</a></li>
@@ -238,7 +238,7 @@
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#deep-deterministic-policy-gradient" id="id12">Deep Deterministic Policy Gradient</a><ul>
-<li><a class="reference internal" href="#id1" id="id13">背景</a><ul>
+<li><a class="reference internal" href="#background" id="id13">背景</a><ul>
 <li><a class="reference internal" href="#id2" id="id14">速览</a></li>
 <li><a class="reference internal" href="#id3" id="id15">关键方程</a><ul>
 <li><a class="reference internal" href="#the-q-learning-side-of-ddpg" id="id16">The Q-Learning Side of DDPG</a></li>
@@ -263,9 +263,9 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id1">
-<h2><a class="toc-backref" href="#id13">背景</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>(Previously: <a class="reference external" href="../spinningup/rl_intro.html#the-optimal-q-function-and-the-optimal-action">Introduction to RL Part 1: The Optimal Q-Function and the Optimal Action</a>)</p>
+<div class="section" id="background">
+<span id="id1"></span><h2><a class="toc-backref" href="#id13">背景</a><a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
+<p>(前一节 <a class="reference external" href="../spinningup/rl_intro.html#the-optimal-q-function-and-the-optimal-action">Introduction to RL Part 1: The Optimal Q-Function and the Optimal Action</a>)</p>
 <p>Deep Deterministic Policy Gradient (DDPG) is an algorithm which concurrently learns a Q-function and a policy. It uses off-policy data and the Bellman equation to learn the Q-function, and uses the Q-function to learn the policy.</p>
 <p>This approach is closely connected to Q-learning, and is motivated the same way: if you know the optimal action-value function <span class="math">Q^*(s,a)</span>, then in any given state, the optimal action <span class="math">a^*(s)</span> can be found by solving</p>
 <div class="math">

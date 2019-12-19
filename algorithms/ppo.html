@@ -257,7 +257,7 @@
 </div>
 <div class="section" id="id1">
 <h2><a class="toc-backref" href="#id15">背景</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>(Previously: <a class="reference external" href="../algorithms/trpo.html#背景">背景 for TRPO</a>)</p>
+<p>(前一节 <a class="reference external" href="../algorithms/trpo.html#background">背景 for TRPO</a>)</p>
 <p>PPO is motivated by the same question as TRPO: how can we take the biggest possible improvement step on a policy using the data we currently have, without stepping so far that we accidentally cause performance collapse? Where TRPO tries to solve this problem with a complex second-order method, PPO is a family of first-order methods that use a few other tricks to keep new policies close to old. PPO methods are significantly simpler to implement, and empirically seem to perform at least as well as TRPO.</p>
 <p>There are two primary variants of PPO: PPO-Penalty and PPO-Clip.</p>
 <p><strong>PPO-Penalty</strong> approximately solves a KL-constrained update like TRPO, but penalizes the KL-divergence in the objective function instead of making it a hard constraint, and automatically adjusts the penalty coefficient over the course of training so that it&#8217;s scaled appropriately.</p>

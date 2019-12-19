@@ -4,12 +4,14 @@ Twin Delayed DDPG
 
 .. contents:: Table of Contents
 
+.. _background:
+
 背景
 ==========
 
-(Previously: `背景 for DDPG`_)
+(前一节 `背景 for DDPG`_)
 
-.. _`背景 for DDPG`: ../algorithms/ddpg.html#背景
+.. _`背景 for DDPG`: ../algorithms/ddpg.html#background
 
 While DDPG can achieve great performance sometimes, it is frequently brittle with respect to hyperparameters and other kinds of tuning. A common failure mode for DDPG is that the learned Q-function begins to dramatically overestimate Q-values, which then leads to the policy breaking, because it exploits the errors in the Q-function. Twin Delayed DDPG (TD3) is an algorithm which addresses this issue by introducing three critical tricks:
 

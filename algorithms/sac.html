@@ -263,7 +263,7 @@
 </div>
 <div class="section" id="id1">
 <h2><a class="toc-backref" href="#id13">背景</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>(Previously: <a class="reference external" href="../algorithms/td3.html#背景">背景 for TD3</a>)</p>
+<p>(前一节 <a class="reference external" href="../algorithms/td3.html#background">背景 for TD3</a>)</p>
 <p>Soft Actor Critic (SAC) is an algorithm which optimizes a stochastic policy in an off-policy way, forming a bridge between stochastic policy optimization and DDPG-style approaches. It isn&#8217;t a direct successor to TD3 (having been published roughly concurrently), but it incorporates the clipped double-Q trick, and due to the inherent stochasticity of the policy in SAC, it also winds up benefiting from something like target policy smoothing.</p>
 <p>A central feature of SAC is <strong>entropy regularization.</strong> The policy is trained to maximize a trade-off between expected return and <a class="reference external" href="https://en.wikipedia.org/wiki/Entropy_(information_theory)">entropy</a>, a measure of randomness in the policy. This has a close connection to the exploration-exploitation trade-off: increasing entropy results in more exploration, which can accelerate learning later on. It can also prevent the policy from prematurely converging to a bad local optimum.</p>
 <div class="section" id="id2">

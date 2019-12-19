@@ -9,9 +9,9 @@ Proximal Policy Optimization
 ==========
 
 
-(Previously: `背景 for TRPO`_)
+(前一节 `背景 for TRPO`_)
 
-.. _`背景 for TRPO`: ../algorithms/trpo.html#背景
+.. _`背景 for TRPO`: ../algorithms/trpo.html#background
 
 PPO is motivated by the same question as TRPO: how can we take the biggest possible improvement step on a policy using the data we currently have, without stepping so far that we accidentally cause performance collapse? Where TRPO tries to solve this problem with a complex second-order method, PPO is a family of first-order methods that use a few other tricks to keep new policies close to old. PPO methods are significantly simpler to implement, and empirically seem to perform at least as well as TRPO.
 

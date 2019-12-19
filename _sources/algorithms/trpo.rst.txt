@@ -13,7 +13,7 @@ Trust Region Policy Optimization
 
 .. _`VPG背景`: ../algorithms/vpg.html#background
 
-TRPO通过采取最大的可以改进策略的步来更新策略，同时满足关于允许新旧策略接近的特殊约束。
+TRPO通过采取最大的可以改进策略的步骤来更新策略，同时满足关于允许新旧策略接近的特殊约束。
 约束用 `KL散度`_ 表示，KL散度是对概率分布之间的距离（但不完全相同）的一种度量。
 
 这与常规策略梯度不同，后者使新策略和旧策略在参数空间中保持紧密联系。
@@ -27,7 +27,7 @@ TRPO很好地避免了这种崩溃，并且倾向于快速单调地提高性能�
 -----------
 
 * TRPO是在轨算法。
-* TRPOVPG可用于具有离散或连续动作空间的环境。
+* TRPO可用于具有离散或连续动作空间的环境。
 * TRPO的Spinning Up实现支持与MPI并行化。
 
 关键方程
@@ -128,7 +128,7 @@ TRPO通过使用 `共轭梯度`_ 算法对 :math:`x = H^{-1} g` 求解 :math:`Hx
 
 TRPO trains a stochastic policy in an on-policy way. This means that it explores by sampling actions according to the latest version of its stochastic policy. The amount of randomness in action selection depends on both initial conditions and the training procedure. Over the course of training, the policy typically becomes progressively less random, as the update rule encourages it to exploit rewards that it has already found. This may cause the policy to get trapped in local optima.
 
-TRPO以一种在轨方式训练随机策略。这意味着它会根据其随机策略的最新版本通过采样操作来进行探索。
+TRPO以一种在轨策略方式训练随机策略。这意味着它会根据其随机策略的最新版本通过采样操作来进行探索。
 动作选择的随机性取决于初始条件和训练程序。
 在训练过程中，由于更新规则鼓励该策略利用已经发现的奖励，因此该策略通常变得越来越少随机性。
 这可能会导致策略陷入局部最优状态。

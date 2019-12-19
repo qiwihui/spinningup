@@ -2,41 +2,46 @@
 Trust Region Policy Optimization
 ================================
 
-.. contents:: Table of Contents
+.. contents:: 目录
 
-
+.. _background:
 
 背景
 ==========
 
-(Previously: `背景 for VPG`_)
+（前一节： `VPG背景`_）
 
-.. _`背景 for VPG`: ../algorithms/vpg.html#背景
+.. _`VPG背景`: ../algorithms/vpg.html#background
 
-TRPO updates policies by taking the largest step possible to improve performance, while satisfying a special constraint on how close the new and old policies are allowed to be. The constraint is expressed in terms of `KL-Divergence`_, a measure of (something like, but not exactly) distance between probability distributions. 
+TRPO通过采取最大的可以改进策略的步来更新策略，同时满足关于允许新旧策略接近的特殊约束。
+约束用 `KL散度`_ 表示，KL散度是对概率分布之间的距离（但不完全相同）的一种度量。
 
-This is different from normal policy gradient, which keeps new and old policies close in parameter space. But even seemingly small differences in parameter space can have very large differences in performance---so a single bad step can collapse the policy performance. This makes it dangerous to use large step sizes with vanilla policy gradients, thus hurting its sample efficiency. TRPO nicely avoids this kind of collapse, and tends to quickly and monotonically improve performance.
+这与常规策略梯度不同，后者使新策略和旧策略在参数空间中保持紧密联系。
+但是，即使参数空间上看似很小的差异也可能在性能上产生很大的差异──因此，一个糟糕的步骤可能会使策略性能崩溃。
+这使得使用大步长的vanilla policy gradients变得危险，从而损害了其采样效率。
+TRPO很好地避免了这种崩溃，并且倾向于快速单调地提高性能。
 
-.. _`KL-Divergence`: https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence
+.. _`KL散度`: https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence
 
 速览
 -----------
 
-* TRPO is an on-policy algorithm.
-* TRPO can be used for environments with either discrete or continuous action spaces.
-* The Spinning Up implementation of TRPO supports parallelization with MPI.
+* TRPO是在轨算法。
+* TRPOVPG可用于具有离散或连续动作空间的环境。
+* TRPO的Spinning Up实现支持与MPI并行化。
 
 关键方程
 -------------
 
-Let :math:`\pi_{\theta}` denote a policy with parameters :math:`\theta`. The theoretical TRPO update is:
+令 :math:`\pi_{\theta}` 表示参数为 :math:`\theta` 的策略，理论上的TRPO更新为：
 
-.. math:: 
-    
+.. math::
+
     \theta_{k+1} = \arg \max_{\theta} \; & {\mathcal L}(\theta_k, \theta) \\
     \text{s.t.} \; & \bar{D}_{KL}(\theta || \theta_k) \leq \delta
 
-where :math:`{\mathcal L}(\theta_k, \theta)` is the *surrogate advantage*, a measure of how policy :math:`\pi_{\theta}` performs relative to the old policy :math:`\pi_{\theta_k}` using data from the old policy:
+其中 :math:`{\mathcal L}(\theta_k, \theta)` 是 *替代优势*，
+它使用旧策略中的数据来衡量策略 :math:`\pi_{\theta}` 与旧策略 :math:`\pi_{\theta_k}` 的相对性能：
 
 .. math::
 
@@ -44,7 +49,7 @@ where :math:`{\mathcal L}(\theta_k, \theta)` is the *surrogate advantage*, a mea
         \frac{\pi_{\theta}(a|s)}{\pi_{\theta_k}(a|s)} A^{\pi_{\theta_k}}(s,a)
         },
 
-and :math:`\bar{D}_{KL}(\theta || \theta_k)` is an average KL-divergence between policies across states visited by the old policy:
+:math:`\bar{D}_{KL}(\theta || \theta_k)` 是旧策略访问的各状态之间的策略之间的平均散度差异：
 
 .. math::
 
@@ -54,61 +59,79 @@ and :math:`\bar{D}_{KL}(\theta || \theta_k)` is an average KL-divergence between
 
 .. admonition:: 你应该知道
 
-    The objective and constraint are both zero when :math:`\theta = \theta_k`. Furthermore, the gradient of the constraint with respect to :math:`\theta` is zero when :math:`\theta = \theta_k`. Proving these facts requires some subtle command of the relevant math---it's an exercise worth doing, whenever you feel ready!
+    当 :math:`\theta = \theta_k` 时，目标和约束都为零。
+    此外，当 :math:`\theta = \theta_k` 时，约束相对于 :math:`\theta` 的梯度为零。
+    要证明这些事实，需要对相关数学有一些微妙的掌握──每当您准备就绪时，这都是值得做的练习！
 
+理论上的TRPO更新不是最容易使用的，因此TRPO做出了一些近似以快速获得答案。
+我们使用泰勒展开将目标和约束扩展到 :math:`\theta_k` 周围的首阶指数（leading order）：
 
-The theoretical TRPO update isn't the easiest to work with, so TRPO makes some approximations to get an answer quickly. We Taylor expand the objective and constraint to leading order around :math:`\theta_k`:
-
-.. math:: 
+.. math::
 
     {\mathcal L}(\theta_k, \theta) &\approx g^T (\theta - \theta_k) \\
     \bar{D}_{KL}(\theta || \theta_k) & \approx \frac{1}{2} (\theta - \theta_k)^T H (\theta - \theta_k)
 
-resulting in an approximate optimization problem,
+结果产生一个近似的优化问题，
 
-.. math:: 
-    
+.. math::
+
     \theta_{k+1} = \arg \max_{\theta} \; & g^T (\theta - \theta_k) \\
     \text{s.t.} \; & \frac{1}{2} (\theta - \theta_k)^T H (\theta - \theta_k) \leq \delta.
 
 .. admonition:: 你应该知道
 
-    By happy coincidence, the gradient :math:`g` of the surrogate advantage function with respect to :math:`\theta`, evaluated at :math:`\theta = \theta_k`, is exactly equal to the policy gradient, :math:`\nabla_{\theta} J(\pi_{\theta})`! Try proving this, if you feel comfortable diving into the math.
+    巧合的是，以 :math:`\theta = \theta_k` 评估的替代优势函数相对于 :math:`\theta` 的梯度 :math:`g`
+    恰好等于策略梯度 :math:`\nabla_{\theta} J(\pi_{\theta})`！
+    如果您愿意精通数学，请尝试证明这一点。
 
-This approximate problem can be analytically solved by the methods of Lagrangian duality [1]_, yielding the solution:
+这个近似问题可以通过拉格朗日对偶 [1]_ 的方法来解析地解决，得出的结果是：
 
 .. math::
 
     \theta_{k+1} = \theta_k + \sqrt{\frac{2 \delta}{g^T H^{-1} g}} H^{-1} g.
 
-If we were to stop here, and just use this final result, the algorithm would be exactly calculating the `Natural Policy Gradient`_. A problem is that, due to the approximation errors introduced by the Taylor expansion, this may not satisfy the KL constraint, or actually improve the surrogate advantage. TRPO adds a modification to this update rule: a backtracking line search,
+如果我们到此为止，并仅使用此最终结果，该算法将准确地计算 `自然策略梯度`_ （Natural Policy Gradient）。
+一个问题是，由于泰勒展开式引入的近似误差，这可能无法满足KL约束，或实际上提高了替代优势。
+TRPO对此更新规则进行了修改：回溯行搜索，
 
 .. math::
 
     \theta_{k+1} = \theta_k + \alpha^j \sqrt{\frac{2 \delta}{g^T H^{-1} g}} H^{-1} g,
 
-where :math:`\alpha \in (0,1)` is the backtracking coefficient, and :math:`j` is the smallest nonnegative integer such that :math:`\pi_{\theta_{k+1}}` satisfies the KL constraint and produces a positive surrogate advantage. 
+其中 :math:`\alpha \in (0,1)` 是回溯系数，
+:math:`j` 是 :math:`\pi_{\theta_{k+1}}` 满足KL约束并产生正的替代优势的最小非负整数。
 
-Lastly: computing and storing the matrix inverse, :math:`H^{-1}`, is painfully expensive when dealing with neural network policies with thousands or millions of parameters. TRPO sidesteps the issue by using the `conjugate gradient`_ algorithm to solve :math:`Hx = g` for :math:`x = H^{-1} g`, requiring only a function which can compute the matrix-vector product :math:`Hx` instead of computing and storing the whole matrix :math:`H` directly. This is not too hard to do: we set up a symbolic operation to calculate
+Lastly: computing and storing the matrix inverse, :math:`H^{-1}`, is painfully expensive when dealing with neural network policies with thousands or millions of parameters.
+TRPO sidesteps the issue by using the `conjugate gradient`_ algorithm to solve :math:`Hx = g` for :math:`x = H^{-1} g`, 
+requiring only a function which can compute the matrix-vector product :math:`Hx` instead of computing and storing the whole matrix :math:`H` directly. 
+This is not too hard to do: we set up a symbolic operation to calculate
+
+最后：处理带有成千上万个参数的神经网络策略时，矩阵逆 :math:`H^{-1}` 的计算和存储非常昂贵。
+TRPO通过使用 `共轭梯度`_ 算法对 :math:`x = H^{-1} g` 求解 :math:`Hx = g` 来回避问题，
+仅需要一个可以计算矩阵矢量乘积 :math:`Hx` 的函数，而不是直接计算和存储整个矩阵 :math:`H`。
+这并不难：我们设置了一个符号运算来计算
 
 .. math::
 
     Hx = \nabla_{\theta} \left( \left(\nabla_{\theta} \bar{D}_{KL}(\theta || \theta_k)\right)^T x \right),
 
-which gives us the correct output without computing the whole matrix.
+这样就可以在不计算整个矩阵的情况下提供正确的输出。
 
-.. [1] See `Convex Optimization`_ by Boyd and Vandenberghe, especially chapters 2 through 5.
+.. [1] 参见Boyd和Vandenberghe的 `凸优化`_，特别是第2至第5章。
 
-.. _`Convex Optimization`: http://stanford.edu/~boyd/cvxbook/
-.. _`Natural Policy Gradient`: https://papers.nips.cc/paper/2073-a-natural-policy-gradient.pdf
-.. _`conjugate gradient`: https://en.wikipedia.org/wiki/Conjugate_gradient_method
-
+.. _`凸优化`: http://stanford.edu/~boyd/cvxbook/
+.. _`自然策略梯度`: https://papers.nips.cc/paper/2073-a-natural-policy-gradient.pdf
+.. _`共轭梯度`: https://en.wikipedia.org/wiki/Conjugate_gradient_method
 
 探索与利用
 ----------------------------
 
 TRPO trains a stochastic policy in an on-policy way. This means that it explores by sampling actions according to the latest version of its stochastic policy. The amount of randomness in action selection depends on both initial conditions and the training procedure. Over the course of training, the policy typically becomes progressively less random, as the update rule encourages it to exploit rewards that it has already found. This may cause the policy to get trapped in local optima.
 
+TRPO以一种在轨方式训练随机策略。这意味着它会根据其随机策略的最新版本通过采样操作来进行探索。
+动作选择的随机性取决于初始条件和训练程序。
+在训练过程中，由于更新规则鼓励该策略利用已经发现的奖励，因此该策略通常变得越来越少随机性。
+这可能会导致策略陷入局部最优状态。
 
 伪代码
 ----------
@@ -148,7 +171,6 @@ TRPO trains a stochastic policy in an on-policy way. This means that it explores
         \ENDFOR
     \end{algorithmic}
     \end{algorithm}
-
 
 
 文档

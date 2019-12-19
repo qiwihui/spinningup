@@ -4,10 +4,12 @@ Deep Deterministic Policy Gradient
 
 .. contents:: Table of Contents
 
+.. _background:
+
 背景
 ==========
 
-(Previously: `Introduction to RL Part 1: The Optimal Q-Function and the Optimal Action`_)
+(前一节 `Introduction to RL Part 1: The Optimal Q-Function and the Optimal Action`_)
 
 .. _`Introduction to RL Part 1: The Optimal Q-Function and the Optimal Action`: ../spinningup/rl_intro.html#the-optimal-q-function-and-the-optimal-action
 

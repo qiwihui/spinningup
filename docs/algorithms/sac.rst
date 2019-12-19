@@ -7,9 +7,9 @@ Soft Actor-Critic
 背景
 ==========
 
-(Previously: `背景 for TD3`_)
+(前一节 `背景 for TD3`_)
 
-.. _`背景 for TD3`: ../algorithms/td3.html#背景
+.. _`背景 for TD3`: ../algorithms/td3.html#background
 
 Soft Actor Critic (SAC) is an algorithm which optimizes a stochastic policy in an off-policy way, forming a bridge between stochastic policy optimization and DDPG-style approaches. It isn't a direct successor to TD3 (having been published roughly concurrently), but it incorporates the clipped double-Q trick, and due to the inherent stochasticity of the policy in SAC, it also winds up benefiting from something like target policy smoothing. 
 

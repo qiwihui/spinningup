@@ -4,11 +4,12 @@ Vanilla Policy Gradient
 
 .. contents:: 目录
 
+.. _background:
 
 背景
 ==========
 
-（预先：`强化学习介绍：第三部分`_）
+（前一节：`强化学习介绍：第三部分`_）
 
 .. _`强化学习介绍：第三部分`: ../spinningup/rl_intro3.html
 
